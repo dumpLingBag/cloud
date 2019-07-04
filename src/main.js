@@ -13,6 +13,7 @@ import './assets/icon/iconfont.css'
 const VueClipboard = require('vue-clipboard2')
 const Vue = require('vue')
 const qs = require('qs')
+const echarts = require('echarts')
 
 Vue.config.productionTip = false;
 Vue.use(store)
@@ -32,6 +33,7 @@ Vue.prototype.$url = url;
 Vue.prototype.$toolUtil = toolUtil;
 Vue.prototype.$common = Common;
 Vue.prototype.$time = time;
+Vue.prototype.$echarts = echarts;
 
 router.beforeEach((to, from, next) => {
     if (to.name) {

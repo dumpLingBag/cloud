@@ -27,7 +27,8 @@ module.exports = {
             'axios': 'axios',
             'element-ui': 'ELEMENT',
             'vuescroll': 'vuescroll',
-            'qs': 'Qs'
+            'qs': 'Qs',
+            'echarts': 'echarts'
         }
     }
 }
