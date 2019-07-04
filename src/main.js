@@ -15,7 +15,6 @@ const Vue = require('vue')
 const qs = require('qs')
 
 Vue.config.productionTip = false;
-Vue.use(router)
 Vue.use(store)
 Vue.use(VueClipboard);
 Vue.prototype.$vuescrollConfig = {
