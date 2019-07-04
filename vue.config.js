@@ -13,14 +13,12 @@ module.exports = {
     productionSourceMap: false,
     configureWebpack: config => {
         if (process.env.NODE_ENV === 'production') {
-            return {
-                plugins: [new CompressionPlugin({
-                    filename: '[path].gz[query]',
-                    test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
-                    threshold: 2048,
-                    deleteOriginalAssets: false
-                })]
-            }
+            config.plugins.push(new CompressionPlugin({
+                algorithm: 'gzip',
+                test: /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i,
+                threshold: 2048,
+                minRatio: 0.8
+            }))
         }
         config.externals = {
             'vue': 'Vue',
