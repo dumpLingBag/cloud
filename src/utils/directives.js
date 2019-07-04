@@ -1,4 +1,4 @@
-import Vue from 'vue'
+const Vue = require('vue')
 
 Vue.directive('dialogDrag', {
   bind (el) {

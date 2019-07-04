@@ -26,6 +26,7 @@
 <script>
 //import echarts from 'echarts'
 //import 'echarts/theme/macarons'
+import macarons from '@/utils/macarons'
 export default {
   name: 'MainChart',
   data () {
@@ -41,7 +42,7 @@ export default {
   },
   methods: {
     gradient () {
-      let grad = this.$echarts.init(document.getElementById('gradient'), 'macarons');
+      let grad = this.$echarts.init(document.getElementById('gradient'), macarons);
       grad.setOption({
         tooltip: {
           trigger: 'axis',
@@ -105,7 +106,7 @@ export default {
       })
     },
     world () {
-      let world = this.$echarts.init(document.getElementById('world'), 'macarons');
+      let world = this.$echarts.init(document.getElementById('world'), macarons);
       world.setOption({
         title: {
           text: '世界人口总量',
@@ -149,7 +150,7 @@ export default {
       })
     },
     polyline () {
-      let poly = this.$echarts.init(document.getElementById('polyline'), 'macarons');
+      let poly = this.$echarts.init(document.getElementById('polyline'), macarons);
       poly.setOption({
         title: {
           text: '未来一周气温变化',
@@ -223,7 +224,7 @@ export default {
       })
     },
     waterfall () {
-      let fall = this.$echarts.init(document.getElementById('waterfall'), 'macarons');
+      let fall = this.$echarts.init(document.getElementById('waterfall'), macarons);
       fall.setOption({
         title: {
           text: '阶梯瀑布图',
