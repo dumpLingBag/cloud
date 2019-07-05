@@ -24,8 +24,6 @@
 </template>
 
 <script>
-//import echarts from 'echarts'
-//import 'echarts/theme/macarons'
 import macarons from '@/utils/macarons'
 export default {
   name: 'MainChart',

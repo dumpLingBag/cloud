@@ -9,6 +9,7 @@ import toolUtil from './utils/toolUtil'
 import Common from './utils/common'
 import time from './utils/timeUtil'
 import './assets/icon/iconfont.css'
+import VueScroll from 'vuescroll'
 
 const VueClipboard = require('vue-clipboard2')
 const Vue = require('vue')
@@ -18,14 +19,16 @@ const echarts = require('echarts')
 Vue.config.productionTip = false;
 Vue.use(store)
 Vue.use(VueClipboard);
-Vue.prototype.$vuescrollConfig = {
-    bar: {
-        size: '4px',
-        hoverStyle: true, // 移入鼠标就显示滚动条
-        onlyShowBarOnScroll: false, // 是否只有滚动的时候才显示滚动条
-        background: 'hsla(220,4%,58%,.3)'
+Vue.use(VueScroll, {
+    ops: {
+        bar: {
+            size: '4px',
+            hoverStyle: true, // 移入鼠标就显示滚动条
+            onlyShowBarOnScroll: false, // 是否只有滚动的时候才显示滚动条
+            background: 'hsla(220,4%,58%,.3)'
+        }
     }
-}
+})
 
 Vue.use(api);
 Vue.prototype.$qs = qs;

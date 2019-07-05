@@ -1,4 +1,3 @@
-// import axios from 'axios'
 const axios = require('axios')
 import config from '@/http/config'
 import router from '@/router/router'

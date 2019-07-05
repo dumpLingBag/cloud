@@ -26,7 +26,6 @@ module.exports = {
             'vue-router': 'VueRouter',
             'axios': 'axios',
             'element-ui': 'ELEMENT',
-            'vuescroll': 'vuescroll',
             'qs': 'Qs',
             'echarts': 'echarts'
         }
