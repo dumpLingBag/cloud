@@ -13,11 +13,11 @@
               <el-option label="禁用" value="0"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="account">
-            <el-input v-model="page.search.account" placeholder="请输入用户账号"></el-input>
+          <el-form-item prop="username">
+            <el-input v-model="page.search.username" placeholder="请输入用户账号"></el-input>
           </el-form-item>
-          <el-form-item prop="name">
-            <el-input v-model="page.search.name" placeholder="请输入用户名称"></el-input>
+          <el-form-item prop="nickname">
+            <el-input v-model="page.search.nickname" placeholder="请输入用户名称"></el-input>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="onSubmit" icon="el-icon-search">搜索</el-button>
@@ -28,11 +28,11 @@
     </div>
     <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible.sync="dialogUser" width="50%" @closed="closeDialog" :modal-append-to-body='false'>
       <el-form :label-position="labelPosition" :rules="rules" ref="userForm" label-width="80px" :model="userForm">
-        <el-form-item label="用户名称" prop="name" :error="error.name">
-          <el-input v-model="userForm.name" placeholder="请输入用户名称" autocomplete="off"></el-input>
+        <el-form-item label="用户名称" prop="nickname" :error="error.nickname">
+          <el-input v-model="userForm.nickname" placeholder="请输入用户名称" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="账号名称" prop="account" :error="error.account">
-          <el-input v-model="userForm.account" placeholder="请输入账号名称" autocomplete="off" :disabled="!addOrEdit && userForm.account == 'admin' ? true : false"></el-input>
+        <el-form-item label="账号名称" prop="username" :error="error.username">
+          <el-input v-model="userForm.username" placeholder="请输入账号名称" autocomplete="off" :disabled="!addOrEdit && userForm.account == 'admin' ? true : false"></el-input>
         </el-form-item>
         <el-form-item label="账号密码" prop="password" v-if="addOrEdit">
           <el-input type="password" v-model="userForm.password" placeholder="请输入账号密码" autocomplete="off"></el-input>
@@ -73,8 +73,8 @@
       <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" :height="maxHeight" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="id" label="用户ID" width="80"></el-table-column>
-        <el-table-column prop="account" label="账号"></el-table-column>
-        <el-table-column prop="name" label="名称"></el-table-column>
+        <el-table-column prop="username" label="账号"></el-table-column>
+        <el-table-column prop="nickname" label="名称"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="mobile" label="号码"></el-table-column>
         <el-table-column label="状态">
@@ -154,8 +154,8 @@ export default {
       selectDiffRoleValue: [], // 用来筛选修改的角色
       userId: '',
       userForm: {// 添加用户表单数据
-        name: '',
-        account: '',
+        nickname: '',
+        username: '',
         password: '',
         checkPassword: '',
         email: '',
@@ -163,8 +163,8 @@ export default {
         enable: ''
       },
       error: {
-        name: '',
-        account: '',
+        nickname: '',
+        username: '',
         mobile: '',
         email: ''
       },
@@ -174,11 +174,11 @@ export default {
       multipleSelection: [], // 表格多选框数据
       formLabelWidth: '120px',
       rules: {
-        name: [
+        nickname: [
           { required: true, message: '请输入用户名称', trigger: 'blur' },
           { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
         ],
-        account: [
+        username: [
           { required: true, message: '请输入账号名称', trigger: 'blur' },
           { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
         ],
@@ -205,9 +205,9 @@ export default {
         pageSize: 10,
         currentPage: 1,
         search: {
-          account: '',
+          username: '',
           enable: '',
-          name: ''
+          nickname: ''
         }
       }
     }
