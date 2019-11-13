@@ -54,7 +54,7 @@ const formatRoutes = (routes) => {
 
 const routers = (route) => {
   return {
-    path: route.path + '/' + route.component,
+    path: route.path + '/' + url(route.component),
     component: resolve => require(['@/views' + route.path + '/' + route.component + '.vue'], resolve),
     name: route.name,
     icon: route.icon,
@@ -74,5 +74,12 @@ const setRoutes = (routes) => {
     }
   } else {
     fmRoutes[0].children.push(routers(routes))
+  }
+}
+
+const url = (component) => {
+  if (component) {
+    component = component.replace(component[0], component[0].toLowerCase())
+    return component.replace(/([A-Z])/g, '_$1').toLowerCase()
   }
 }
