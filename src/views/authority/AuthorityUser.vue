@@ -267,11 +267,11 @@ export default {
     pageList (data) {
       this.$api.httpPost(this.$url.AuthorityUser.pageList, httpData(data)).then(res => {
         if (res.code === 0) {
-            if (res.data && res.data.list) {
-                this.userList = res.data.list;
-                this.page.totalSize = res.data.totalSize
+            if (res.data && res.data.records) {
+              this.userList = res.data.records;
+              this.page.totalSize = res.data.total
             } else {
-                this.userList = []
+              this.userList = []
             }
         }
       })
@@ -394,9 +394,9 @@ export default {
       this.page.currentPage = currentPage === undefined || currentPage === '' ? 1 : currentPage;
       this.$api.httpPost(this.$url.AuthorityUser.pageList, httpData(this.page)).then(res => {
         if (res.code === 0) {
-          if (res.data && res.data.list) {
-              this.userList = res.data.list;
-              this.page.totalSize = res.data.totalSize
+          if (res.data && res.data.records) {
+              this.userList = res.data.records;
+              this.page.totalSize = res.data.total
           } else {
               this.userList = []
           }

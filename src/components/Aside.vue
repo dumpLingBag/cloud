@@ -10,16 +10,16 @@
             <span slot="title">{{ item.name }}</span>
           </template>
           <template v-for="group in item.children">
-            <el-menu-item :index="group.path +'/'+ group.component" :key="group.id" v-if="group.children.length <= 0">
+            <el-menu-item :index="group.path +'/'+ url(group.component)" :key="group.id" v-if="group.children.length <= 0">
               {{ group.name }}
             </el-menu-item>
-            <el-submenu :index="group.path + '/' + group.component" :key="group.id" v-else>
+            <el-submenu :index="group.path + '/' + url(group.component)" :key="group.id" v-else>
               <span slot="title">{{ group.name }}</span>
               <el-menu-item :index="sub.path" v-for="sub in group.children" :key="sub.id">{{ sub.meta.title }}</el-menu-item>
             </el-submenu>
           </template>
         </el-submenu>
-        <el-menu-item :index="item.path + '/' + item.component" class="single" :key="item.id" v-else>
+        <el-menu-item :index="item.path + '/' + url(item.component)" class="single" :key="item.id" v-else>
           <i :class="item.icon !== undefined && item.icon !== '' ? item.icon : 'el-icon-setting'"></i>
           <span slot="title">{{ item.name }}</span>
         </el-menu-item>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import lineUtil from '@/utils/humpToLine'
 export default {
   name: 'Aside',
   data () {
@@ -46,6 +47,9 @@ export default {
   methods: {
     close (index) {
       this.$refs.elMenu.close(index)
+    },
+    url (str) {
+      return lineUtil.line(str)
     }
   },
   computed: {
