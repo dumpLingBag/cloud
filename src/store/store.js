@@ -3,7 +3,7 @@ const Vuex = require('vuex')
 export default new Vuex.Store({
   state: {
     user: {
-      name: window.localStorage.getItem('user' || '[]') == null ? '未登录' : JSON.parse(window.localStorage.getItem('user' || '[]')).name
+      name: window.localStorage.getItem('user') == null ? '未登录' : JSON.parse(window.localStorage.getItem('user')).nickname
     },
     menuList: [],
     initFlag: true,

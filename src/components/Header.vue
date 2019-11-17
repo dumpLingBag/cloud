@@ -14,7 +14,7 @@
         <a href="javascript:;">
           <el-dropdown trigger="hover" @command="commandUser">
             <span class="el-dropdown-link">
-              <span style="font-size: 16px">{{user.name === undefined || user.name === '' ? '' : user.name}}</span>
+              <span style="font-size: 16px">{{user.name === undefined || user.name === '' ? '请登录' : user.name}}</span>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="personal">个人中心</el-dropdown-item>
