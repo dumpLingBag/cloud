@@ -1,6 +1,6 @@
 export default {
-  maxHeight: window.innerHeight - 160,
-  treeHeight: window.innerHeight - 300,
+  maxHeight: window.innerHeight - 169,
+  treeHeight: window.innerHeight - 320,
   menuTreeHeight: window.innerHeight - 369,
   maxNotHeight: window.innerHeight - 315
 }

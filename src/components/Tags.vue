@@ -237,7 +237,7 @@ export default {
   }
   .page-tags{
     position: fixed;
-    top: 50px;
+    top: 60px;
     right: 0;
     z-index: 1;
   }
