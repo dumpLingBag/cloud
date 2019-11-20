@@ -205,9 +205,6 @@ export default {
         }
         this.$api.httpPost(this.$url.AuthorityMenuUrl.loadUrl, { menuUrl: obj, menuId: data }).then(res => {
           if (res.code === 0) {
-            this.$alert('成功关联 ' + res.data.update + ' 条权限，自动关联可能不完整，可手动添加', '提示', {
-              confirmButtonText: '确定'
-            });
             this.$refs.urlTree.setCheckedKeys([]);
             let menuUrls = res.data.menuUrls;
             this.checkUrlList = menuUrls;
@@ -220,7 +217,7 @@ export default {
             }
           }
         }).catch(err => {
-          console.log(err)
+          this.$message.error(err);
         })
       }
     },
