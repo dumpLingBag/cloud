@@ -206,7 +206,7 @@ export default {
         this.$api.httpPost(this.$url.AuthorityMenuUrl.loadUrl, { menuUrl: obj, menuId: data }).then(res => {
           if (res.code === 0) {
             this.$refs.urlTree.setCheckedKeys([]);
-            let menuUrls = res.data.menuUrls;
+            let menuUrls = res.data;
             this.checkUrlList = menuUrls;
             if (menuUrls && menuUrls.length > 0) {
               let arr = [];

@@ -72,7 +72,7 @@
     <div class="user-main vue-padding">
       <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" :height="maxHeight" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="id" label="用户ID" width="80"></el-table-column>
+<!--        <el-table-column prop="id" label="用户ID"></el-table-column>-->
         <el-table-column prop="username" label="账号"></el-table-column>
         <el-table-column prop="nickname" label="名称"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
@@ -85,7 +85,7 @@
         </el-table-column>
         <el-table-column prop="createTime" label="注册时间">
           <template slot-scope="scope">
-            {{scope.row.createTime}}
+            {{scope.row.createTime | formatDate}}
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="300">
@@ -104,6 +104,7 @@
 
 <script>
 import { httpData } from '@/common/httpData'
+import { formatDate } from '@/common/formatDate'
 
 export default {
   name: 'AuthorityUser',
@@ -212,6 +213,16 @@ export default {
       }
     }
   },
+filters: {
+  formatDate: function (time) {
+    if (time != null && time !== '') {
+      const date = new Date(time)
+      return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+    } else {
+      return ''
+    }
+  }
+},
   mounted () {
     this.currentChange(); // 分页获取用户信息
     this.getRoleList() // 获取对应账号的角色信息

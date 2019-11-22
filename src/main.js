@@ -11,6 +11,7 @@ import time from './utils/timeUtil'
 import './assets/icon/iconfont.css'
 import VueScroll from 'vuescroll'
 import 'vuescroll/dist/vuescroll.css'
+import md5 from 'js-md5'
 
 const VueClipboard = require('vue-clipboard2')
 const Vue = require('vue')
@@ -37,6 +38,7 @@ Vue.prototype.$toolUtil = toolUtil;
 Vue.prototype.$common = Common;
 Vue.prototype.$time = time;
 Vue.prototype.$echarts = echarts;
+Vue.prototype.$md5 = md5;
 
 router.beforeEach((to, from, next) => {
     if (to.name) {

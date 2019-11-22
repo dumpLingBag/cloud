@@ -1,5 +1,5 @@
 <template>
-  <div class="page-tags" :style="collapse ? 'left:69px' : 'left:230px'">
+  <div class="page-tags" :style="collapse ? 'left:84px' : 'left:245px'">
     <div class="tags-control icon-prev" @click="prev">
       <span class="el-icon-d-arrow-left"></span>
     </div>
@@ -155,14 +155,18 @@ export default {
 <style lang="scss" scoped>
   .page-tags {
     height: 40px;
-    left: 230px;
+    left: 245px;
+    right: 15px;
+    border-radius: 0 0 0.5rem 0.5rem;
+    border: none;
     line-height: 40px;
     padding: 0 80px 0 40px;
     background-color: #fff;
     box-sizing: border-box;
     -webkit-transition: left .3s ease-in-out;
     transition: left .3s ease-in-out;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);
+    /*box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);*/
+    /*-webkit-box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);*/
     .icon-prev{
       left: 0;
       border-left: none;
@@ -237,8 +241,8 @@ export default {
   }
   .page-tags{
     position: fixed;
-    top: 60px;
-    right: 0;
+    top: 75px;
+    right: 15px;
     z-index: 1;
   }
   .tags-title{

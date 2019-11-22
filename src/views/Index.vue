@@ -5,7 +5,6 @@
       <el-container>
         <v-header v-on:password="password"></v-header>
         <v-password :dialogPassword="dialogPassword" v-on:closePasswordDialog="passwordDialog"></v-password>
-        <v-tags></v-tags>
         <el-main style="padding: 15px" :style="collapse ? 'left:69px' : 'left:230px'">
             <transition name="move" mode="out-in">
               <keep-alive :include="tagList">
