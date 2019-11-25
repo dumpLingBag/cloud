@@ -1,5 +1,5 @@
 <template>
-    <el-header class="el-header-nav" height="60px" :style="collapse ? 'left:84px' : 'left:245px'">
+    <el-header class="el-header-nav radius" :style="collapse ? 'left:100px' : 'left:285px'">
         <ul class="el-ul el-ul-left ul-icon" style="float: left">
             <li @click="isHeader()" :title='collapse ? "打开侧栏" : "关闭侧栏"'>
                 <a href="javascript:;"><i
@@ -8,14 +8,14 @@
         </ul>
         <ul class="el-ul el-ul-right ul-icon" style="float: right">
             <li @click="notice()">
-                <a href="javascript:;"><i class="el-icon-close-notification"></i></a>
+                <a href="javascript:;" title="消息"><i class="el-icon-bell"></i></a>
             </li>
-            <li @click="screen()"><a href="javascript:;"><i class="el-icon-full-screen"></i></a></li>
+            <li @click="screen()" title="全屏"><a href="javascript:;"><i class="el-icon-c-scale-to-original"></i></a></li>
             <li>
                 <a href="javascript:;">
                     <el-dropdown trigger="hover" @command="commandUser">
                         <div class="el-dropdown-link">
-                            <span class="hd-name" style="font-size: 16px">{{user.name === undefined || user.name === '' ? '请登录' : user.name}}</span>
+                            <span class="hd-name" style="font-size: 16px">{{user.nickname}}</span>
                             <el-avatar class="hd-img" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
                         </div>
                         <el-dropdown-menu slot="dropdown">
@@ -86,7 +86,7 @@
         },
         computed: {
             user() {
-                return this.$store.state.user
+                return JSON.parse(window.localStorage.getItem('user'))
             }
         }
     }
@@ -98,57 +98,46 @@
         z-index: 1;
         position: fixed;
         top: 15px;
-        left: 245px;
-        right: 15px;
+        left: 285px;
+        right: 25px;
         //width: 100%;
-        border-radius: 0.5rem;
         background-color: #fff;
         box-sizing: border-box;
         //border-bottom: 1px solid #f6f6f6;
-        box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
-        -webkit-box-shadow: 0 4px 25px 0 rgba(0, 0, 0, 0.1);
         -webkit-transition: left .3s ease-in-out;
         transition: left .3s ease-in-out;
 
         .el-header-nav {
-            height: 60px;
+            height: 3.8rem;
             position: relative;
-
-            .el-dropdown {
-                display: block;
-            }
         }
 
         .el-ul {
             padding: 0 10px;
 
             li {
-                height: 60px;
+                height: 3.8rem;
                 float: left;
-                line-height: 60px;
+                line-height: 3.8rem;
 
                 a {
                     display: block;
                     color: #000;
                     padding: 0 15px;
-                    font-size: 24px;
+                    font-size: 1.5rem;
 
-                    .photo {
-                        width: 45px;
-                        height: 45px;
-                    }
                     .el-dropdown-link {
                       display: flex;
                       display: -webkit-flex;
                       flex-direction: row;
                       flex-wrap: nowrap;
                       justify-content: space-between;
-                      //align-items: center;
+                      align-items: center;
                     }
 
                     .hd-img {
-                      margin-left: 10px;
-                      margin-top: 8px;
+                        margin-left: 10px;
+                      //margin-top: 8px;
                       box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
                     }
 
@@ -165,14 +154,17 @@
             position: absolute;
             top: 0;
             left: 0;
-            -webkit-transition: left .3s ease-in-out;
-            transition: left .3s ease-in-out;
         }
 
         .el-ul-right {
             position: absolute;
             right: 0;
             top: 0;
+        }
+
+        .el-dropdown {
+            display: block;
+            font-size: 1.5rem;
         }
 
         .icon-gengduo {

@@ -1,5 +1,5 @@
 <template>
-  <div class="message vue-padding">
+  <div class="message vue-padding radius">
     <div class="tips">{{$route.name}}</div>
     <div>
       <el-tabs :tab-position="tabPosition" @tab-click="tabClick($event.index)">

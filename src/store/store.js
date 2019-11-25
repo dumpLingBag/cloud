@@ -2,9 +2,7 @@ const Vuex = require('vuex')
 
 export default new Vuex.Store({
   state: {
-    user: {
-      name: window.localStorage.getItem('user') == null ? '未登录' : JSON.parse(window.localStorage.getItem('user')).nickname
-    },
+    user: {},
     menuList: [],
     initFlag: true,
     collapse: false,

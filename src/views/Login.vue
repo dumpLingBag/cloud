@@ -6,11 +6,11 @@
         <div class="login-top">饺子包</div>
         <el-form-item prop="account">
           <el-input v-model="login.account" placeholder="用户名/手机号" @keyup.enter.native="enterSubmit('login')"
-                    prefix-icon="iconfont icon-people"></el-input>
+                    prefix-icon="el-icon-mobile-phone"></el-input>
         </el-form-item>
         <el-form-item prop="password">
           <el-input v-model="login.password" type="password" @keyup.enter.native="enterSubmit('login')"
-                    placeholder="输入登录密码" show-password prefix-icon="iconfont icon-lock"></el-input>
+                    placeholder="输入登录密码" show-password prefix-icon="el-icon-lock"></el-input>
         </el-form-item>
         <el-button type="primary" style="width: 100%;margin-top: 30px" @click="submitForm('login')" :loading="loading">
           {{loading ? '登录中' : '提交'}}
@@ -83,7 +83,7 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .login {
     height: 100%;
     .content {
@@ -111,9 +111,13 @@ export default {
           font-weight: 600;
         }
       }
-      .iconfont {
-        font-size: 18px!important;
-      }
+    }
+    .el-input__icon {
+      margin-left: 5px;
+      font-size: 1.3rem!important;
+    }
+    .el-input__inner {
+      padding-left: 40px;
     }
   }
 </style>

@@ -1,6 +1,6 @@
 <template>
   <div class="sys-user">
-    <div class="el-search vue-top-padding" style="margin-bottom: 10px;height: 33px">
+    <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;height: 33px">
       <div class="el-left">
         <el-button type="primary" size="small" icon="el-icon-plus" @click="addUser">增加</el-button>
       </div>
@@ -69,7 +69,7 @@
         <el-button type="primary" @click="dialogAddRole">确 定</el-button>
       </span>
     </el-dialog>
-    <div class="user-main vue-padding">
+    <div class="user-main vue-padding radius">
       <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" :height="maxHeight" @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
 <!--        <el-table-column prop="id" label="用户ID"></el-table-column>-->

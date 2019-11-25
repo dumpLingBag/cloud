@@ -1,5 +1,5 @@
 <template>
-    <div class="data-tabs card-table">
+    <div class="data-tabs card-table radius">
       <el-row>
         <el-col :span="span" v-for="(item, index) in data" :key="index">
           <div class="item" :style="{background:item.color}">
@@ -43,9 +43,6 @@ export default {
 
 <style lang="scss">
   .data-tabs {
-    background-color: #ffffff;
-    border-radius: 2px;
-    box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);
     .item:hover {
       cursor: pointer;
     }

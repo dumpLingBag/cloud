@@ -1,26 +1,34 @@
 <template>
   <el-aside width="auto">
-    <el-menu :popper-append-to-body="true" class="el-menu-vertical-demo" :router="true" :collapse="collapse" :unique-opened="true" background-color="#20222A" ref="elMenu"
-             :default-active="$route.path" text-color="rgba(255,255,255,.7)" active-text-color="#fff">
-      <div class="el-logo"><span>饺子包</span></div>
+    <el-menu :popper-append-to-body="true" class="el-menu-vertical-demo" :router="true" :collapse="collapse" :unique-opened="true" background-color="#fff" ref="elMenu"
+             :default-active="$route.path" text-color="#565656" active-text-color="#fff">
+      <div class="el-logo">
+        <i class="el-icon-lollipop" style="font-size: 3rem;color: rgba(115, 103, 240, 0.7)"></i>
+        <span>饺子包</span>
+      </div>
       <template v-for="item in this.routes">
         <el-submenu :index="item.id+''" :key="item.id" v-if="item.children.length > 0">
-          <template slot="title">
-            <i :class="item.icon !== undefined && item.icon !== '' ? item.icon : 'el-icon-location'"></i>
+          <template slot="title" class="22222">
+            <i :class="item.icon ? item.icon : 'el-icon-location'"></i>
             <span slot="title">{{ item.name }}</span>
           </template>
           <template v-for="group in item.children">
             <el-menu-item :index="group.path +'/'+ url(group.component)" :key="group.id" v-if="group.children.length <= 0">
-              {{ group.name }}
+              <i :class="group.icon"></i>{{ group.name }}
             </el-menu-item>
             <el-submenu :index="group.path + '/' + url(group.component)" :key="group.id" v-else>
-              <span slot="title">{{ group.name }}</span>
-              <el-menu-item :index="sub.path" v-for="sub in group.children" :key="sub.id">{{ sub.meta.title }}</el-menu-item>
+              <template slot="title">
+                <i :class="group.icon ? group.icon : 'el-icon-location'"></i>
+                <span slot="title">{{ group.name }}</span>
+              </template>
+              <el-menu-item :index="sub.path" v-for="sub in group.children" :key="sub.id">
+                <i :class="sub.icon ? sub.icon : 'el-icon-location'"></i>{{ sub.meta.title }}
+              </el-menu-item>
             </el-submenu>
           </template>
         </el-submenu>
         <el-menu-item :index="item.path + '/' + url(item.component)" class="single" :key="item.id" v-else>
-          <i :class="item.icon !== undefined && item.icon !== '' ? item.icon : 'el-icon-setting'"></i>
+          <i :class="item.icon ? item.icon : 'el-icon-setting'"></i>
           <span slot="title">{{ item.name }}</span>
         </el-menu-item>
       </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="sys-tree vue-padding" :style="{ 'max-height': maxHeight+'px'}">
+  <div class="sys-tree vue-padding radius" :style="{ 'max-height': maxHeight+'px'}">
     <div class="tips">{{$route.name}}</div>
     <div class="tree-btn">
       <div style="float: left;width: 60%">
@@ -22,15 +22,15 @@
                          :filter-node-method="filterNode" ref="tree" :props="defaultProps" :check-on-click-node="false" draggable
                          @check="checkNodeMenu" @node-drop="menuNodeDrop" @node-click="nodeClick" :style="{ 'max-height': treeHeight+'px' }">
                   <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="showTree = data.id" @mouseleave="showTree = 0">
-                    <template v-if="data.icon == undefined || data.icon == ''">
-                      <i class="iconfont icon-icon_zhanghao"></i>
+                    <template v-if="!data.icon">
+                      <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>
                     </template>
                     <template v-else>
                       <i :class="data.icon"></i>
                     </template>
                     <span>{{ data.name }}</span>
                     <span v-show="data.id === showTree">
-                      <span class="el-icon-circle-plus btn" @click.prevent.stop="() => append(data)"></span>
+                      <span class="el-icon-circle-plus btn" @click.prevent.stop="() => append(node, data)"></span>
                       <span class="iconfont icon-bianjisekuai btn" @click.prevent.stop="() => modify(data)"></span>
                       <span class="iconfont icon-shanchusekuai btn" @click.prevent.stop="() => remove(node, data)"></span>
                     </span>
@@ -112,11 +112,15 @@ export default {
     })
   },
   methods: {
-    append (data) { // 添加菜单
-      this.isMenuProp = false; // 是否是添加一级菜单
-      this.dialog(); // 开关添加菜单弹窗
-      this.nodeData = data;
-      this.nodeModify = {} // 用于修改菜单时给子路由传值
+    append (node, data) { // 添加菜单
+      if (Number(node.data.pid) === 0 || Number(node.parent.data.pid) === 0) {
+        this.isMenuProp = false; // 是否是添加一级菜单
+        this.dialog(); // 开关添加菜单弹窗
+        this.nodeData = data;
+        this.nodeModify = {} // 用于修改菜单时给子路由传值
+      } else {
+        this.$message.warning('最多添加两级菜单');
+      }
     },
 
     addMenu (menu) {

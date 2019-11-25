@@ -1,31 +1,19 @@
 <template>
-  <div class="user-info vue-padding">
+  <div class="user-info vue-padding radius">
     <div class="tips">{{$route.name}}</div>
     <div style="width: 50%">
-      <el-form ref="form" :model="form" label-width="80px">
-        <el-form-item label="活动名称">
-          <el-input v-model="form.name"></el-input>
+      <el-form ref="form" :model="userInfo" label-width="80px">
+        <el-form-item label="用户名称">
+          <el-input v-model="userInfo.nickname"></el-input>
         </el-form-item>
-        <el-form-item label="活动名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="账号名称">
+          <el-input v-model="userInfo.username"></el-input>
         </el-form-item>
-        <el-form-item label="活动名称">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="用户邮箱">
+          <el-input v-model="userInfo.email"></el-input>
         </el-form-item>
-        <el-form-item label="活动名称">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="活动名称">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="活动名称">
-          <el-input v-model="form.name"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域">
-          <el-select v-model="form.region" placeholder="请选择活动区域">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
-          </el-select>
+        <el-form-item label="用户号码">
+          <el-input v-model="userInfo.mobile"></el-input>
         </el-form-item>
         <el-form-item label="用户头像">
           <el-upload class="avatar-uploader"
@@ -54,16 +42,7 @@ export default {
   name: 'UserInfo',
   data () {
     return {
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: ''
-      },
+      userInfo: {},
       imageUrl: '',
       uploadUrl: config.baseUrl + 'file/upload',
       headers: { 'token': localStorage.token }
@@ -71,7 +50,13 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log('submit!')
+      this.userInfo.avatar = this.imageUrl
+      console.log(this.imageUrl)
+      this.$api.httpPost(this.$url.AuthorityUser.editUser, this.userInfo).then(res => {
+        if (res.code === 0) {
+          console.log(res)
+        }
+      })
     },
     handleAvatarSuccess (res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
@@ -88,6 +73,10 @@ export default {
       }
       return isJPG && isLt2M
     }
+  },
+  mounted () {
+    this.userInfo = JSON.parse(window.localStorage.getItem('user'))
+    this.imageUrl = this.userInfo.avatar
   }
 }
 </script>

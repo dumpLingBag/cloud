@@ -5,53 +5,130 @@
     height: 100%;
     display: flex;
     z-index: 2;
+    padding: 0 15px!important;
+    color: #565656!important;
+    background-color: #ffffff!important;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
     -khtml-user-select: none; /* Konqueror */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
     .iconfont{
-      margin-right: 5px;
+      margin-right: 0.8rem;
       width: 24px;
       text-align: center;
-      font-size: 18px;
+      font-size: 1.2rem;
       vertical-align: middle;
     }
-    .el-logo{
-      height: 60px;
-      font-size: 16px;
-      line-height: 60px;
-      color: rgba(255,255,255,.7);
-      text-align: center;
-      font-weight: 600;
+    .icon-xingzhuang-tuoyuanxing{
+      font-size: 0.8rem;
+      margin-left: 0.15rem;
+      margin-right: 1.1rem;
     }
+    //.el-logo{
+    //  height: 60px;
+    //  font-size: 16px;
+    //  line-height: 60px;
+    //  color: #565656;
+    //  text-align: center;
+    //  font-weight: 600;
+    //}
     .el-menu{
       border-right: none;
       .single:hover{
-        color: #ffffff!important;
-        background-color: #20222A!important;
+        background-color: #ffffff!important;
+      }
+      .el-menu-item {
+        padding: 0 15px!important;
+        transition: padding 0.35s ease 0s !important;
+      }
+      .el-menu-item:hover {
+        padding-left: 25px!important;
       }
     }
     .el-menu--collapse{
-      width: 69px;
+      width: 48px;
     }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
       width: 230px;
     }
     .el-submenu{
-      ul>li{
-        background-color: rgba(0,0,0,.3)!important;
+      .el-submenu__title {
+        padding: 0 15px!important;
+        transition: padding 0.35s ease 0s !important;
+        margin-bottom: 7px;
+      }
+      .el-submenu__title:hover {
+        padding-left: 25px!important;
+      }
+      ul {
+        li {
+          padding: 0!important;
+          background-color: #ffffff!important;
+        }
       }
     }
     .el-submenu{
       div:hover{
-        background-color: #20222A!important;
-        color: #ffffff!important;
+        background-color: #ffffff!important;
+        color: #565656!important;
       }
       ul>li:hover{
+        color: #565656!important;
+        background-color: #ffffff!important;
+      }
+      ul>li.is-active:hover{
         color: #ffffff!important;
       }
+    }
+    .el-menu-item:hover {
+      color: #565656!important;
+    }
+    .is-active {
+      color: #ffffff!important;
+      z-index: 3;
+      .el-submenu__title {
+        border-radius: 6px;
+        background: whitesmoke!important;
+      }
+      .el-submenu__title:hover {
+        border-radius: 6px;
+        background: whitesmoke!important;
+        padding-left: 25px!important;
+      }
+      .el-submenu {
+        .el-submenu__title {
+          background: transparent!important;
+        }
+      }
+    }
+    .el-menu-item.is-active {
+      background: linear-gradient(118deg, #7367F0, rgba(115, 103, 240, 0.7));
+      box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+      border-radius: 6px;
+    }
+    .single.is-active:hover {
+      color: #ffffff!important;
+    }
+    .el-menu-item, .el-submenu__title {
+      height: 2.8rem;
+      line-height: 2.8rem;
+    }
+    .el-menu--inline {
+      padding: 7px;
+      margin: -7px -7px 0 -7px;
+    }
+
+    // 菜单折叠过后样式
+    .el-tooltip {
+      padding: 0 15px!important;
+      transition: padding 0.35s ease 0s !important;
+    }
+    .el-tooltip:hover {
+      padding-left: 25px!important;
     }
   }
   //内容区域
@@ -59,9 +136,9 @@
     position: fixed;
     top: 85px;
     bottom: 0;
-    left: 230px;
-    right: 0;
-    z-index: 2;
+    left: 270px;
+    right: 10px;
+    z-index: 3;
     width: auto;
     overflow: hidden;
     overflow-y: auto;

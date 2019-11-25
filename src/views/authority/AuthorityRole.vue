@@ -1,5 +1,5 @@
 <template>
-    <div class="sys-tree vue-padding" :style="{ 'max-height': maxHeight+'px'}">
+    <div class="sys-tree vue-padding radius" :style="{ 'max-height': maxHeight+'px'}">
       <div class="tips">{{$route.name}}</div>
       <div class="tree-btn">
         <div style="float: left;width: 60%">

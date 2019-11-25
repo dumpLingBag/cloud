@@ -12,7 +12,7 @@
         <el-form-item label="菜单路由" :prop="isMenuProp ? '' : 'component'">
           <el-input v-model="menu.component" placeholder="菜单文件具体文件名"></el-input>
         </el-form-item>
-        <el-form-item label="菜单图标" :prop="isMenuProp ? 'icon' : ''">
+        <el-form-item label="菜单图标" v-if="isMenuProp" :prop="isMenuProp ? 'icon' : ''">
           <el-popover placement="bottom-start" width="400" trigger="focus" popper-class="popper-icon" v-model="visible">
             <vue-scroll>
               <ul class="icon-list">
@@ -83,18 +83,23 @@ export default {
         if (valid) {
           let url = '';
           if (this.isMenuProp) {
-            this.menu.sort = this.nodeSort;
-            this.menu.pid = 0;
-            url = this.$url.AuthorityMenu.save
+            if (this.nodeModify.id) {
+              url = this.$url.AuthorityMenu.update;
+              this.menuUpdate()
+            } else {
+              this.menu.sort = this.nodeSort;
+              this.menu.pid = 0;
+              url = this.$url.AuthorityMenu.save
+            }
           } else {
             if (this.nodeModify.id) {
               url = this.$url.AuthorityMenu.update;
-              this.menu.id = this.nodeModify.id;
-              this.menu.pid = this.nodeModify.pid;
-              this.menu.sort = this.nodeModify.sort
+              this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
+              this.menuUpdate()
             } else {
               url = this.$url.AuthorityMenu.save;
               this.menu.pid = this.nodeData.id;
+              this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
               const len = this.nodeData.children.length;
               this.menu.sort = len && len > 0 ? len : 0
             }
@@ -113,6 +118,12 @@ export default {
           return false
         }
       })
+    },
+
+    menuUpdate () {
+      this.menu.id = this.nodeModify.id;
+      this.menu.pid = this.nodeModify.pid;
+      this.menu.sort = this.nodeModify.sort
     },
 
     open () {

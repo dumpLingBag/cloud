@@ -1,5 +1,5 @@
 <template>
-  <div class="notice vue-padding">
+  <div class="notice vue-padding radius">
     <div class="tips">{{$route.name}}</div>
     <div class="notice-main">
       <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" :height="maxHeight">
