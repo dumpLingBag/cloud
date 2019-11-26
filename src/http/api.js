@@ -101,7 +101,6 @@ export default function $axios (options) {
         if (error && error.response) {
           // 判断请求超时
           if (error.code === 'ECONNABORTED' && error.message.indexOf('timeout') !== -1) {
-            alert('请求超时')
             Message.error('请求超时')
           } else {
             switch (error.response.status) {

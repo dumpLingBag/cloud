@@ -113,6 +113,8 @@ export default {
               }
               this.closeDialogAddMenu()
             }
+          }).catch(() => {
+            this.$message.warning(this.nodeModify.id ? '菜单更新失败' : '菜单添加失败')
           })
         } else {
           return false

@@ -129,6 +129,7 @@ export default {
       } else {
         this.nodeData.children.push({ id: menu.id, name: menu.name, path: menu.path, icon: menu.icon, children: [] })
       }
+      this.$message.success('菜单添加成功')
     },
 
     updateMenu (menu) { // 暂时通过重新加载菜单的方式来显示修改状态
@@ -136,6 +137,7 @@ export default {
       this.nodeModify.icon = menu.icon;
       this.nodeModify.component = menu.component;
       this.nodeModify.path = menu.path
+      this.$message.success('菜单更新成功')
     },
 
     modify (data) { // 修改菜单

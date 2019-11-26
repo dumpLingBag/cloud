@@ -418,7 +418,7 @@ filters: {
       })
     },
     tagEnable (index, row) {
-      if (row.account === 'admin') {
+      if (row.parentId === '0') {
         this.$message.warning('禁止修改超级管理员状态')
       } else {
         const enable = row.enable === 1 ? 0 : 1;
