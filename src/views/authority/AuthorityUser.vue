@@ -32,7 +32,7 @@
           <el-input v-model="userForm.nickname" placeholder="请输入用户名称" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="账号名称" prop="username" :error="error.username">
-          <el-input v-model="userForm.username" placeholder="请输入账号名称" autocomplete="off" :disabled="!addOrEdit && userForm.account == 'admin' ? true : false"></el-input>
+          <el-input v-model="userForm.username" placeholder="请输入账号名称" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="账号密码" prop="password" v-if="addOrEdit">
           <el-input type="password" v-model="userForm.password" placeholder="请输入账号密码" autocomplete="off"></el-input>
@@ -47,7 +47,7 @@
           <el-input v-model="userForm.mobile" placeholder="请输入用户号码"></el-input>
         </el-form-item>
         <el-form-item label="账号状态" prop="enable">
-          <el-select v-model="userForm.enable" placeholder="请选择账号状态" :disabled="!addOrEdit && userForm.account == 'admin' ? true : false">
+          <el-select v-model="userForm.enable" placeholder="请选择账号状态" :disabled="!addOrEdit && userForm.parentId === '0'">
             <el-option label="启用" value="1"></el-option>
             <el-option label="禁用" value="0"></el-option>
           </el-select>
@@ -91,9 +91,9 @@
         <el-table-column fixed="right" label="操作" width="300">
           <template slot-scope="scope">
             <el-button size="mini" @click="editUser(scope.row)">编辑</el-button>
-            <el-button type="primary" size="mini" @click="userRole(scope.row)" :disabled="scope.row.account === 'admin'">角色</el-button>
-            <el-button type="warning" size="mini" @click="resetPassword(scope.row)" :disabled="scope.row.account === 'admin'">重置</el-button>
-            <el-button type="danger" size="mini" @click="delUser(scope.row)" :disabled="scope.row.account === 'admin'">删除</el-button>
+            <el-button type="primary" size="mini" @click="userRole(scope.row)" :disabled="scope.row.parentId === '0'">角色</el-button>
+            <el-button type="warning" size="mini" @click="resetPassword(scope.row)" :disabled="scope.row.parentId === '0'">重置</el-button>
+            <el-button type="danger" size="mini" @click="delUser(scope.row)" :disabled="scope.row.parentId === '0'">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
