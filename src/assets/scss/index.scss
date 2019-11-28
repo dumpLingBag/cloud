@@ -14,8 +14,8 @@
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
-    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
-    -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
+    -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
     .iconfont{
       margin-right: 0.8rem;
       width: 24px;
@@ -28,14 +28,13 @@
       margin-left: 0.15rem;
       margin-right: 1.1rem;
     }
-    //.el-logo{
-    //  height: 60px;
-    //  font-size: 16px;
-    //  line-height: 60px;
-    //  color: #565656;
-    //  text-align: center;
-    //  font-weight: 600;
-    //}
+    .el-logo{
+      font-size: 1.5rem;
+      padding: 10px 0;
+      margin: 10px 0;
+      color: rgba(115, 103, 240, 0.7);
+      text-align: center;
+    }
     .el-menu{
       border-right: none;
       .single:hover{
@@ -134,10 +133,10 @@
   //内容区域
   .el-main{
     position: fixed;
-    top: 85px;
-    bottom: 0;
-    left: 270px;
-    right: 10px;
+    top: 95px;
+    bottom: 15px;
+    left: 280px;
+    right: 20px;
     z-index: 3;
     width: auto;
     overflow: hidden;

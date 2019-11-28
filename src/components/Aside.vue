@@ -3,7 +3,7 @@
     <el-menu :popper-append-to-body="true" class="el-menu-vertical-demo" :router="true" :collapse="collapse" :unique-opened="true" background-color="#fff" ref="elMenu"
              :default-active="$route.path" text-color="#565656" active-text-color="#fff">
       <div class="el-logo">
-        <i class="el-icon-lollipop" style="font-size: 3rem;color: rgba(115, 103, 240, 0.7)"></i>
+<!--        <i class="el-icon-lollipop"></i>-->
         <span>饺子包</span>
       </div>
       <template v-for="item in this.routes">

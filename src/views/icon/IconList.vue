@@ -1,5 +1,5 @@
 <template xmlns:v-clipboard="http://www.w3.org/1999/xhtml">
-  <div class="icon vue-padding" :style="{'max-height': maxHeight+'px'}">
+  <div class="icon vue-padding radius" style="position: absolute;bottom: 0">
     <div class="tips">阿里图标库</div>
     <vue-scroll>
       <div :style="{ 'max-height': iconHeight+'px' }">
@@ -25,7 +25,7 @@ export default {
   data () {
     return {
       icon: [],
-      maxHeight: window.innerHeight - 164,
+      maxHeight: window.innerHeight - 125,
       iconHeight: window.innerHeight - 164 - 85
     }
   },

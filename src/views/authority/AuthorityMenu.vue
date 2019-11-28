@@ -1,5 +1,5 @@
 <template>
-  <div class="sys-tree vue-padding radius" :style="{ 'max-height': maxHeight+'px'}">
+  <div class="sys-tree vue-padding radius">
     <div class="tips">{{$route.name}}</div>
     <div class="tree-btn">
       <div style="float: left;width: 60%">
@@ -20,7 +20,7 @@
               <vue-scroll>
                 <el-tree :data="menuList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"
                          :filter-node-method="filterNode" ref="tree" :props="defaultProps" :check-on-click-node="false" draggable
-                         @check="checkNodeMenu" @node-drop="menuNodeDrop" @node-click="nodeClick" :style="{ 'max-height': treeHeight+'px' }">
+                         @check="checkNodeMenu" @node-drop="menuNodeDrop" @node-click="nodeClick" >
                   <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="showTree = data.id" @mouseleave="showTree = 0">
                     <template v-if="!data.icon">
                       <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>

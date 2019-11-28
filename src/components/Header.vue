@@ -1,9 +1,15 @@
 <template>
-    <el-header class="el-header-nav radius" :style="collapse ? 'left:100px' : 'left:285px'">
+    <el-header class="el-header-nav radius" :style="collapse ? 'left:100px' : 'left:280px'">
         <ul class="el-ul el-ul-left ul-icon" style="float: left">
             <li @click="isHeader()" :title='collapse ? "打开侧栏" : "关闭侧栏"'>
-                <a href="javascript:;"><i
-                        :class="collapse ? 'el-icon-s-operation' : 'el-icon-s-operation'"></i></a>
+                <a href="javascript:;">
+                    <i :class="collapse ? 'el-icon-s-operation' : 'el-icon-s-operation'"></i>
+                </a>
+            </li>
+            <li @click="isTags()" title="显示tags">
+                <a href="javascript:;">
+                    <i class="el-icon-mouse"></i>
+                </a>
             </li>
         </ul>
         <ul class="el-ul el-ul-right ul-icon" style="float: right">
@@ -82,6 +88,9 @@
                 } else {
                     this.$message({message: '不支持全屏', type: 'warning'})
                 }
+            },
+            isTags() {
+                alert('11111')
             }
         },
         computed: {
@@ -98,8 +107,8 @@
         z-index: 1;
         position: fixed;
         top: 15px;
-        left: 285px;
-        right: 25px;
+        left: 280px;
+        right: 20px;
         //width: 100%;
         background-color: #fff;
         box-sizing: border-box;

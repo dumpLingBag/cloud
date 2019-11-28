@@ -84,11 +84,13 @@ export default {
           this.userInfo.avatar = this.imageUrl
           this.$api.httpPost(this.$url.AuthorityUser.editUser, this.userInfo).then(res => {
             if (res.code === 0) {
-              // let user = JSON.parse(window.localStorage.getItem('user'))
-              // Object.keys(user).forEach(key => {
-              //   this.userInfo[key] = user[key]
-              // })
-              window.localStorage.setItem('user', this.userInfo)
+              let user = JSON.parse(window.localStorage.getItem('user'))
+              Object.keys(this.userInfo).forEach(key => {
+                if (this.userInfo[key]) {
+                  user[key] = this.userInfo[key]
+                }
+              })
+              window.localStorage.setItem('user', JSON.stringify(user))
             } else {
               this.$toolUtil.msg(res, this.error)
             }
