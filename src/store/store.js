@@ -6,6 +6,8 @@ export default new Vuex.Store({
     menuList: [],
     initFlag: true,
     collapse: false,
+    tagsTop: true,
+    innerHeight: window.innerHeight,
     tagList: [],
     visitedViews: []
   },
@@ -22,11 +24,17 @@ export default new Vuex.Store({
     INIT_FLAG (state, initFlag) {
       state.initFlag = initFlag
     },
-    INIT_MENU (state, menuList) {
+    INIT_MENU_LIST (state, menuList) {
       state.menuList = menuList
     },
     COLLAPSE (state, collapse) {
       state.collapse = collapse
+    },
+    TAGS_TOP (state, tagsTop) {
+      state.tagsTop = tagsTop
+    },
+    INNER_HEIGHT (state, height) {
+      state.innerHeight = height
     },
     TAG_LIST (state, tagList) {
       for (let i = 0; i < tagList.length; i++) {
@@ -73,14 +81,20 @@ export default new Vuex.Store({
     loginOut ({ commit }) {
       commit('LOGIN_OUT')
     },
-    initMenu ({ commit }, menuList) {
-      commit('INIT_MENU', menuList)
+    initMenuList ({ commit }, menuList) {
+      commit('INIT_MENU_LIST', menuList)
     },
     initFlag ({ commit }, flag) {
       commit('INIT_FLAG', flag)
     },
     collapse ({ commit }, collapse) {
       commit('COLLAPSE', collapse)
+    },
+    tagsTop ({ commit }, tagsTop) {
+      commit('TAGS_TOP', tagsTop)
+    },
+    innerHeight ({ commit }, height) {
+      commit('INNER_HEIGHT', height)
     },
     addVisitedViews ({ commit }, view) {
       commit('ADD_VISITED_VIEWS', view)

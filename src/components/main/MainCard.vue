@@ -1,7 +1,7 @@
 <template>
     <div class="data-tabs card-table radius">
       <el-row>
-        <el-col :span="span" v-for="(item, index) in data" :key="index">
+        <el-col :lg="6" :sm="24" v-for="(item, index) in data" :key="index">
           <div class="item" :style="{background:item.color}">
             <div class="item-header">
               <p>{{item.title}}</p>

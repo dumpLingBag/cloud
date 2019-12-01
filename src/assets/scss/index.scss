@@ -10,7 +10,6 @@
     background-color: #ffffff!important;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Chrome/Safari/Opera */
-    -khtml-user-select: none; /* Konqueror */
     -moz-user-select: none; /* Firefox */
     -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
@@ -25,7 +24,7 @@
     }
     .icon-xingzhuang-tuoyuanxing{
       font-size: 0.8rem;
-      margin-left: 0.15rem;
+      margin-left: 0.2rem;
       margin-right: 1.1rem;
     }
     .el-logo{
@@ -35,24 +34,54 @@
       color: rgba(115, 103, 240, 0.7);
       text-align: center;
     }
-    .el-menu{
+    .el-menu--collapse{
+      width: 48px;
+    }
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+      width: 230px;
+    }
+    .el-menu {
       border-right: none;
-      .single:hover{
-        background-color: #ffffff!important;
+      .is-active {
+        z-index: 3;
       }
+      .el-menu--inline {
+        .el-submenu__title {
+          background-color: #ffffff!important;
+        }
+        .el-submenu__title:hover {
+          background-color: #ffffff!important;
+        }
+      }
+    }
+    .el-menu-open{
       .el-menu-item {
         padding: 0 15px!important;
         transition: padding 0.35s ease 0s !important;
       }
       .el-menu-item:hover {
         padding-left: 25px!important;
+        color: #409EFF!important;
+        .iconfont {
+          color: #409EFF!important;
+        }
+      }
+      .el-submenu__title:hover {
+        padding-left: 25px!important;
+        color: #409EFF!important;
+        .iconfont {
+          color: #409EFF!important;
+        }
       }
     }
-    .el-menu--collapse{
-      width: 48px;
-    }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-      width: 230px;
+    .el-menu-close{
+      .el-submenu__title:hover{
+        i{
+          color: #409EFF;
+        }
+        background-color: whitesmoke!important;
+        border-radius: 0.3rem;
+      }
     }
     .el-submenu{
       .el-submenu__title {
@@ -61,7 +90,8 @@
         margin-bottom: 7px;
       }
       .el-submenu__title:hover {
-        padding-left: 25px!important;
+        background-color: whitesmoke!important;
+        border-radius: 0.3rem;
       }
       ul {
         li {
@@ -70,49 +100,24 @@
         }
       }
     }
-    .el-submenu{
-      div:hover{
-        background-color: #ffffff!important;
-        color: #565656!important;
-      }
-      ul>li:hover{
-        color: #565656!important;
-        background-color: #ffffff!important;
-      }
-      ul>li.is-active:hover{
-        color: #ffffff!important;
-      }
-    }
-    .el-menu-item:hover {
-      color: #565656!important;
-    }
-    .is-active {
-      color: #ffffff!important;
-      z-index: 3;
-      .el-submenu__title {
-        border-radius: 6px;
-        background: whitesmoke!important;
-      }
-      .el-submenu__title:hover {
-        border-radius: 6px;
-        background: whitesmoke!important;
-        padding-left: 25px!important;
-      }
-      .el-submenu {
-        .el-submenu__title {
-          background: transparent!important;
-        }
-      }
-    }
     .el-menu-item.is-active {
-      background: linear-gradient(118deg, #7367F0, rgba(115, 103, 240, 0.7));
-      box-shadow: 0 0 10px 1px rgba(115, 103, 240, 0.7);
+      background-color: #f0faff!important;
+      color: #409EFF!important;
       border-radius: 6px;
     }
-    .single.is-active:hover {
-      color: #ffffff!important;
+    .single {
+      .el-tooltip {
+        padding: 0 15px!important;
+      }
     }
-    .el-menu-item, .el-submenu__title {
+    .single:hover {
+      border-radius: 0.3rem;
+      background-color: whitesmoke!important;
+    }
+    .single.is-active:hover {
+      background-color: #f0faff!important;
+    }
+    .el-menu-item,.el-submenu__title {
       height: 2.8rem;
       line-height: 2.8rem;
     }
@@ -120,25 +125,23 @@
       padding: 7px;
       margin: -7px -7px 0 -7px;
     }
-
-    // 菜单折叠过后样式
-    .el-tooltip {
-      padding: 0 15px!important;
-      transition: padding 0.35s ease 0s !important;
-    }
-    .el-tooltip:hover {
-      padding-left: 25px!important;
+    .is-active {
+      .el-submenu__title {
+        background-color: whitesmoke!important;
+        border-radius: 0.3rem;
+      }
     }
   }
   //内容区域
   .el-main{
     position: fixed;
-    top: 95px;
+    top: 135px;
     bottom: 15px;
     left: 280px;
     right: 20px;
     z-index: 3;
     width: auto;
+    padding: 0;
     overflow: hidden;
     overflow-y: auto;
     box-sizing: border-box;

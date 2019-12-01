@@ -1,6 +1,6 @@
 <template>
-    <div class="sys-auth">
-      权限模块
+    <div class="sys-auth vue-padding radius">
+        <div class="tips">{{$route.name}}</div>
     </div>
 </template>
 

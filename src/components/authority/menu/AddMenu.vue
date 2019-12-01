@@ -1,6 +1,6 @@
 <template>
   <div class="AddMenu">
-    <el-dialog title="添加菜单" :visible.sync="dialogAddMenu" width="40%" :modal-append-to-body='false' @open="open"
+    <el-dialog :title="nodeModify.id ? '修改菜单' : '添加菜单'" :visible.sync="dialogAddMenu" width="40%" :modal-append-to-body='false' @open="open"
                @closed="closed" :before-close="handleClose">
       <el-form ref="menu" :model="menu" :rules="rules" label-width="80px">
         <el-form-item label="菜单名称" prop="name">
@@ -12,15 +12,20 @@
         <el-form-item label="菜单路由" :prop="isMenuProp ? '' : 'component'">
           <el-input v-model="menu.component" placeholder="菜单文件具体文件名"></el-input>
         </el-form-item>
-        <el-form-item label="菜单图标" v-if="isMenuProp" :prop="isMenuProp ? 'icon' : ''">
-          <el-popover placement="bottom-start" width="400" trigger="focus" popper-class="popper-icon" v-model="visible">
-            <vue-scroll>
-              <ul class="icon-list">
-                <li v-for="item in iconList" @click="addIcon(item.icon)" :key="item.id"><i :class="item.icon"></i></li>
-              </ul>
-            </vue-scroll>
-            <el-input v-model="menu.icon" slot="reference" @click="visible = !visible" placeholder="菜单展示图标"></el-input>
-          </el-popover>
+        <el-form-item label="菜单图标" :prop="isMenuProp ? 'icon' : ''">
+          <template v-if="isMenuProp">
+            <el-popover placement="bottom-start" width="400" trigger="focus" popper-class="popper-icon" v-model="visible">
+              <vue-scroll>
+                <ul class="icon-list">
+                  <li v-for="item in iconList" @click="addIcon(item.icon)" :key="item.id"><i :class="item.icon"></i></li>
+                </ul>
+              </vue-scroll>
+              <el-input v-model="menu.icon" slot="reference" @click="visible = !visible" placeholder="菜单展示图标"></el-input>
+            </el-popover>
+          </template>
+          <template v-else>
+            <el-input v-model="menu.icon" :disabled="true" placeholder="菜单展示图标"></el-input>
+          </template>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">

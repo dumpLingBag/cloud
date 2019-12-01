@@ -1,16 +1,17 @@
 <template xmlns:v-clipboard="http://www.w3.org/1999/xhtml">
-  <div class="icon vue-padding radius" style="position: absolute;bottom: 0">
+  <div class="icon vue-padding radius">
     <div class="tips">阿里图标库</div>
     <vue-scroll>
-      <div :style="{ 'max-height': iconHeight+'px' }">
+      <div :style="{ 'max-height': maxHeight+'px' }">
         <ul class="icon-list">
-          <li v-for="item in icon" :key="item.id" v-clipboard:copy="item.icon" v-clipboard:success="onCopy" v-clipboard:error="onError">
+          <li v-for="item in icon" :key="item.id" v-clipboard:copy="item.icon" v-clipboard:success="onCopy"
+              v-clipboard:error="onError">
             <el-popover placement="top-start" width="200" trigger="hover"
                         :content="'点击复制<'+item.text+'>图标到剪切板'">
-          <span class="icon" slot="reference">
-            <i :class="item.icon"></i>
-            <span class="icon-name">{{item.text}}</span>
-          </span>
+            <span class="icon" slot="reference">
+              <i :class="item.icon"></i>
+              <span class="icon-name">{{item.text}}</span>
+            </span>
             </el-popover>
           </li>
         </ul>
@@ -24,9 +25,7 @@ export default {
   name: 'IconList',
   data () {
     return {
-      icon: [],
-      maxHeight: window.innerHeight - 125,
-      iconHeight: window.innerHeight - 164 - 85
+      icon: []
     }
   },
   mounted () {
@@ -35,6 +34,12 @@ export default {
         this.icon = res.data
       }
     })
+  },
+  computed : {
+    maxHeight () {
+      let store = this.$store.state;
+      return store.tagsTop ? store.innerHeight - this.$common.titleMaxHeight - 45 : store.innerHeight - this.$common.titleMaxHeight;
+    }
   },
   methods: {
     onCopy (e) {
@@ -97,6 +102,9 @@ export default {
           transform: scale(1.4);
         }
       }
+    }
+    .icon-list:before {
+      content: none;
     }
   }
 </style>

@@ -2,20 +2,20 @@
     <div class="main-card">
       <div class="card-table">
         <el-row :gutter="15">
-          <el-col :span="12">
+          <el-col :lg="12" :sm="24">
             <div id="gradient" class="data-chart radius" style="width: 100%;height: 400px"></div>
           </el-col>
-          <el-col :span="12">
+          <el-col :lg="12" :sm="24">
             <div id="world" class="data-chart radius" style="width: 100%;height: 400px"></div>
           </el-col>
         </el-row>
       </div>
-      <div class="card-table radius">
+      <div class="card-table">
         <el-row :gutter="15">
-          <el-col :span="12">
+          <el-col :lg="12" :sm="24">
             <div id="polyline" class="data-chart radius" style="height: 400px"></div>
           </el-col>
-          <el-col :span="12">
+          <el-col :lg="12" :sm="24">
             <div id="waterfall" class="data-chart radius" style="height: 400px"></div>
           </el-col>
         </el-row>
@@ -313,5 +313,7 @@ export default {
 </script>
 
 <style lang="scss">
-
+  .data-chart {
+    margin: 5px 0;
+  }
 </style>

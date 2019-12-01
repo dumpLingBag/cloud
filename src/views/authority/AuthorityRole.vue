@@ -64,8 +64,6 @@ export default {
       roleList: [],
       menuList: [],
       menuPidList: [], // 用来排除未全选状态下 PID 为 0 的节点
-      maxHeight: this.$common.maxHeight,
-      treeHeight: this.$common.treeHeight,
       currentKey: Number,
       checkMenuList: [],
       showTree: 0,
@@ -100,6 +98,12 @@ export default {
         }
       }
     })
+  },
+  computed: {
+    treeHeight () {
+      let store = this.$store.state;
+      return store.tagsTop ? store.innerHeight - this.$common.menuTreeHeight - 50 : store.innerHeight - this.$common.menuTreeHeight;
+    }
   },
   methods: {
     filterNode (value, data) { // 角色筛选

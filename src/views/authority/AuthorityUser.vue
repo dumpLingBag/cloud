@@ -71,8 +71,7 @@
     </el-dialog>
     <div class="user-main vue-padding radius">
       <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" :height="maxHeight" @selection-change="handleSelectionChange">
-        <el-table-column type="selection" width="55"></el-table-column>
-<!--        <el-table-column prop="id" label="用户ID"></el-table-column>-->
+        <el-table-column type="selection" fixed width="55"></el-table-column>
         <el-table-column prop="username" label="账号"></el-table-column>
         <el-table-column prop="nickname" label="名称"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
@@ -85,7 +84,7 @@
         </el-table-column>
         <el-table-column prop="createTime" label="注册时间">
           <template slot-scope="scope">
-            {{scope.row.createTime | formatDate}}
+            {{scope.row.createTime}}
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="300">
@@ -146,7 +145,6 @@ export default {
     return {
       userList: [], // 表格数据
       tableHeight: '', // 动态设置最大高度
-      maxHeight: this.$common.treeHeight,
       addOrEdit: false, // 添加或者编辑用户
       dialogRole: false,
       roleList: [], // 机构拥有的角色
@@ -402,12 +400,12 @@ filters: {
     // 分页获取用户信息
     currentChange (currentPage) {
       this.loading = !this.loading;
-      this.page.currentPage = currentPage === undefined || currentPage === '' ? 1 : currentPage;
+      this.page.currentPage = currentPage ? currentPage : 1;
       this.$api.httpPost(this.$url.AuthorityUser.pageList, httpData(this.page)).then(res => {
         if (res.code === 0) {
           if (res.data && res.data.records) {
               this.userList = res.data.records;
-              this.page.totalSize = res.data.total
+              this.page.totalSize = parseInt(res.data.total)
           } else {
               this.userList = []
           }

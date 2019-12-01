@@ -1,6 +1,6 @@
 <template>
-    <div class="other-auther">
-      支持作者
+    <div class="other-auther vue-padding radius" style="overflow: hidden">
+        <div class="tips">{{$route.name}}</div>
     </div>
 </template>
 

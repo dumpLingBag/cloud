@@ -36,8 +36,6 @@ export default {
   data () {
     return {
       filterText: '',
-      maxHeight: this.$common.maxHeight,
-      treeHeight: this.$common.treeHeight,
       urlList: [],
       openUrl: [],
       openDiffUrl: [],
@@ -55,6 +53,12 @@ export default {
       }
     });
     this.loadOpen()
+  },
+  computed: {
+    treeHeight () {
+      let store = this.$store.state;
+      return store.tagsTop ? store.innerHeight - this.$common.treeHeight - 45 : store.innerHeight - this.$common.treeHeight;
+    }
   },
   methods: {
     loadOpen () {

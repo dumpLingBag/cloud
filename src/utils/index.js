@@ -2,13 +2,13 @@ import getRequest from '@/interface/index'
 
 export const initMenu = (router, store) => {
   if (store.state.menuList.length > 0) {
-    return
+    return false
   }
   getRequest.httpGet('authoritySys/loadForMenu').then(res => {
     if (res && res.code === 0) {
       const fmRoutes = formatRoutes(res.data)
       router.addRoutes(fmRoutes)
-      store.dispatch('initMenu', res.data)
+      store.dispatch('initMenuList', res.data)
     }
   })
 }
@@ -27,7 +27,7 @@ let fmRoutes = [
         meta: { title: '首页', auth: true, keepAlive: true }
       },
       {
-        path: '/userInfo',
+        path: '/user_info',
         name: '用户中心',
         component: resolve => require(['@/views/other/UserInfo.vue'], resolve),
         meta: { title: '用户中心', auth: true, keepAlive: true }
@@ -48,7 +48,6 @@ const formatRoutes = (routes) => {
       setRoutes(routes[i])
     }
   }
-  fmRoutes.push({ path: '*', redirect: '/login' })
   return fmRoutes
 }
 
@@ -67,9 +66,11 @@ const setRoutes = (routes) => {
   let children = routes.children
   if (children && children.length > 0) {
     for (let i = 0; i < children.length; i++) {
-      fmRoutes[0].children.push(routers(children[i]))
-      if (children[i].length > 0) {
-        setRoutes(children[i].children)
+      if (children[i].component) {
+        fmRoutes[0].children.push(routers(children[i]))
+      }
+      if (children[i].children.length > 0) {
+        setRoutes(children[i])
       }
     }
   } else {

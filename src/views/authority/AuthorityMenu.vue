@@ -6,7 +6,7 @@
         <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
       </div>
       <div style="float: right">
-        <el-button type="primary" icon="el-icon-edit" @click="() => appendNode()">添加一级菜单</el-button>
+        <el-button plain icon="el-icon-edit" @click="() => appendNode()">添加一级菜单</el-button>
       </div>
     </div>
     <div class="tree-content">
@@ -20,7 +20,7 @@
               <vue-scroll>
                 <el-tree :data="menuList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"
                          :filter-node-method="filterNode" ref="tree" :props="defaultProps" :check-on-click-node="false" draggable
-                         @check="checkNodeMenu" @node-drop="menuNodeDrop" @node-click="nodeClick" >
+                         :style="{ 'max-height': treeHeight+'px' }" @check="checkNodeMenu" :accordion="false" @node-drop="menuNodeDrop" @node-click="nodeClick" >
                   <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="showTree = data.id" @mouseleave="showTree = 0">
                     <template v-if="!data.icon">
                       <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>
@@ -77,8 +77,6 @@ export default {
       filterText: '',
       menuList: [], // 菜单树结构
       urlList: [], // url 路径树结构
-      maxHeight: this.$common.maxHeight,
-      treeHeight: this.$common.menuTreeHeight,
       showTree: 0,
       urlTree: 0,
       defaultProps: {
@@ -111,6 +109,12 @@ export default {
       }
     })
   },
+  computed: {
+    treeHeight () {
+      let store = this.$store.state;
+      return store.tagsTop ? store.innerHeight - this.$common.menuTreeHeight - 50 : store.innerHeight - this.$common.menuTreeHeight;
+    }
+  },
   methods: {
     append (node, data) { // 添加菜单
       if (Number(node.data.pid) === 0 || Number(node.parent.data.pid) === 0) {
@@ -141,7 +145,7 @@ export default {
     },
 
     modify (data) { // 修改菜单
-      data && data.pid === 0 ? this.isMenuProp = true : this.isMenuProp = false
+      data.component ? this.isMenuProp = false : this.isMenuProp = true
       this.dialog();
       this.nodeModify = data // 修改菜单信息数据
     },
@@ -337,6 +341,7 @@ export default {
     },
 
     menuNodeDrop (before, after, inner) {
+      console.log(before,after,inner)
     }
   }
 }

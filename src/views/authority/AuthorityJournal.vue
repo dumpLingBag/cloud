@@ -1,6 +1,6 @@
 <template>
-    <div class="journal">
-      日志管理
+    <div class="journal vue-padding radius">
+        <div class="tips">{{$route.name}}</div>
     </div>
 </template>
 

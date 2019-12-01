@@ -1,63 +1,71 @@
 <template>
-    <el-header class="el-header-nav radius" :style="collapse ? 'left:100px' : 'left:280px'">
-        <ul class="el-ul el-ul-left ul-icon" style="float: left">
-            <li @click="isHeader()" :title='collapse ? "打开侧栏" : "关闭侧栏"'>
-                <a href="javascript:;">
-                    <i :class="collapse ? 'el-icon-s-operation' : 'el-icon-s-operation'"></i>
-                </a>
-            </li>
-            <li @click="isTags()" title="显示tags">
-                <a href="javascript:;">
-                    <i class="el-icon-mouse"></i>
-                </a>
-            </li>
-        </ul>
-        <ul class="el-ul el-ul-right ul-icon" style="float: right">
-            <li @click="notice()">
-                <a href="javascript:;" title="消息"><i class="el-icon-bell"></i></a>
-            </li>
-            <li @click="screen()" title="全屏"><a href="javascript:;"><i class="el-icon-c-scale-to-original"></i></a></li>
-            <li>
-                <a href="javascript:;">
-                    <el-dropdown trigger="hover" @command="commandUser">
-                        <div class="el-dropdown-link">
-                            <span class="hd-name" style="font-size: 16px">{{user.nickname}}</span>
-                            <el-avatar class="hd-img" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
-                        </div>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command="personal">个人中心</el-dropdown-item>
-                            <el-dropdown-item command="password">修改密码</el-dropdown-item>
-                            <el-dropdown-item command="loginOut" divided>退出登录</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                </a>
-            </li>
-        </ul>
-    </el-header>
+    <div class="sys-header">
+        <el-header class="el-header-nav radius" :style="collapse ? 'left:100px' : 'left:280px'">
+            <ul class="el-ul el-ul-left ul-icon" style="float: left">
+                <li @click="isHeader()" :title='collapse ? "打开侧栏" : "关闭侧栏"'>
+                    <a href="javascript:;">
+                        <i :class="collapse ? 'el-icon-s-operation' : 'el-icon-s-operation'"></i>
+                    </a>
+                </li>
+                <li @click="isTags()" title="显示tags">
+                    <a href="javascript:;">
+                        <i class="el-icon-mouse"></i>
+                    </a>
+                </li>
+            </ul>
+            <ul class="el-ul el-ul-right ul-icon" style="float: right">
+                <li @click="notice()">
+                    <a href="javascript:;" title="消息"><i class="el-icon-bell"></i></a>
+                </li>
+                <li @click="screen()" title="全屏"><a href="javascript:;"><i class="el-icon-c-scale-to-original"></i></a></li>
+                <li>
+                    <a href="javascript:;">
+                        <el-dropdown trigger="hover" @command="commandUser">
+                            <div class="el-dropdown-link">
+                                <span class="hd-name" style="font-size: 16px">{{user.nickname}}</span>
+                                <el-avatar class="hd-img" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                            </div>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command="personal">个人中心</el-dropdown-item>
+                                <el-dropdown-item command="password">修改密码</el-dropdown-item>
+                                <el-dropdown-item command="loginOut" divided>退出登录</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </a>
+                </li>
+            </ul>
+        </el-header>
+    </div>
 </template>
 
 <script>
     import screenfull from 'screenfull'
 
     export default {
-        name: 'Header',
+        name: 'sys-header',
         data() {
             return {
-                collapse: false
+                dialogPassword: false
             }
         },
         methods: {
             isHeader() {
-                this.collapse = !this.collapse;
-                this.$store.dispatch('collapse', this.collapse)
+                if (document.body.clientWidth > 1200) {
+                    this.$store.dispatch('collapse', !this.$store.state.collapse)
+                } else {
+                    this.$message.warning('分辨率过低禁止展开侧边栏')
+                }
             },
-            errorHandler() {
-                return true
+            passwordDialog (password) {
+                this.dialogPassword = password
+            },
+            password (password) {
+                this.dialogPassword = password
             },
             commandUser(command) {
                 switch (command) {
                     case 'personal':
-                        this.$router.push('/userInfo');
+                        this.$router.push('/user_info');
                         break;
                     case 'password':
                         this.$emit('password', true);
@@ -71,10 +79,7 @@
                             this.$store.dispatch('loginOut');
                             this.$router.push('/login')
                         }).catch(() => {
-                            this.$message({
-                                type: 'info',
-                                message: '取消退出登录'
-                            })
+                            this.$message.info('取消退出登录')
                         });
                         break
                 }
@@ -84,24 +89,31 @@
             },
             screen() {
                 if (screenfull.enabled) {
-                    screenfull.toggle()
+                    let that = this;
+                    screenfull.toggle().then(() => {
+                        //console.log('高度是', document.documentElement.clientHeight)
+                        that.$store.commit('INNER_HEIGHT', document.documentElement.clientHeight)
+                    })
                 } else {
-                    this.$message({message: '不支持全屏', type: 'warning'})
+                    this.$message.warning('不支持全屏')
                 }
             },
             isTags() {
-                alert('11111')
+                this.$store.dispatch('tagsTop', !this.$store.state.tagsTop);
             }
         },
         computed: {
             user() {
                 return JSON.parse(window.localStorage.getItem('user'))
+            },
+            collapse () {
+                return this.$store.state.collapse
             }
         }
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .el-header {
         padding: 0;
         z-index: 1;
@@ -109,10 +121,8 @@
         top: 15px;
         left: 280px;
         right: 20px;
-        //width: 100%;
         background-color: #fff;
         box-sizing: border-box;
-        //border-bottom: 1px solid #f6f6f6;
         -webkit-transition: left .3s ease-in-out;
         transition: left .3s ease-in-out;
 
@@ -131,7 +141,7 @@
 
                 a {
                     display: block;
-                    color: #000;
+                    color: rgb(86, 86, 86);
                     padding: 0 15px;
                     font-size: 1.5rem;
 
@@ -146,10 +156,13 @@
 
                     .hd-img {
                         margin-left: 10px;
-                      //margin-top: 8px;
-                      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
+                        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.12), 0 2px 4px 0 rgba(0, 0, 0, 0.08);
                     }
 
+                }
+
+                a:hover {
+                    color: #409EFF;
                 }
 
                 .el-badge__content {

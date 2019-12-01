@@ -1,5 +1,5 @@
 <template>
-  <div class="main-index" style="height: 100%">
+  <div class="main-index" style="height: 100%;border-radius: 0.3rem;overflow: auto;">
     <v-main-card :option="easyDataOption"></v-main-card>
     <v-main-chart></v-main-chart>
   </div>
