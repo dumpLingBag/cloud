@@ -43,14 +43,10 @@ export default {
   },
   methods: {
     onCopy (e) {
-      this.$message.success({
-        message: e.text + '成功复制到剪切板'
-      })
+      this.$message.success(e.text + '成功复制到剪切板')
     },
     onError (e) {
-      this.$message.error({
-        message: '复制' + e.text + '到剪切板失败'
-      })
+      this.$message.error('复制' + e.text + '到剪切板失败')
     }
   }
 }

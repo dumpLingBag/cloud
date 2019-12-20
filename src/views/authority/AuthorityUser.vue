@@ -1,6 +1,6 @@
 <template>
   <div class="sys-user">
-    <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;height: 33px">
+    <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
       <div class="el-left">
         <el-button type="primary" size="small" icon="el-icon-plus" @click="addUser">增加</el-button>
       </div>
@@ -70,21 +70,22 @@
       </span>
     </el-dialog>
     <div class="user-main vue-padding radius">
-      <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" :height="maxHeight" @selection-change="handleSelectionChange">
+      <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" max-height="250" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed width="55"></el-table-column>
-        <el-table-column prop="username" label="账号"></el-table-column>
-        <el-table-column prop="nickname" label="名称"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="mobile" label="号码"></el-table-column>
+        <el-table-column prop="username" label="账号" ></el-table-column>
+        <el-table-column prop="nickname" label="名称" ></el-table-column>
+        <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
+        <el-table-column prop="mobile" label="号码" width="150"></el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             <el-tag size="medium" @click="tagEnable(scope.$index, scope.row)" :type="Number(scope.row.enable) === 1 ? 'success' : 'warning'">
               {{ Number(scope.row.enable) === 1 ? '启用' : '禁用' }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="注册时间">
+        <el-table-column prop="createTime" label="注册时间" width="200">
           <template slot-scope="scope">
-            {{scope.row.createTime}}
+            <i class="el-icon-time"></i>
+            <span class="times">{{scope.row.createTime}}</span>
           </template>
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="300">
@@ -505,6 +506,15 @@ filters: {
       -webkit-user-select: none;
       -ms-user-select: none;
       user-select: none;
+    }
+    .times {
+      margin-left: 10px;
+    }
+    .el-search {
+      overflow: hidden;
+      .el-form-item {
+        margin-bottom: 0;
+      }
     }
   }
 </style>

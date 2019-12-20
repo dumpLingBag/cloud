@@ -141,10 +141,11 @@ export default {
         this.menu.component = this.nodeModify.component;
         this.menu.id = this.nodeModify.id
       }
-      try {
+      this.clearVal('menu')
+      /*try {
         this.clearVal('menu')
       } catch (e) {
-      }
+      }*/
     },
 
     closed () {

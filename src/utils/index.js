@@ -4,7 +4,7 @@ export const initMenu = (router, store) => {
   if (store.state.menuList.length > 0) {
     return false
   }
-  getRequest.httpGet('authoritySys/loadForMenu').then(res => {
+  getRequest.httpGet('authority/authoritySys/loadForMenu').then(res => {
     if (res && res.code === 0) {
       const fmRoutes = formatRoutes(res.data)
       router.addRoutes(fmRoutes)
