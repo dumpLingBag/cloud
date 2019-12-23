@@ -58,6 +58,13 @@ export default function $axios (options) {
 
         // 根据返回的code值来做不同的处理
         switch (data.code) {
+          case -1:
+            Message.warning({
+              message: data.msg,
+              duration: 1500,
+              showClose: false
+            })
+            break
           case 2:
             Message.warning({
               message: data.msg,
