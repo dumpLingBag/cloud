@@ -154,8 +154,8 @@ export default {
     background-color: #fff;
     box-sizing: border-box;
     overflow: hidden;
-    -webkit-transition: left .3s ease-in-out;
-    transition: left .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    transition: all .3s ease-in-out;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
     .icon-prev{

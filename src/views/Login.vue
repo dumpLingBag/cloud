@@ -59,6 +59,7 @@ export default {
           const obj = { account: this.login.account };
           obj.password = md5(this.login.password);
           this.$api.httpPost(this.$url.Login.login, this.$qs.stringify(obj)).then(res => {
+            console.log('登录', res)
             if (res.code === 0) {
               if (res.data !== '') {
                 localStorage.token = res.data.token;

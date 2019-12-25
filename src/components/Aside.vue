@@ -88,7 +88,11 @@ export default {
     }
     .el-menu-item:hover, .el-submenu__title:hover {
       padding-left: 30px!important;
+      color: #409EFF!important;
       background-color: #ffffff!important;
+      i {
+        color: #409EFF!important;
+      }
     }
     .is-active {
       color: #409EFF!important;

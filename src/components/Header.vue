@@ -163,6 +163,9 @@
 
                 a:hover {
                     color: #409EFF;
+                    .hd-name {
+                        color: #409EFF;
+                    }
                 }
 
                 .el-badge__content {
