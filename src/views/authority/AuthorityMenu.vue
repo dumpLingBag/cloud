@@ -1,59 +1,72 @@
 <template>
   <div class="sys-tree vue-padding radius">
     <div class="tips">{{$route.name}}</div>
-    <div class="tree-btn">
-      <div style="float: left;width: 60%">
-        <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>
-      </div>
-      <div style="float: right">
-        <el-button plain icon="el-icon-edit" @click="() => appendNode()">添加一级菜单</el-button>
-      </div>
-    </div>
-    <div class="tree-content">
-      <div class="custom-tree-container">
-        <div class="block">
-          <p style="margin-bottom: 10px">资源路径树结构&nbsp;&nbsp;<span style="color: #F56C6C;font-size: 14px">
-            操作说明：先勾选左边的菜单(单个子节点)，然后选择右边的权限地址</span></p>
-          <div class="line"></div>
-          <el-row>
-            <el-col :span="12">
-              <vue-scroll>
-                <el-tree :data="menuList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"
-                         :filter-node-method="filterNode" ref="tree" :props="defaultProps" :check-on-click-node="false" draggable
-                         :style="{ 'max-height': treeHeight+'px' }" @check="checkNodeMenu" :accordion="false" @node-drop="menuNodeDrop" @node-click="nodeClick" >
-                  <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="showTree = data.id" @mouseleave="showTree = 0">
-                    <template v-if="!data.icon">
-                      <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>
-                    </template>
-                    <template v-else>
-                      <i :class="data.icon"></i>
-                    </template>
-                    <span>{{ data.name }}</span>
-                    <span v-show="data.id === showTree">
-                      <span class="el-icon-circle-plus btn" @click.prevent.stop="() => append(node, data)"></span>
-                      <span class="iconfont icon-bianjisekuai btn" @click.prevent.stop="() => modify(data)"></span>
-                      <span class="iconfont icon-shanchusekuai btn" @click.prevent.stop="() => remove(node, data)"></span>
-                    </span>
-                  </span>
-                </el-tree>
-              </vue-scroll>
-            </el-col>
-            <el-col :span="12">
-              <vue-scroll>
-                <el-tree :data="urlList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"
-                         :filter-node-method="filterNode" ref="urlTree" :props="defaultPropsUrl" :check-on-click-node="false"
-                         @check="checkNodeUrlCheck" :style="{ 'max-height': treeHeight+'px' }">
-                  <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="urlTree = data.id" @mouseleave="urlTree = 0">
-                    <span>{{ data.name }}</span>
-                    <span v-if="data.id === urlTree"> / {{ data.url }}</span>
-                  </span>
-                </el-tree>
-              </vue-scroll>
-            </el-col>
-          </el-row>
-        </div>
-      </div>
-    </div>
+<!--    <div class="tree-btn">-->
+<!--      <div style="float: left;width: 60%">-->
+<!--        <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>-->
+<!--      </div>-->
+<!--      <div style="float: right">-->
+<!--        <el-button plain icon="el-icon-edit" @click="() => appendNode()">添加一级菜单</el-button>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div class="tree-content">-->
+<!--      <div class="custom-tree-container">-->
+<!--        <div class="block">-->
+<!--          <p style="margin-bottom: 10px">资源路径树结构&nbsp;&nbsp;<span style="color: #F56C6C;font-size: 14px">-->
+<!--            操作说明：先勾选左边的菜单(单个子节点)，然后选择右边的权限地址</span></p>-->
+<!--          <div class="line"></div>-->
+<!--          <el-row>-->
+<!--            <el-col :span="12">-->
+<!--              <vue-scroll>-->
+<!--                <el-tree :data="menuList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"-->
+<!--                         :filter-node-method="filterNode" ref="tree" :props="defaultProps" :check-on-click-node="false" draggable-->
+<!--                         :style="{ 'max-height': treeHeight+'px' }" @check="checkNodeMenu" :accordion="false" @node-drop="menuNodeDrop" @node-click="nodeClick" >-->
+<!--                  <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="showTree = data.id" @mouseleave="showTree = 0">-->
+<!--                    <template v-if="!data.icon">-->
+<!--                      <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>-->
+<!--                    </template>-->
+<!--                    <template v-else>-->
+<!--                      <i :class="data.icon"></i>-->
+<!--                    </template>-->
+<!--                    <span>{{ data.name }}</span>-->
+<!--                    <span v-show="data.id === showTree">-->
+<!--                      <span class="el-icon-circle-plus btn" @click.prevent.stop="() => append(node, data)"></span>-->
+<!--                      <span class="iconfont icon-bianjisekuai btn" @click.prevent.stop="() => modify(data)"></span>-->
+<!--                      <span class="iconfont icon-shanchusekuai btn" @click.prevent.stop="() => remove(node, data)"></span>-->
+<!--                    </span>-->
+<!--                  </span>-->
+<!--                </el-tree>-->
+<!--              </vue-scroll>-->
+<!--            </el-col>-->
+<!--            <el-col :span="12">-->
+<!--              <vue-scroll>-->
+<!--                <el-tree :data="urlList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"-->
+<!--                         :filter-node-method="filterNode" ref="urlTree" :props="defaultPropsUrl" :check-on-click-node="false"-->
+<!--                         @check="checkNodeUrlCheck" :style="{ 'max-height': treeHeight+'px' }">-->
+<!--                  <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="urlTree = data.id" @mouseleave="urlTree = 0">-->
+<!--                    <span>{{ data.name }}</span>-->
+<!--                    <span v-if="data.id === urlTree"> / {{ data.url }}</span>-->
+<!--                  </span>-->
+<!--                </el-tree>-->
+<!--              </vue-scroll>-->
+<!--            </el-col>-->
+<!--          </el-row>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+    <el-table :data="menuList" row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      <el-table-column prop="date" label="菜单名称" sortable width="180"></el-table-column>
+      <el-table-column prop="date" label="图标" sortable width="180"></el-table-column>
+      <el-table-column prop="date" label="路径" sortable width="180"></el-table-column>
+      <el-table-column prop="date" label="排序" sortable width="180"></el-table-column>
+      <el-table-column prop="date" label="路由名称" sortable width="180"></el-table-column>
+      <el-table-column label="操作">
+        <template slot-scope="scope">
+          <el-button size="mini">编辑</el-button>
+          <el-button size="mini" type="danger">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     <!-- 添加路由弹框 -->
     <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData"
                 :nodeSort="nodeSort" :nodeModify="nodeModify" v-on:closeDialogAddMenu="closeDialogAddMenu"

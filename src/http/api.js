@@ -5,6 +5,8 @@ import NProgress from 'nprogress'
 import { MessageBox, Message } from 'element-ui'
 import 'nprogress/nprogress.css'
 
+NProgress.configure({ showSpinner: false })
+
 export default function $axios (options) {
   return new Promise((resolve, reject) => {
     const instance = axios.create({

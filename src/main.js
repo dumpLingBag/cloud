@@ -3,7 +3,7 @@ import router from './router/router'
 import store from './store/store'
 import api from './http/index'
 import { initMenu } from './utils/index'
-import './utils/directives'
+import './directive/directives'
 import url from './interface/url'
 import toolUtil from './utils/toolUtil'
 import Common from './utils/common'
@@ -12,6 +12,7 @@ import './assets/icon/iconfont.css'
 import VueScroll from 'vuescroll'
 import 'vuescroll/dist/vuescroll.css'
 import md5 from 'js-md5'
+import './directive/permission/index'
 
 const VueClipboard = require('vue-clipboard2')
 const Vue = require('vue')

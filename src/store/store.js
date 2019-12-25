@@ -9,7 +9,9 @@ export default new Vuex.Store({
     tagsTop: true,
     innerHeight: window.innerHeight,
     tagList: [],
-    visitedViews: []
+    visitedViews: [],
+    permissions: [],
+    roles: []
   },
   mutations: {
     LOGIN (state, user) {
