@@ -32,6 +32,13 @@ Vue.prototype.$vuescrollConfig = {
     }
 }
 
+Vue.prototype.$method = {
+    'get': 'GET',
+    'post': 'POST',
+    'delete': 'DELETE',
+    'put': 'PUT'
+}
+
 Vue.use(api);
 Vue.prototype.$qs = qs;
 Vue.prototype.$url = url;

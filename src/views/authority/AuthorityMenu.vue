@@ -54,28 +54,46 @@
 <!--        </div>-->
 <!--      </div>-->
 <!--    </div>-->
-    <el-table :data="menuList" row-key="id" default-expand-all :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-      <el-table-column prop="date" label="菜单名称" sortable width="180"></el-table-column>
-      <el-table-column prop="date" label="图标" sortable width="180"></el-table-column>
-      <el-table-column prop="date" label="路径" sortable width="180"></el-table-column>
-      <el-table-column prop="date" label="排序" sortable width="180"></el-table-column>
-      <el-table-column prop="date" label="路由名称" sortable width="180"></el-table-column>
+    <el-table :data="menuList" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+      <el-table-column prop="name" label="菜单名称" sortable width="180"></el-table-column>
+      <el-table-column prop="icon" label="图标" sortable width="80">
+        <template slot-scope="scope">
+          <span :class="scope.row.icon"></span>
+        </template>
+      </el-table-column>
+      <el-table-column label="路径" :show-overflow-tooltip="true" sortable width="180">
+        <template slot-scope="scope">
+          <span v-if="!scope.row.component">Menu no path</span>
+          <span v-else>{{scope.row.path + '/' + url(scope.row.component)}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="路由名称" :show-overflow-tooltip="true" sortable width="180">
+        <template slot-scope="scope">
+          <span v-if="scope.row.component">{{scope.row.component}}</span>
+          <span v-else>No route for menu</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="enabled" label="可见" sortable width="100"></el-table-column>
+      <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" sortable width="150"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button size="mini">编辑</el-button>
-          <el-button size="mini" type="danger">删除</el-button>
+          <el-button size="mini" @click="append(scope.row)">编辑</el-button>
+          <el-button size="mini" type="primary" @click="modify(scope.row)">增加</el-button>
+          <el-button size="mini" type="danger" @click="remove(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 添加路由弹框 -->
-    <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData"
+    <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData" :menuList="menuList"
                 :nodeSort="nodeSort" :nodeModify="nodeModify" v-on:closeDialogAddMenu="closeDialogAddMenu"
-                v-on:addMenu="addMenu" v-on:updateMenu="updateMenu"></v-add-menu>
+                v-on:addMenu="addMenu" v-on:updateMenu="updateMenu" :addOrEdit="addOrEdit"></v-add-menu>
   </div>
 </template>
 
 <script>
 import vAddMenu from '@/components/authority/menu/AddMenu'
+import lineUtil from '@/utils/humpToLine'
 
 export default {
   name: 'AuthorityMenu',
@@ -105,18 +123,19 @@ export default {
       nodeData: {},
       node: '',
       nodeSort: 0,
+      addOrEdit: false,
       nodeModify: {},
       currentKey: Number,
       checkUrlList: []
     }
   },
   mounted () {
-    this.$api.httpGet(this.$url.AuthorityMenu.load).then(res => {
+    this.$api.request(this.$url.AuthorityMenu.load).then(res => {
       if (res.code === 0) {
         this.menuList = res.data
       }
     });
-    this.$api.httpGet(this.$url.AuthorityMenuUrl.load).then(res => {
+    this.$api.request(this.$url.AuthorityMenuUrl.load).then(res => {
       if (res.code === 0) {
         this.urlList = res.data
       }
@@ -129,15 +148,21 @@ export default {
     }
   },
   methods: {
-    append (node, data) { // 添加菜单
-      if (Number(node.data.pid) === 0 || Number(node.parent.data.pid) === 0) {
-        this.isMenuProp = false; // 是否是添加一级菜单
-        this.dialog(); // 开关添加菜单弹窗
-        this.nodeData = data;
-        this.nodeModify = {} // 用于修改菜单时给子路由传值
-      } else {
-        this.$message.warning('最多添加两级菜单');
-      }
+    url (str) {
+      return lineUtil.line(str)
+    },
+    append (row) { // 添加菜单
+      this.addOrEdit = false
+      this.nodeData = row
+      this.dialog()
+      // if (Number(node.data.pid) === 0 || Number(node.parent.data.pid) === 0) {
+      //   this.isMenuProp = false; // 是否是添加一级菜单
+      //   this.dialog(); // 开关添加菜单弹窗
+      //   this.nodeData = data;
+      //   this.nodeModify = {} // 用于修改菜单时给子路由传值
+      // } else {
+      //   this.$message.warning('最多添加两级菜单');
+      // }
     },
 
     addMenu (menu) {
@@ -158,26 +183,28 @@ export default {
     },
 
     modify (data) { // 修改菜单
-      data.component ? this.isMenuProp = false : this.isMenuProp = true
+      //data.component ? this.isMenuProp = false : this.isMenuProp = true
+      this.addOrEdit = true
+      this.nodeData = data
       this.dialog();
-      this.nodeModify = data // 修改菜单信息数据
+      //this.nodeModify = data // 修改菜单信息数据
     },
 
     dialog () {
       this.dialogAddMenu = !this.dialogAddMenu
     },
 
-    remove (node, data) { // 删除菜单
+    remove (data) { // 删除菜单
       this.$confirm(data.pid === 0 ? '删除所有子菜单吗？' : '是否删除该菜单？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        let arr = [data.id];
-        if (data.pid === 0) {
-          this.delMenu(arr, data)
-        }
-        this.$api.httpPost(this.$url.AuthorityMenu.delete, { menuIdList: arr }).then(res => {
+        // let arr = [data.id];
+        // if (data.pid === 0) {
+        //   this.delMenu(arr, data)
+        // }
+        this.$api.request(this.$url.AuthorityMenu.delete, this.$method.post, { menuIdList: arr }).then(res => {
           if (res && res.code === 0) {
             const parent = node.parent;
             const children = parent.data.children || parent.data;

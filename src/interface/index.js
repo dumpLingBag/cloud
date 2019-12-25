@@ -1,18 +1,18 @@
 import axios from '@/http/api'
 
-export const httpGet = (url) => {
+export const httpGet = (url, method) => {
   return axios({
     url: url,
-    method: 'get'
+    method: method ? method : 'get'
   })
 }
 
-export const httpPost = (url, data) => {
+export const request = (url, method, data) => {
   return axios({
     url: url,
-    method: 'post',
+    method: method ? method : 'get',
     data: data || {}
   })
 }
 
-export default { httpGet, httpPost }
+export default { httpGet, request }
