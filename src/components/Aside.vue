@@ -9,16 +9,13 @@
           <span>饺子包</span>
         </div>
         <template v-for="item in this.routes">
-          <el-submenu :index="item.id+''" :key="item.id" v-if="item.children.length > 0">
+          <el-submenu :index="item.id+''" :key="item.id" v-if="item && item.children">
             <template slot="title">
               <i :class="item.icon ? item.icon : 'el-icon-location'"></i>
               <span slot="title">{{ item.name }}</span>
             </template>
             <template v-for="group in item.children">
-              <el-menu-item :index="group.path +'/'+ url(group.component)" :key="group.id" v-if="group.children.length <= 0">
-                <i :class="group.icon"></i>{{ group.name }}
-              </el-menu-item>
-              <el-submenu :index="group.path + '/' + url(group.component)" :key="group.id" v-else>
+              <el-submenu :index="group.path + '/' + url(group.component)" :key="group.id" v-if="group && group.children">
                 <template slot="title">
                   <i :class="group.icon ? group.icon : 'el-icon-location'"></i>
                   <span slot="title">{{ group.name }}</span>
@@ -27,6 +24,9 @@
                   <i :class="sub.icon ? sub.icon : 'el-icon-location'"></i>{{ sub.meta.title }}
                 </el-menu-item>
               </el-submenu>
+              <el-menu-item :index="group.path +'/'+ url(group.component)" :key="group.id" v-else>
+                <i :class="group.icon"></i>{{ group.name }}
+              </el-menu-item>
             </template>
           </el-submenu>
           <el-menu-item :index="item.path + '/' + url(item.component)" class="single" :key="item.id" v-else>

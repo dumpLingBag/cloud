@@ -66,11 +66,12 @@ const setRoutes = (routes) => {
   let children = routes.children
   if (children && children.length > 0) {
     for (let i = 0; i < children.length; i++) {
-      if (children[i].component) {
-        fmRoutes[0].children.push(routers(children[i]))
+      let child = children[i]
+      if (child && child.component) {
+        fmRoutes[0].children.push(routers(child))
       }
-      if (children[i].children.length > 0) {
-        setRoutes(children[i])
+      if (child && child.children) {
+        setRoutes(child)
       }
     }
   } else {

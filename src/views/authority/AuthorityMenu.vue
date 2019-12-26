@@ -73,10 +73,14 @@
           <span v-else>No route for menu</span>
         </template>
       </el-table-column>
-      <el-table-column prop="enabled" label="可见" sortable width="100"></el-table-column>
+      <el-table-column prop="enabled" label="可见" sortable width="100">
+        <template slot-scope="scope">
+          {{scope.row.enabled === 0 ? '可见' : '隐藏'}}
+        </template>
+      </el-table-column>
       <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable width="200"></el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" fixed="right" width="220">
         <template slot-scope="scope">
           <el-button size="mini" @click="append(scope.row)">编辑</el-button>
           <el-button size="mini" type="primary" @click="modify(scope.row)">增加</el-button>

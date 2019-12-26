@@ -4,16 +4,17 @@
                @closed="closed" :before-close="handleClose" :append-to-body="true">
       <el-form ref="menu" :model="menu" :rules="rules" label-width="80px">
         <el-form-item label="上级菜单">
+            <treeselect v-model="menu.id" :show-count="true" placeholder="请选择上级菜单" :options="menuList"></treeselect>
           <!--<el-input :placeholder="topMenu" @focus="show" @blur="hide" v-model="filterText"></el-input>-->
-          <div class="tree-border">
-              <treeselect v-model="topMenu" label="name" :multiple="true" :options="menuList"></treeselect>
-            <vue-scroll>
+<!--          <div class="tree-border">-->
+
+<!--            <vue-scroll>-->
 
 <!--              <el-tree class="filter-tree" :data="menuList" :props="defaultProps" style="max-height: 200px"-->
 <!--                       :filter-node-method="filterNode" ref="tree">-->
 <!--              </el-tree>-->
-            </vue-scroll>
-          </div>
+<!--            </vue-scroll>-->
+<!--          </div>-->
         </el-form-item>
         <el-form-item label="菜单类型" prop="menuType">
           <el-radio-group v-model="menu.menuType" size="medium">
@@ -60,13 +61,13 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
   name: 'AddMenu',
-  watch: {
-    filterText(val) {
-      this.$nextTick(() => {
-        this.$refs.tree.filter(val);
-      })
-    }
-  },
+  // watch: {
+  //   filterText(val) {
+  //     this.$nextTick(() => {
+  //       this.$refs.tree.filter(val);
+  //     })
+  //   }
+  // },
   components: { Treeselect },
   data () {
     return {
@@ -77,7 +78,7 @@ export default {
         component: '',
         icon: ''
       },
-      topMenu: '',
+      topMenu: null,
       visible: false,
       iconList: [],
       filterText: '',
@@ -192,6 +193,7 @@ export default {
     },
 
     open () {
+        console.log('menu', this.menuList)
       console.log('node', this.nodeData)
       if (this.nodeData.id) {
         if (this.nodeData.component) {
