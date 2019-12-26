@@ -9,6 +9,7 @@
     "cloud": "vue-cli-service build --mode cloud"
   },
   "dependencies": {
+    "@riophae/vue-treeselect": "^0.4.0",
     "core-js": "^2.6.5",
     "js-md5": "^0.7.3",
     "nprogress": "^0.2.0",

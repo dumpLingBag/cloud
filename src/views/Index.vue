@@ -12,7 +12,9 @@
           'border-radius' : '0.3rem', 'overflow' : 'auto'}">
             <transition name="move" mode="out-in">
               <keep-alive :include="tagList">
-                <router-view></router-view>
+                <vue-scroll>
+                  <router-view></router-view>
+                </vue-scroll>
               </keep-alive>
             </transition>
         </el-main>

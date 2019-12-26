@@ -75,7 +75,7 @@
       </el-table-column>
       <el-table-column prop="enabled" label="可见" sortable width="100"></el-table-column>
       <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" sortable width="150"></el-table-column>
+      <el-table-column prop="createTime" label="创建时间" sortable width="200"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" @click="append(scope.row)">编辑</el-button>
@@ -204,15 +204,15 @@ export default {
         // if (data.pid === 0) {
         //   this.delMenu(arr, data)
         // }
-        this.$api.request(this.$url.AuthorityMenu.delete, this.$method.post, { menuIdList: arr }).then(res => {
-          if (res && res.code === 0) {
-            const parent = node.parent;
-            const children = parent.data.children || parent.data;
-            const index = children.findIndex(d => d.id === data.id);
-            children.splice(index, 1);
-            this.$message.success('删除成功!')
-          }
-        })
+        // this.$api.request(this.$url.AuthorityMenu.delete, this.$method.post, { menuIdList: arr }).then(res => {
+        //   if (res && res.code === 0) {
+        //     const parent = node.parent;
+        //     const children = parent.data.children || parent.data;
+        //     const index = children.findIndex(d => d.id === data.id);
+        //     children.splice(index, 1);
+        //     this.$message.success('删除成功!')
+        //   }
+        // })
       }).catch(() => {
         this.$message.info('取消删除!')
       })

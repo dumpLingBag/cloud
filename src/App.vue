@@ -27,5 +27,5 @@ export default {
   .el-right{float: right;}
   input:-webkit-autofill {-webkit-box-shadow: 0 0 0 1000px white inset;}
   .radius {background: #ffffff;border-radius: 0.3rem;box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);-webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
-  .abs{position: absolute;bottom: 0;top:0;}
+  /*.abs{position: absolute;bottom: 0;top:0;}*/
 </style>

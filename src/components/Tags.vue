@@ -59,13 +59,6 @@ export default {
   },
   mounted () {
     this.addViewTags();
-    const li = window.document.getElementsByClassName('tags-li');
-    const home = window.document.getElementsByClassName('tags-home');
-    if (li.length > 0) {
-      this.tagsWidth = this.tagsWidth + li[0].offsetWidth + home[0].offsetWidth
-    }
-    const title = window.document.getElementsByClassName('tags-title');
-    this.tagsTitleWidth = title[0].clientWidth
   },
   methods: {
     go (path) {

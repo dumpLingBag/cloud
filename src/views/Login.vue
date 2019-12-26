@@ -58,8 +58,7 @@ export default {
           this.loading = !this.loading;
           const obj = { account: this.login.account };
           obj.password = md5(this.login.password);
-          this.$api.httpPost(this.$url.Login.login, this.$qs.stringify(obj)).then(res => {
-            console.log('登录', res)
+          this.$api.request(this.$url.Login.login, this.$method.post, this.$qs.stringify(obj)).then(res => {
             if (res.code === 0) {
               if (res.data !== '') {
                 localStorage.token = res.data.token;

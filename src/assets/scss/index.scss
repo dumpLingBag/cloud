@@ -5,7 +5,7 @@
     height: 100%;
     display: flex;
     z-index: 2;
-    padding: 0 15px!important;
+    /*padding: 0 15px!important;*/
     color: #565656!important;
     background-color: #ffffff!important;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -39,6 +39,7 @@
     }
     .el-menu-vertical-demo:not(.el-menu--collapse) {
       width: 230px;
+      padding: 0 15px!important;
     }
     .el-menu {
       border-right: none;
