@@ -75,22 +75,22 @@
       </el-table-column>
       <el-table-column prop="enabled" label="可见" sortable width="100">
         <template slot-scope="scope">
-          {{scope.row.enabled === 0 ? '可见' : '隐藏'}}
+          {{String(scope.row.enabled) === '0' ? '可见' : '隐藏'}}
         </template>
       </el-table-column>
       <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
       <el-table-column prop="createTime" label="创建时间" sortable width="200"></el-table-column>
-      <el-table-column label="操作" fixed="right" width="220">
+      <el-table-column label="操作" fixed="right">
         <template slot-scope="scope">
-          <el-button size="mini" @click="append(scope.row)">编辑</el-button>
-          <el-button size="mini" type="primary" @click="modify(scope.row)">增加</el-button>
+          <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
+          <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>
           <el-button size="mini" type="danger" @click="remove(scope.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <!-- 添加路由弹框 -->
     <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData" :menuList="menuList"
-                :nodeSort="nodeSort" :nodeModify="nodeModify" v-on:closeDialogAddMenu="closeDialogAddMenu"
+                :nodeModify="nodeModify" v-on:closeDialogAddMenu="closeDialogAddMenu"
                 v-on:addMenu="addMenu" v-on:updateMenu="updateMenu" :addOrEdit="addOrEdit"></v-add-menu>
   </div>
 </template>
@@ -124,7 +124,18 @@ export default {
       },
       dialogAddMenu: false, // 是否显示添加菜单弹框
       isMenuProp: false, // 不同层级菜单校验字段不一致
-      nodeData: {},
+      nodeData: {
+        auth: '',
+        enabled: '',
+        icon: '',
+        id: '',
+        label: '',
+        menuType: '',
+        name: '',
+        path: '',
+        pid: '',
+        sort: ''
+      },
       node: '',
       nodeSort: 0,
       addOrEdit: false,
@@ -155,18 +166,34 @@ export default {
     url (str) {
       return lineUtil.line(str)
     },
-    append (row) { // 添加菜单
-      this.addOrEdit = false
-      this.nodeData = row
+    append (data) { // 添加菜单
+      this.addOrEdit = true
+      Object.keys(this.nodeData).forEach(key => {
+        if (key === 'enabled' || key === 'menuType') {
+          this.nodeData[key] = '0'
+        } else {
+          if (key === 'id') {
+            this.nodeData[key] = data[key]
+          } else {
+            this.nodeData[key] = ''
+          }
+        }
+      })
+      let children = data.children
+      this.nodeData.sort = children && children.length > 0 ? children.length + 1 : 0;
       this.dialog()
-      // if (Number(node.data.pid) === 0 || Number(node.parent.data.pid) === 0) {
-      //   this.isMenuProp = false; // 是否是添加一级菜单
-      //   this.dialog(); // 开关添加菜单弹窗
-      //   this.nodeData = data;
-      //   this.nodeModify = {} // 用于修改菜单时给子路由传值
-      // } else {
-      //   this.$message.warning('最多添加两级菜单');
-      // }
+    },
+
+    keysNode(data) {
+      Object.keys(this.nodeData).forEach(key => {
+        if (key !== 'children' && key !== 'meta') {
+          if (key === 'enabled' || key === 'menuType') {
+            this.nodeData[key] = String(data[key])
+          } else {
+            this.nodeData[key] = data[key]
+          }
+        }
+      })
     },
 
     addMenu (menu) {
@@ -187,11 +214,9 @@ export default {
     },
 
     modify (data) { // 修改菜单
-      //data.component ? this.isMenuProp = false : this.isMenuProp = true
-      this.addOrEdit = true
-      this.nodeData = data
+      this.addOrEdit = false
+      this.keysNode(data)
       this.dialog();
-      //this.nodeModify = data // 修改菜单信息数据
     },
 
     dialog () {

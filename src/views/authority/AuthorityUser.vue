@@ -91,7 +91,7 @@ export default {
   methods: {
     // 分页获取用户数据
     pageList (data) {
-      this.$api.httpPost(this.$url.AuthorityUser.pageList, httpData(data)).then(res => {
+      this.$api.request(this.$url.AuthorityUser.pageList, this.$method.post, httpData(data)).then(res => {
         if (res.code === 0) {
             if (res.data && res.data.records) {
               this.userList = res.data.records;
@@ -104,7 +104,7 @@ export default {
     },
     // 获取对应角色信息
     getRoleList () {
-      this.$api.httpGet(this.$url.AuthorityRole.loadByPid).then(res => {
+      this.$api.request(this.$url.AuthorityRole.loadByPid).then(res => {
         if (res.code === 0) {
           this.roleList = res.data
         }
@@ -133,7 +133,7 @@ export default {
     userRole (row) {
       this.userId = row.id;
       this.dialogRole = !this.dialogRole;
-      this.$api.httpGet(this.$url.AuthorityUserRole.load + '?userId=' + row.id).then(res => {
+      this.$api.request(this.$url.AuthorityUserRole.load + '?userId=' + row.id).then(res => {
         if (res.code === 0) {
           this.selectRole = [];
           this.selectAddRoleValue = res.data;
@@ -181,7 +181,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.httpGet(this.$url.AuthorityUser.delete + '/' + row.id).then(res => {
+        this.$api.request(this.$url.AuthorityUser.delete + '/' + row.id).then(res => {
           if (res.code === 0) {
             this.$message.success('删除用户成功');
             this.pageList(this.page)
@@ -198,7 +198,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.httpGet(this.$url.AuthorityUser.resetPassword + '/' + row.id).then(res => {
+        this.$api.request(this.$url.AuthorityUser.resetPassword + '/' + row.id).then(res => {
           if (res.code === 0) {
             this.$message.success('重置密码成功')
           }
@@ -214,7 +214,7 @@ export default {
     currentChange (currentPage) {
       this.loading = !this.loading;
       this.page.currentPage = currentPage ? currentPage : 1;
-      this.$api.httpPost(this.$url.AuthorityUser.pageList, httpData(this.page)).then(res => {
+      this.$api.request(this.$url.AuthorityUser.pageList, this.$method.post, httpData(this.page)).then(res => {
         if (res.code === 0) {
           if (res.data && res.data.records) {
               this.userList = res.data.records;
@@ -233,7 +233,7 @@ export default {
         this.$message.warning('禁止修改超级管理员状态')
       } else {
         const enable = row.enable === 1 ? 0 : 1;
-        this.$api.httpGet(this.$url.AuthorityUser.enable + '/' + row.id + '/' + enable).then(res => {
+        this.$api.request(this.$url.AuthorityUser.enable + '/' + row.id + '/' + enable).then(res => {
           if (res.code === 0) {
             this.currentChange(this.page.currentPage)
           } else {
@@ -270,7 +270,7 @@ export default {
       } else {
         obj = obj.concat(this.diffRole(this.selectRole, 1, true))
       }
-      this.$api.httpPost(this.$url.AuthorityUserRole.update, { userId: this.userId, roleId: obj }).then(res => {
+      this.$api.request(this.$url.AuthorityUserRole.update, this.$method.post, { userId: this.userId, roleId: obj }).then(res => {
         if (res.code === 0) {
           this.$notify({
             title: '成功',

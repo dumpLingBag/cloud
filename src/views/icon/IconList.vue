@@ -3,7 +3,7 @@
     <div class="tips">阿里图标库</div>
     <vue-scroll>
       <div :style="{ 'max-height': maxHeight+'px' }">
-        <ul class="icon-list">
+        <ul class="icon-ul">
           <li v-for="item in icon" :key="item.id" v-clipboard:copy="item.icon" v-clipboard:success="onCopy"
               v-clipboard:error="onError">
             <el-popover placement="top-start" width="200" trigger="hover"
@@ -54,7 +54,7 @@ export default {
 
 <style lang="scss">
   .icon{
-    .icon-list{
+    .icon-ul{
       overflow: hidden;
       border: 1px solid #eaeefb;
       border-radius: 4px;
@@ -98,9 +98,6 @@ export default {
           transform: scale(1.4);
         }
       }
-    }
-    .icon-list:before {
-      content: none;
     }
   }
 </style>
