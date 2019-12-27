@@ -39,8 +39,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="24" v-if="nodeData.menuType === '1' || nodeData.menuType === '2'">
-            <el-form-item label="权限标识" :prop="isMenuProp ? '' : 'component'">
-              <el-input v-model="nodeData.component" placeholder="路由文件具体名称"></el-input>
+            <el-form-item label="权限标识" :prop="isMenuProp ? '' : 'authority'">
+              <el-input v-model="nodeData.authority" placeholder="权限标识"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="24" v-if="nodeData.menuType !== '2'">
@@ -81,7 +81,6 @@ export default {
   components: { Treeselect },
   data () {
     return {
-      // 暂时没有数据
       menu: {},
       topMenu: null,
       visible: false,
@@ -98,6 +97,9 @@ export default {
         ],
         icon: [
           { required: true, message: '请选择菜单图标', target: 'blur' }
+        ],
+        authority: [
+          { required: true, message: '请输入权限标识', target: 'blur' }
         ]
       }
     }
@@ -126,41 +128,55 @@ export default {
     addMenu (menu) {
       this.$refs[menu].validate((valid) => {
         if (valid) {
-          let url = '';
-          if (this.isMenuProp) {
-            if (this.nodeModify.id) {
-              url = this.$url.AuthorityMenu.update;
-              this.menuUpdate()
-            } else {
-              this.menu.sort = this.nodeSort;
-              this.menu.pid = 0;
-              url = this.$url.AuthorityMenu.save
-            }
-          } else {
-            if (this.nodeModify.id) {
-              url = this.$url.AuthorityMenu.update;
-              this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
-              this.menuUpdate()
-            } else {
-              url = this.$url.AuthorityMenu.save;
-              this.menu.pid = this.nodeData.id;
-              this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
-              const len = this.nodeData.children.length;
-              this.menu.sort = len && len > 0 ? len : 0
-            }
+          let url = this.$url.AuthorityMenu.update
+          if (this.addOrEdit) { // 添加菜单
+            this.nodeData.pid = this.nodeData.id
+            this.nodeData.id = ''
+            url = this.$url.AuthorityMenu.save
           }
-          this.$api.request(url, this.$method.post, this.menu).then(res => {
+          this.$api.request(url, this.$method.post, this.nodeData).then(res => {
             if (res.code === 0) {
-              if (this.nodeModify.id) {
-                this.$emit('updateMenu', this.menu)
-              } else {
-                this.$emit('addMenu', this.menu)
-              }
+              this.$emit('update', this.nodeData)
               this.closeDialogAddMenu()
             }
           }).catch(() => {
-            this.$message.warning(this.nodeModify.id ? '菜单更新失败' : '菜单添加失败')
+            this.$message.warning(this.nodeData.id ? '菜单更新失败' : '菜单添加失败')
           })
+          // let url = '';
+          // if (this.isMenuProp) {
+          //   if (this.nodeModify.id) {
+          //     url = this.$url.AuthorityMenu.update;
+          //     this.menuUpdate()
+          //   } else {
+          //     this.menu.sort = this.nodeSort;
+          //     this.menu.pid = 0;
+          //     url = this.$url.AuthorityMenu.save
+          //   }
+          // } else {
+          //   if (this.nodeModify.id) {
+          //     url = this.$url.AuthorityMenu.update;
+          //     this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
+          //     this.menuUpdate()
+          //   } else {
+          //     url = this.$url.AuthorityMenu.save;
+          //     this.menu.pid = this.nodeData.id;
+          //     this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
+          //     const len = this.nodeData.children.length;
+          //     this.menu.sort = len && len > 0 ? len : 0
+          //   }
+          // }
+          // this.$api.request(url, this.$method.post, this.menu).then(res => {
+          //   if (res.code === 0) {
+          //     if (this.nodeModify.id) {
+          //       this.$emit('updateMenu', this.menu)
+          //     } else {
+          //       this.$emit('addMenu', this.menu)
+          //     }
+          //     this.closeDialogAddMenu()
+          //   }
+          // }).catch(() => {
+          //   this.$message.warning(this.nodeModify.id ? '菜单更新失败' : '菜单添加失败')
+          // })
         } else {
           return false
         }

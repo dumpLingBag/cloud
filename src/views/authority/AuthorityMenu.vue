@@ -125,7 +125,7 @@ export default {
       dialogAddMenu: false, // 是否显示添加菜单弹框
       isMenuProp: false, // 不同层级菜单校验字段不一致
       nodeData: {
-        auth: '',
+        component: '',
         enabled: '',
         icon: '',
         id: '',
@@ -134,7 +134,8 @@ export default {
         name: '',
         path: '',
         pid: '',
-        sort: ''
+        sort: '',
+        authority: ''
       },
       node: '',
       nodeSort: 0,
