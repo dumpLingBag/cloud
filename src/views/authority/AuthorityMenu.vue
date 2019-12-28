@@ -146,16 +146,7 @@ export default {
     }
   },
   mounted () {
-    this.$api.request(this.$url.AuthorityMenu.load).then(res => {
-      if (res.code === 0) {
-        this.menuList = res.data
-      }
-    });
-    this.$api.request(this.$url.AuthorityMenuUrl.load).then(res => {
-      if (res.code === 0) {
-        this.urlList = res.data
-      }
-    })
+    this.loadMenu()
   },
   computed: {
     treeHeight () {
@@ -164,6 +155,13 @@ export default {
     }
   },
   methods: {
+    loadMenu() {
+      this.$api.request(this.$url.AuthorityMenu.load).then(res => {
+        if (res.code === 0) {
+          this.menuList = res.data
+        }
+      })
+    },
     url (str) {
       return lineUtil.line(str)
     },
@@ -197,21 +195,9 @@ export default {
       })
     },
 
-    addMenu (menu) {
-      if (this.isMenuProp) {
-        this.menuList.push({ id: menu.id, name: menu.name, path: menu.path, icon: menu.icon, children: [] })
-      } else {
-        this.nodeData.children.push({ id: menu.id, name: menu.name, path: menu.path, icon: menu.icon, children: [] })
-      }
-      this.$message.success('菜单添加成功')
-    },
-
-    updateMenu (menu) { // 暂时通过重新加载菜单的方式来显示修改状态
-      this.nodeModify.name = menu.name;
-      this.nodeModify.icon = menu.icon;
-      this.nodeModify.component = menu.component;
-      this.nodeModify.path = menu.path
-      this.$message.success('菜单更新成功')
+    updateMenu (tips) { // 暂时通过重新加载菜单的方式来显示修改状态
+      this.$message.success(tips)
+      this.loadMenu()
     },
 
     modify (data) { // 修改菜单
@@ -225,35 +211,33 @@ export default {
     },
 
     remove (data) { // 删除菜单
-      this.$confirm(data.pid === 0 ? '删除所有子菜单吗？' : '是否删除该菜单？', '提示', {
+      this.$confirm(String(data.pid) === '0' ? '删除所有子菜单吗？' : '是否删除该菜单？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        // let arr = [data.id];
-        // if (data.pid === 0) {
-        //   this.delMenu(arr, data)
-        // }
-        // this.$api.request(this.$url.AuthorityMenu.delete, this.$method.post, { menuIdList: arr }).then(res => {
-        //   if (res && res.code === 0) {
-        //     const parent = node.parent;
-        //     const children = parent.data.children || parent.data;
-        //     const index = children.findIndex(d => d.id === data.id);
-        //     children.splice(index, 1);
-        //     this.$message.success('删除成功!')
-        //   }
-        // })
+        let array = [data.id]
+        if (String(data.pid) === '0') {
+          this.delMenu(array, data)
+        }
+        this.$api.request(this.$url.AuthorityMenu.delete, this.$method.delete, {menuIdList: array}).then(res => {
+          if (res.code === 0) {
+            this.$message.success('删除成功!')
+            this.loadMenu()
+          }
+        })
       }).catch(() => {
         this.$message.info('取消删除!')
       })
     },
 
-    delMenu (arr, data) { // 递归将要删除的菜单及子菜单添加到数组中
-      if (data) {
+    delMenu (array, data) { // 递归将要删除的菜单及子菜单添加到数组中
+      if (data && data.children) {
         for (let i = 0; i < data.children.length; i++) {
-          arr.push(data.children[i].id);
-          if (data.children[i].children.length > 0) {
-            this.delMenu(data.children[i].children)
+          array.push(data.children[i].id);
+          let children = data.children[i]
+          if (children.children && children.children.length > 0) {
+            this.delMenu(children.children)
           }
         }
       }
@@ -408,10 +392,6 @@ export default {
         }
         return arr
       }
-    },
-
-    menuNodeDrop (before, after, inner) {
-      console.log(before,after,inner)
     }
   }
 }

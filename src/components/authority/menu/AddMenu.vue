@@ -108,7 +108,6 @@ export default {
     dialogAddMenu: Boolean,
     isMenuProp: Boolean,
     nodeData: Object,
-    nodeModify: Object,
     addOrEdit: Boolean,
     menuList: Array
   },
@@ -119,10 +118,6 @@ export default {
 
     closeDialogAddMenu () {
       this.$emit('closeDialogAddMenu', false)
-    },
-
-    sortChange () {
-
     },
 
     addMenu (menu) {
@@ -136,57 +131,16 @@ export default {
           }
           this.$api.request(url, this.$method.post, this.nodeData).then(res => {
             if (res.code === 0) {
-              this.$emit('update', this.nodeData)
+              this.$emit('updateMenu', this.addOrEdit ? '添加菜单成功' : '更新菜单成功')
               this.closeDialogAddMenu()
             }
           }).catch(() => {
             this.$message.warning(this.nodeData.id ? '菜单更新失败' : '菜单添加失败')
           })
-          // let url = '';
-          // if (this.isMenuProp) {
-          //   if (this.nodeModify.id) {
-          //     url = this.$url.AuthorityMenu.update;
-          //     this.menuUpdate()
-          //   } else {
-          //     this.menu.sort = this.nodeSort;
-          //     this.menu.pid = 0;
-          //     url = this.$url.AuthorityMenu.save
-          //   }
-          // } else {
-          //   if (this.nodeModify.id) {
-          //     url = this.$url.AuthorityMenu.update;
-          //     this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
-          //     this.menuUpdate()
-          //   } else {
-          //     url = this.$url.AuthorityMenu.save;
-          //     this.menu.pid = this.nodeData.id;
-          //     this.menu.icon = 'iconfont icon-xingzhuang-tuoyuanxing';
-          //     const len = this.nodeData.children.length;
-          //     this.menu.sort = len && len > 0 ? len : 0
-          //   }
-          // }
-          // this.$api.request(url, this.$method.post, this.menu).then(res => {
-          //   if (res.code === 0) {
-          //     if (this.nodeModify.id) {
-          //       this.$emit('updateMenu', this.menu)
-          //     } else {
-          //       this.$emit('addMenu', this.menu)
-          //     }
-          //     this.closeDialogAddMenu()
-          //   }
-          // }).catch(() => {
-          //   this.$message.warning(this.nodeModify.id ? '菜单更新失败' : '菜单添加失败')
-          // })
         } else {
           return false
         }
       })
-    },
-
-    menuUpdate () {
-      this.menu.id = this.nodeModify.id;
-      this.menu.pid = this.nodeModify.pid;
-      this.menu.sort = this.nodeModify.sort
     },
 
     open () {

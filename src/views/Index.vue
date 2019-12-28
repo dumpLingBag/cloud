@@ -10,13 +10,13 @@
         <v-password :dialogPassword="dialogPassword" v-on:closePasswordDialog="passwordDialog"></v-password>
         <el-main :style="{left: collapse ? '100px' : '280px', top: tagsTop ? '135px' : '90px',
           'border-radius' : '0.3rem', 'overflow' : 'auto'}">
-            <transition name="move" mode="out-in">
+          <vue-scroll>
+            <transition name="move-main" mode="out-in">
               <keep-alive :include="tagList">
-                <vue-scroll>
-                  <router-view></router-view>
-                </vue-scroll>
+                <router-view></router-view>
               </keep-alive>
             </transition>
+          </vue-scroll>
         </el-main>
       </el-container>
     </el-container>
@@ -85,14 +85,14 @@ export default {
 
 <style lang="scss">
   @import '~@/assets/scss/index';
-  .move-enter-active,.move-leave-active {
+  .move-main-enter-active,.move-main-leave-active {
     transition: all .5s;
   }
-  .move-enter {
+  .move-main-enter {
     opacity: 0;
     transform: translateX(-30px);
   }
-  .move-leave-to {
+  .move-main-leave-to {
     opacity: 0;
     transform: translateX(30px);
   }

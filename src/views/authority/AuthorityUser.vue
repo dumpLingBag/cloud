@@ -6,7 +6,7 @@
     <v-role-user :selectRole="selectRole" :roleList="roleList" :dialogRole="dialogRole"
     v-on:dialogAddRole="dialogAddRole" v-on:closeDialogRole="closeDialogRole"></v-role-user>
     <div class="user-main vue-padding radius">
-      <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" max-height="250" style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed width="55"></el-table-column>
         <el-table-column prop="username" label="账号" ></el-table-column>
         <el-table-column prop="nickname" label="名称" ></el-table-column>

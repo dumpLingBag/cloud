@@ -4,8 +4,6 @@
     position: fixed;
     height: 100%;
     display: flex;
-    z-index: 2;
-    /*padding: 0 15px!important;*/
     color: #565656!important;
     background-color: #ffffff!important;
     -webkit-touch-callout: none; /* iOS Safari */
@@ -139,7 +137,6 @@
     bottom: 15px;
     left: 280px;
     right: 20px;
-    z-index: 3;
     width: auto;
     padding: 0;
     overflow: hidden;

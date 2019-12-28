@@ -189,8 +189,6 @@ export default {
       line-height: 40px;
       text-align: center;
       cursor: pointer;
-      transition: all .3s ease-in-out;
-      -webkit-transition: all .3s ease-in-out;
       box-sizing: border-box;
     }
     .tags{
@@ -202,8 +200,8 @@ export default {
         padding: 5px 0;
         position: relative;
         white-space: nowrap;
-        transition: all .5s;
-        -webkit-transition: all .5s;
+        transition: all .3s;
+        -webkit-transition: all .3s;
         height: 30px;
         line-height: 30px;
         .tags-li>.tags-name{
@@ -259,15 +257,14 @@ export default {
       }
     }
     .move-enter-active,.move-leave-active {
-      transition: all .3s;
+      transition: all .3s ease;
     }
     .move-enter {
-      opacity: 0;
-      transform: translateX(-20px);
+      transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }
     .move-leave-to {
+      transform: translateX(10px);
       opacity: 0;
-      transform: translateX(20px);
     }
   }
 </style>

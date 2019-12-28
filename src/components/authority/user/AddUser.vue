@@ -1,6 +1,6 @@
 <template>
     <div class="addUser">
-        <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible.sync="dialogUser" width="50%"
+        <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible.sync="dialogUser" width="40%"
                    @closed="closeDialog" :modal-append-to-body='true' :append-to-body="true">
             <el-form :label-position="labelPosition" :rules="rules" ref="userForm" label-width="80px" :model="userForm">
                 <el-form-item label="用户名称" prop="nickname" :error="error.nickname">
