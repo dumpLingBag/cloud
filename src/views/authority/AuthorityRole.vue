@@ -79,19 +79,19 @@ export default {
   },
   mounted () {
     // 加载角色信息
-    this.$api.httpGet(this.$url.AuthorityRole.load).then(res => {
+    this.$api.request(this.$url.AuthorityRole.load, this.$method.get).then(res => {
       if (res.code === 0) {
         this.roleList = res.data
       }
     });
     // 加载菜单信息
-    this.$api.httpGet(this.$url.AuthorityRoleMenu.load).then(res => {
+    this.$api.request(this.$url.AuthorityRoleMenu.load, this.$method.get).then(res => {
       if (res.code === 0) {
         this.menuList = res.data
       }
     });
     // 加载要过滤的菜单
-    this.$api.httpGet(this.$url.AuthorityMenu.loadByPid).then(res => {
+    this.$api.request(this.$url.AuthorityMenu.loadByPid, this.$method.get).then(res => {
       if (res.code === 0) {
         for (let i = 0; i < res.data.length; i++) {
           this.menuPidList.push(res.data[i].id)
@@ -134,7 +134,8 @@ export default {
 
     loadMenu (data) { // 点击角色加载角色分配菜单
       if (data) {
-        this.$api.httpGet(this.$url.AuthorityRoleMenu.loadMenu + '?roleId=' + data).then(res => {
+        this.$api.request(this.$url.AuthorityRoleMenu.loadMenu + '?roleId=' + data,
+                this.$method.get).then(res => {
           if (res.code === 0) {
             this.$refs.menuTree.setCheckedKeys([]); // 取消菜单的选中
             this.checkMenuList = res.data;
@@ -187,7 +188,7 @@ export default {
         if (data && data.pid === 0) {
           this.delRole(arr, data)
         }
-        this.$api.httpPost(this.$url.AuthorityRole.delete, { roleIdList: arr }).then(res => {
+        this.$api.request(this.$url.AuthorityRole.delete, this.$method.delete, { roleIdList: arr }).then(res => {
           if (res.code === 0) {
             const parent = node.parent;
             const children = parent.data.children || parent.data;
@@ -268,7 +269,7 @@ export default {
               roleList.push({ checked: some ? 0 : 1, menuId: data.id }) // 存在则是禁用菜单，否则启用
             }
           }
-          this.$api.httpPost(this.$url.AuthorityRoleMenu.update, { roleMenu: roleList, roleId: roleId }).then(res => {
+          this.$api.request(this.$url.AuthorityRoleMenu.update, this.$method.put, { roleMenu: roleList, roleId: roleId }).then(res => {
             if (res.code === 0) {
               this.loadMenu(roleId);
               this.$notify({
@@ -312,7 +313,7 @@ export default {
           if (data) {
             if (boo) {
               data.name = value;
-              this.$api.httpPost(this.$url.AuthorityRole.update, data).then(res => {
+              this.$api.request(this.$url.AuthorityRole.update, this.$method.put, data).then(res => {
                 if (res.code === 0) {
                   data.name = value;
                   this.$message.success('角色修改成功')

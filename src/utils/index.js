@@ -4,11 +4,13 @@ export const initMenu = (router, store) => {
   if (store.state.menuList.length > 0) {
     return false
   }
-  getRequest.httpGet('authority/authoritySys/loadForMenu').then(res => {
+  getRequest.request('authority/authoritySys/loadForMenu').then(res => {
     if (res && res.code === 0) {
-      const fmRoutes = formatRoutes(res.data)
-      router.addRoutes(fmRoutes)
-      store.dispatch('initMenuList', res.data)
+      if (res.data && res.data.length > 0) {
+        store.dispatch('initMenuList', res.data)
+        const fmRoutes = formatRoutes(res.data)
+        router.addRoutes(fmRoutes)
+      }
     }
   })
 }

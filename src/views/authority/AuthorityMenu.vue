@@ -55,23 +55,18 @@
 <!--      </div>-->
 <!--    </div>-->
     <el-table :data="menuList" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-      <el-table-column prop="name" label="菜单名称" sortable width="180"></el-table-column>
-      <el-table-column prop="icon" label="图标" sortable width="80">
+      <el-table-column prop="name" label="菜单名称" sortable width="150"></el-table-column>
+      <el-table-column prop="icon" label="图标" sortable width="120">
         <template slot-scope="scope">
           <span :class="scope.row.icon"></span>
         </template>
       </el-table-column>
       <el-table-column label="路径" :show-overflow-tooltip="true" sortable width="180">
         <template slot-scope="scope">
-          <span v-if="!scope.row.component">Menu no path</span>
-          <span v-else>{{scope.row.path + '/' + url(scope.row.component)}}</span>
+          <span v-if="scope.row.path && scope.row.component">{{scope.row.path + '/' + url(scope.row.component)}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="路由名称" :show-overflow-tooltip="true" sortable width="180">
-        <template slot-scope="scope">
-          <span v-if="scope.row.component">{{scope.row.component}}</span>
-          <span v-else>No route for menu</span>
-        </template>
+      <el-table-column label="路由名称" prop="component" :show-overflow-tooltip="true" sortable width="180">
       </el-table-column>
       <el-table-column prop="enabled" label="可见" sortable width="100">
         <template slot-scope="scope">
@@ -79,8 +74,8 @@
         </template>
       </el-table-column>
       <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" sortable width="200"></el-table-column>
-      <el-table-column label="操作" fixed="right">
+      <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
+      <el-table-column label="操作" fixed="right" width="220">
         <template slot-scope="scope">
           <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
           <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>
@@ -90,8 +85,7 @@
     </el-table>
     <!-- 添加路由弹框 -->
     <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData" :menuList="menuList"
-                :nodeModify="nodeModify" v-on:closeDialogAddMenu="closeDialogAddMenu"
-                v-on:addMenu="addMenu" v-on:updateMenu="updateMenu" :addOrEdit="addOrEdit"></v-add-menu>
+    v-on:closeDialogAddMenu="closeDialogAddMenu" v-on:updateMenu="updateMenu" :addOrEdit="addOrEdit"></v-add-menu>
   </div>
 </template>
 
@@ -140,7 +134,6 @@ export default {
       node: '',
       nodeSort: 0,
       addOrEdit: false,
-      nodeModify: {},
       currentKey: Number,
       checkUrlList: []
     }

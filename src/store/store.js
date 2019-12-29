@@ -21,6 +21,7 @@ export default new Vuex.Store({
     LOGIN_OUT (state) {
       window.localStorage.removeItem('user')
       window.localStorage.removeItem('token')
+      state.menuList = []
       state.visitedViews = []
     },
     INIT_FLAG (state, initFlag) {

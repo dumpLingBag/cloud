@@ -129,7 +129,7 @@ export default {
             this.nodeData.id = ''
             url = this.$url.AuthorityMenu.save
           }
-          this.$api.request(url, this.$method.post, this.nodeData).then(res => {
+          this.$api.request(url, this.addOrEdit ? this.$method.post : this.$method.put, this.nodeData).then(res => {
             if (res.code === 0) {
               this.$emit('updateMenu', this.addOrEdit ? '添加菜单成功' : '更新菜单成功')
               this.closeDialogAddMenu()

@@ -30,7 +30,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cancel">取 消</el-button>
-                <el-button type="primary" @click="submitForm('userForm')">确 定</el-button>
+                <el-button type="primary" @click="submitForm('userForm')" :disabled="disabled">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -81,6 +81,7 @@
                     mobile: '',
                     email: ''
                 },
+                disabled: false,
                 labelPosition: 'left',
                 rules: {
                     nickname: [
@@ -122,6 +123,7 @@
             submitForm (formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
+                        this.disabled = true
                         const obj = {};
                         Object.keys(this.userForm).forEach(key => {
                             obj[key] = this.userForm[key]
@@ -131,7 +133,7 @@
                             obj.checkPassword = this.$md5(obj.checkPassword)
                         }
                         if (!this.userForm.id) {
-                            this.$api.httpPost(this.$url.AuthorityUser.addUser, obj).then(res => {
+                            this.$api.request(this.$url.AuthorityUser.addUser, this.$method.post, obj).then(res => {
                                 if (res.code === 0) {
                                     this.$notify({
                                         title: '提示',
@@ -143,9 +145,12 @@
                                 } else {
                                     this.$toolUtil.msg(res, this.error)
                                 }
+                                this.disabled = false
+                            }).catch(() => {
+                                this.disabled = false
                             })
                         } else {
-                            this.$api.httpPost(this.$url.AuthorityUser.editUser, obj).then(res => {
+                            this.$api.request(this.$url.AuthorityUser.editUser, this.$method.put, obj).then(res => {
                                 if (res.code === 0) {
                                     this.$notify({
                                         title: '提示',
@@ -157,6 +162,9 @@
                                 } else {
                                     this.$toolUtil.msg(res, this.error)
                                 }
+                                this.disabled = false
+                            }).catch(() => {
+                                this.disabled = false
                             })
                         }
                     } else {

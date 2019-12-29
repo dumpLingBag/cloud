@@ -56,13 +56,11 @@ router.beforeEach((to, from, next) => {
         next()
     } else {
         if (localStorage.getItem('token')) {
-            if (store.state.initFlag) {
-                initMenu(router, store);
-                store.dispatch('initFlag', false)
-            }
+            initMenu(router, store);
             next()
         } else {
-            router.push('/login')
+            router.push('/login');
+            next()
         }
     }
 });

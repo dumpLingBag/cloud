@@ -47,7 +47,7 @@ export default {
     }
   },
   mounted () {
-    this.$api.httpGet(this.$url.AuthorityCommonUrl.load).then(res => {
+    this.$api.request(this.$url.AuthorityCommonUrl.load, this.$method.get).then(res => {
       if (res.code === 0) {
         this.urlList = res.data
       }
@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     loadOpen () {
-      this.$api.httpGet(this.$url.AuthorityCommonUrl.loadOpen).then(res => {
+      this.$api.request(this.$url.AuthorityCommonUrl.loadOpen, this.$method.get).then(res => {
         if (res.code === 0) {
           this.openUrl = res.data;
           this.openDiffUrl = res.data;
@@ -108,7 +108,7 @@ export default {
           }
         }
       }
-      this.$api.httpPost(this.$url.AuthorityCommonUrl.update, { urlId: obj }).then(res => {
+      this.$api.request(this.$url.AuthorityCommonUrl.update, this.$method.put, { urlId: obj }).then(res => {
         if (res.code === 0) {
           this.loadOpen();
           this.$notify({
