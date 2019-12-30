@@ -306,13 +306,6 @@ export default {
     .el-select{
       width: 100%;
     }
-    .el-tag{
-      cursor: pointer;
-      -moz-user-select: none;
-      -webkit-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
     .times {
       margin-left: 10px;
     }

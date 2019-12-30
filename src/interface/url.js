@@ -32,7 +32,8 @@ export default {
     save: 'authority/authorityMenu/save',
     update: 'authority/authorityMenu/update',
     delete: 'authority/authorityMenu/delete',
-    loadByPid: 'authority/authorityMenu/loadByPid'
+    loadByPid: 'authority/authorityMenu/loadByPid',
+    updateInList: 'authority/authorityMenu/updateInList'
   },
   AuthorityMenuUrl: {
     load: 'authority/authorityMenuUrl/load',

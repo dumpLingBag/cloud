@@ -24,6 +24,8 @@ export default {
   .el-input-height{input{height: 33px;line-height: 33px;width: 150px;}}
   .el-left{float: left;}
   .el-right{float: right;}
+  ::-webkit-scrollbar {display: none;}
   input:-webkit-autofill {-webkit-box-shadow: 0 0 0 1000px white inset;}
   .radius {background: #ffffff;border-radius: 0.3rem;box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);-webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
+  .el-tag{cursor: pointer;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
 </style>

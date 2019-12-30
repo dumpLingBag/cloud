@@ -70,7 +70,9 @@
       </el-table-column>
       <el-table-column prop="enabled" label="可见" sortable width="100">
         <template slot-scope="scope">
-          {{String(scope.row.enabled) === '0' ? '可见' : '隐藏'}}
+          <el-tag size="medium" @click="tagEnabled(scope.$index, scope.row)" :type="String(scope.row.enabled) === '1' ? 'success' : 'warning'">
+            {{String(scope.row.enabled) === '1' ? '可见' : '隐藏'}}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
@@ -162,7 +164,7 @@ export default {
       this.addOrEdit = true
       Object.keys(this.nodeData).forEach(key => {
         if (key === 'enabled' || key === 'menuType') {
-          this.nodeData[key] = '0'
+          this.nodeData[key] = '1'
         } else {
           if (key === 'id') {
             this.nodeData[key] = data[key]
@@ -176,7 +178,7 @@ export default {
       this.dialog()
     },
 
-    keysNode(data) {
+    keysNode (data) {
       Object.keys(this.nodeData).forEach(key => {
         if (key !== 'children' && key !== 'meta') {
           if (key === 'enabled' || key === 'menuType') {
@@ -185,6 +187,30 @@ export default {
             this.nodeData[key] = data[key]
           }
         }
+      })
+    },
+
+    tagEnabled (index, row) {
+      let enabled = String(row.enabled) === '1' ? '0' : '1';
+      let text = enabled === '1' ? '显示' : '隐藏'
+      this.$confirm(String(row.pid) === '0' ? '确定'+text+'所有子菜单吗？' : '确定'+text+'该菜单？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let array = [row.id]
+        if (String(row.pid) === '0') {
+          this.delMenu(array, row)
+        }
+        let obj = { enabled: enabled, menuIdList: array}
+        this.$api.request(this.$url.AuthorityMenu.updateInList, this.$method.put, obj).then(res => {
+          if (res.code === 0) {
+            this.$message.success('菜单状态更新成功')
+            this.loadMenu()
+          }
+        }).catch(() => {
+          this.$message.success('菜单状态更新失败')
+        })
       })
     },
 

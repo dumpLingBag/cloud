@@ -64,4 +64,7 @@ export default {
   .card-table {
     margin-bottom: 15px;
   }
+  .card-table:last-child {
+    margin-bottom: 0;
+  }
 </style>

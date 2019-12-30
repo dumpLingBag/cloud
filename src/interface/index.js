@@ -1,9 +1,16 @@
 import axios from '@/http/api'
 
 const request = (url, method, data) => {
+  if (method && method === 'GET') {
+    return axios({
+      url: url,
+      method: method,
+      params: data
+    })
+  }
   return axios({
     url: url,
-    method: method ? method : 'get',
+    method: method,
     data: data || {}
   })
 }

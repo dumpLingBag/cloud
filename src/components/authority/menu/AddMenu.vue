@@ -58,8 +58,8 @@
           <el-col :span="24" v-if="nodeData.menuType !== '2'">
             <el-form-item label="菜单状态" prop="menuType">
               <el-radio-group v-model="nodeData.enabled" size="medium">
-                <el-radio border label="0">显示</el-radio>
-                <el-radio border label="1">隐藏</el-radio>
+                <el-radio border label="1">显示</el-radio>
+                <el-radio border label="0">隐藏</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
