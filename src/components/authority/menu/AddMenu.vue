@@ -144,9 +144,6 @@ export default {
     },
 
     open () {
-      if (!this.nodeData.id) {
-        this.nodeData.id = null
-      }
       this.clearVal('menuData')
     },
 

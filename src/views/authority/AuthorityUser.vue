@@ -309,11 +309,5 @@ export default {
     .times {
       margin-left: 10px;
     }
-    .el-search {
-      overflow: hidden;
-      .el-form-item {
-        margin-bottom: 0;
-      }
-    }
   }
 </style>

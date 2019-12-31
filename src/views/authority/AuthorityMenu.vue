@@ -1,93 +1,68 @@
 <template>
-  <div class="sys-tree vue-padding radius">
-    <div class="tips">{{$route.name}}</div>
-<!--    <div class="tree-btn">-->
-<!--      <div style="float: left;width: 60%">-->
-<!--        <el-input placeholder="输入关键字进行过滤" v-model="filterText"></el-input>-->
-<!--      </div>-->
-<!--      <div style="float: right">-->
-<!--        <el-button plain icon="el-icon-edit" @click="() => appendNode()">添加一级菜单</el-button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="tree-content">-->
-<!--      <div class="custom-tree-container">-->
-<!--        <div class="block">-->
-<!--          <p style="margin-bottom: 10px">资源路径树结构&nbsp;&nbsp;<span style="color: #F56C6C;font-size: 14px">-->
-<!--            操作说明：先勾选左边的菜单(单个子节点)，然后选择右边的权限地址</span></p>-->
-<!--          <div class="line"></div>-->
-<!--          <el-row>-->
-<!--            <el-col :span="12">-->
-<!--              <vue-scroll>-->
-<!--                <el-tree :data="menuList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"-->
-<!--                         :filter-node-method="filterNode" ref="tree" :props="defaultProps" :check-on-click-node="false" draggable-->
-<!--                         :style="{ 'max-height': treeHeight+'px' }" @check="checkNodeMenu" :accordion="false" @node-drop="menuNodeDrop" @node-click="nodeClick" >-->
-<!--                  <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="showTree = data.id" @mouseleave="showTree = 0">-->
-<!--                    <template v-if="!data.icon">-->
-<!--                      <i class="iconfont icon-xingzhuang-tuoyuanxing"></i>-->
-<!--                    </template>-->
-<!--                    <template v-else>-->
-<!--                      <i :class="data.icon"></i>-->
-<!--                    </template>-->
-<!--                    <span>{{ data.name }}</span>-->
-<!--                    <span v-show="data.id === showTree">-->
-<!--                      <span class="el-icon-circle-plus btn" @click.prevent.stop="() => append(node, data)"></span>-->
-<!--                      <span class="iconfont icon-bianjisekuai btn" @click.prevent.stop="() => modify(data)"></span>-->
-<!--                      <span class="iconfont icon-shanchusekuai btn" @click.prevent.stop="() => remove(node, data)"></span>-->
-<!--                    </span>-->
-<!--                  </span>-->
-<!--                </el-tree>-->
-<!--              </vue-scroll>-->
-<!--            </el-col>-->
-<!--            <el-col :span="12">-->
-<!--              <vue-scroll>-->
-<!--                <el-tree :data="urlList" :show-checkbox="true" node-key="id" default-expand-all :expand-on-click-node="false"-->
-<!--                         :filter-node-method="filterNode" ref="urlTree" :props="defaultPropsUrl" :check-on-click-node="false"-->
-<!--                         @check="checkNodeUrlCheck" :style="{ 'max-height': treeHeight+'px' }">-->
-<!--                  <span class="custom-tree-node" slot-scope="{ node, data }" @mouseenter="urlTree = data.id" @mouseleave="urlTree = 0">-->
-<!--                    <span>{{ data.name }}</span>-->
-<!--                    <span v-if="data.id === urlTree"> / {{ data.url }}</span>-->
-<!--                  </span>-->
-<!--                </el-tree>-->
-<!--              </vue-scroll>-->
-<!--            </el-col>-->
-<!--          </el-row>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-    <el-table :data="menuList" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
-      <el-table-column prop="name" label="菜单名称" sortable width="150"></el-table-column>
-      <el-table-column prop="icon" label="图标" sortable width="120">
-        <template slot-scope="scope">
-          <span :class="scope.row.icon"></span>
-        </template>
-      </el-table-column>
-      <el-table-column label="路径" :show-overflow-tooltip="true" sortable width="180">
-        <template slot-scope="scope">
-          <span v-if="scope.row.path && scope.row.component">{{scope.row.path + '/' + url(scope.row.component)}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="路由名称" prop="component" :show-overflow-tooltip="true" sortable width="180">
-      </el-table-column>
-      <el-table-column prop="enabled" label="可见" sortable width="100">
-        <template slot-scope="scope">
-          <el-tag size="medium" @click="tagEnabled(scope.$index, scope.row)" :type="String(scope.row.enabled) === '1' ? 'success' : 'warning'">
-            {{String(scope.row.enabled) === '1' ? '可见' : '隐藏'}}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
-      <el-table-column label="操作" fixed="right" width="220">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
-          <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>
-          <el-button size="mini" type="danger" @click="remove(scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 添加路由弹框 -->
-    <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData" :menuList="menuList"
-    v-on:closeDialogAddMenu="closeDialogAddMenu" v-on:updateMenu="updateMenu" :addOrEdit="addOrEdit"></v-add-menu>
+  <div class="sys-tree">
+    <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
+      <div class="el-left">
+        <el-button type="primary" size="small" icon="el-icon-plus" @click="appendNode">增加</el-button>
+      </div>
+      <!--<div class="el-right">
+        <el-form ref="page" :model="page.search" :inline="true" label-width="10px" size="small"
+                 class="demo-form-inline el-input-height">
+          <el-form-item prop="enable">
+            <el-select v-model="page.search.enable" @change="enableSelect($event)" placeholder="请选择状态">
+              <el-option label="启用" value="1"></el-option>
+              <el-option label="禁用" value="0"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="username">
+            <el-input v-model="page.search.username" placeholder="请输入用户账号"></el-input>
+          </el-form-item>
+          <el-form-item prop="nickname">
+            <el-input v-model="page.search.nickname" placeholder="请输入用户名称"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="onSubmit" icon="el-icon-search">搜索</el-button>
+            <el-button @click="resetSearch('page')" icon="el-icon-refresh">重置</el-button>
+          </el-form-item>
+        </el-form>
+      </div>-->
+    </div>
+    <div class="vue-padding radius">
+      <!--<div class="tips">{{$route.name}}</div>-->
+      <el-table :data="menuList" v-loading="loading" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
+        <el-table-column prop="name" label="菜单名称" sortable width="150"></el-table-column>
+        <el-table-column prop="icon" label="图标" sortable width="120">
+          <template slot-scope="scope">
+            <span :class="scope.row.icon"></span>
+          </template>
+        </el-table-column>
+        <el-table-column label="路径" :show-overflow-tooltip="true" sortable width="180">
+          <template slot-scope="scope">
+            <span v-if="scope.row.path && scope.row.component">{{scope.row.path + '/' + url(scope.row.component)}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="路由名称" prop="component" :show-overflow-tooltip="true" sortable width="180">
+        </el-table-column>
+        <el-table-column prop="enabled" label="可见" sortable width="100">
+          <template slot-scope="scope">
+            <el-tag size="medium" @click="tagEnabled(scope.$index, scope.row)" :type="String(scope.row.enabled) === '1' ? 'success' : 'warning'">
+              {{String(scope.row.enabled) === '1' ? '可见' : '隐藏'}}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
+        <el-table-column label="操作" fixed="right" width="220">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
+            <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>
+            <el-button size="mini" type="danger" @click="remove(scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 添加路由弹框 -->
+      <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData" :menuList="addMenuList"
+                  v-on:closeDialogAddMenu="closeDialogAddMenu" v-on:updateMenu="updateMenu" :addOrEdit="addOrEdit"></v-add-menu>
+    </div>
   </div>
 </template>
 
@@ -107,6 +82,8 @@ export default {
     return {
       filterText: '',
       menuList: [], // 菜单树结构
+      addMenuList: [{ id: '0', label: '主目录', children: []}],
+      loading: false,
       urlList: [], // url 路径树结构
       showTree: 0,
       urlTree: 0,
@@ -134,7 +111,6 @@ export default {
         authority: ''
       },
       node: '',
-      nodeSort: 0,
       addOrEdit: false,
       currentKey: Number,
       checkUrlList: []
@@ -151,10 +127,15 @@ export default {
   },
   methods: {
     loadMenu() {
+      this.loading = true
       this.$api.request(this.$url.AuthorityMenu.load).then(res => {
         if (res.code === 0) {
           this.menuList = res.data
+          this.addMenuList[0].children = res.data
+          this.loading = false
         }
+      }).catch(() => {
+        this.loading = false
       })
     },
     url (str) {
@@ -268,8 +249,11 @@ export default {
     },
 
     appendNode () { // 开启添加菜单弹框
-      this.isMenuProp = true;
-      this.nodeSort = this.menuList.length; // 如果是添加一级菜单则根据总的菜单个数计算 sort 的值
+      this.addOrEdit = true;
+      this.nodeData.id = '0'
+      this.nodeData.enabled = '1'
+      this.nodeData.menuType = '0'
+      this.nodeData.sort = this.menuList.length + 1
       this.dialog()
     },
 

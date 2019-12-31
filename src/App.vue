@@ -28,4 +28,5 @@ export default {
   input:-webkit-autofill {-webkit-box-shadow: 0 0 0 1000px white inset;}
   .radius {background: #ffffff;border-radius: 0.3rem;box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);-webkit-box-shadow: 0 1px 2px 0 rgba(0,0,0,.05);}
   .el-tag{cursor: pointer;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;user-select: none;}
+  .el-search {overflow: hidden; .el-form-item {margin-bottom: 0;} }
 </style>

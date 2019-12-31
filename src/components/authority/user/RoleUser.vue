@@ -1,6 +1,6 @@
 <template>
     <div class="role-user">
-        <el-dialog title="角色信息" :visible.sync="dialogRole" width="30%" center :modal-append-to-body='false' @closed="closeRole">
+        <el-dialog title="角色信息" :visible.sync="dialogRole" width="30%" center :modal-append-to-body='true' :append-to-body="true" @closed="closeRole">
             <el-select v-model="selectRole" multiple collapse-tags filterable placeholder="请选择角色">
                 <el-option-group v-for="group in roleList" :key="group.id" :label="group.name">
                     <el-option v-for="item in group.children" :key="item.id" :label="item.name" :value="item.id"></el-option>
