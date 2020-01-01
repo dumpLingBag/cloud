@@ -30,9 +30,16 @@
       <!--<div class="tips">{{$route.name}}</div>-->
       <el-table :data="menuList" v-loading="loading" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
         <el-table-column prop="name" label="菜单名称" sortable width="150"></el-table-column>
-        <el-table-column prop="icon" label="图标" sortable width="120">
+        <el-table-column prop="icon" label="图标" sortable width="100">
           <template slot-scope="scope">
             <span :class="scope.row.icon"></span>
+          </template>
+        </el-table-column>
+        <el-table-column label="图标" sortable width="120">
+          <template slot-scope="scope">
+            <el-tag size="medium" v-if="scope.row.menuType === 0">目录</el-tag>
+            <el-tag size="medium" v-if="scope.row.menuType === 1" type="success">菜单</el-tag>
+            <el-tag size="medium" v-if="scope.row.menuType === 2" type="warning">按钮</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="路径" :show-overflow-tooltip="true" sortable width="180">

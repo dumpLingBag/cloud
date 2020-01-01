@@ -29,7 +29,7 @@ export default {
     }
   },
   mounted () {
-    this.$api.httpGet(this.$url.IconList.loadIcon).then(res => {
+    this.$api.request(this.$url.IconList.loadIcon, this.$method.get).then(res => {
       if (res.code === 0) {
         this.icon = res.data
       }

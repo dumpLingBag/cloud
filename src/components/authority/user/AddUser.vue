@@ -140,8 +140,8 @@
                                         message: '添加用户成功',
                                         type: 'success'
                                     });
-                                    this.cancel()
-                                    this.pageList(this.page)
+                                    this.cancel('save')
+                                    //this.pageList(this.page)
                                 } else {
                                     this.$toolUtil.msg(res, this.error)
                                 }
@@ -157,8 +157,8 @@
                                         message: '编辑用户成功',
                                         type: 'success'
                                     });
-                                    this.cancel()
-                                    this.pageList(this.page)
+                                    this.cancel('update')
+                                    //this.pageList(this.page)
                                 } else {
                                     this.$toolUtil.msg(res, this.error)
                                 }
@@ -185,8 +185,8 @@
                 this.$refs[formName].clearValidate()
             },
             // 关闭弹框
-            cancel () {
-                this.$emit('cancel', false)
+            cancel (status) {
+                this.$emit('cancel', false, status)
             },
         }
     }

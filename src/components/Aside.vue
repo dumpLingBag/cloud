@@ -3,8 +3,8 @@
     <vue-scroll>
       <div class="menu-padding">
         <el-menu :popper-append-to-body="true" :class="['el-menu-vertical-demo',collapse ? 'el-menu-close' : 'el-menu-open']"
-                 :router="true" :collapse="collapse" :unique-opened="true" background-color="#fff" ref="elMenu"
-                 :default-active="$route.path" text-color="#565656" active-text-color="#fff">
+                 :router="true" :collapse="collapse" :unique-opened="true" background-color="rgba(0, 21, 41, 1)" ref="elMenu"
+                 :default-active="$route.path" text-color="rgba(255,255,255,.65)" active-text-color="#fff">
           <div class="el-logo">
             <!--        <i class="el-icon-lollipop"></i>-->
             <span>饺子包</span>
@@ -92,19 +92,19 @@ export default {
     }
     .el-menu-item:hover, .el-submenu__title:hover {
       padding-left: 30px!important;
-      color: #409EFF!important;
-      background-color: #ffffff!important;
+      color: #ffffff!important;
+      background-color: rgba(0, 21, 41, 1)!important;
       i {
-        color: #409EFF!important;
+        color: #ffffff!important;
       }
     }
     .is-active {
-      color: #409EFF!important;
-      background-color: #f0faff!important;
+      color: #ffffff!important;
+      background-color: rgba(24, 144, 255, 1)!important;
     }
     .is-active:hover {
-      color: #409EFF!important;
-      background-color: #f0faff!important;
+      color: #ffffff!important;
+      background-color: rgba(24, 144, 255, 1)!important;
     }
     .el-menu--popup {
       min-width: 160px!important;
@@ -115,14 +115,14 @@ export default {
   .el-submenu__icon-arrow {
     font-weight: bold;
   }
-  .menu-padding {
+  /*.menu-padding {
     padding: 0 15px!important;
-  }
-  .single {
+  }*/
+  /*.single {
     .el-tooltip:hover {
       i {
-        color: #409EFF!important;
+        color: #ffffff!important;
       }
     }
-  }
+  }*/
 </style>

@@ -146,8 +146,11 @@ export default {
       alert('11111')
     },
     // 关闭添加用户弹窗
-    cancel(dialogUser) {
+    cancel(dialogUser, status) {
       this.dialogUser = dialogUser
+      if (status) {
+        this.currentChange(this.page.currentPage)
+      }
     },
     // 编辑用户信息
     editUser (row) {
@@ -182,15 +185,16 @@ export default {
     },
     // 重置用户密码
     resetPassword (row) {
-      this.$confirm('确定重置该用户的密码为 123456 吗?', '提示', {
+      this.$confirm('确定重置该用户的密码吗?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.$api.request(this.$url.AuthorityUser.resetPassword + '/' + row.id,
-                this.$method.get).then(res => {
+                this.$method.put).then(res => {
           if (res.code === 0) {
-            this.$message.success('重置密码成功')
+            this.$alert('你的密码被重置为<span style="color: red;font-weight: bold;">'+res.data+'</span>请妥善保管。',
+            '重置密码',{dangerouslyUseHTMLString: true})
           }
         })
       }).catch(() => {
