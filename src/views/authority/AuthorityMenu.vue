@@ -35,7 +35,7 @@
             <span :class="scope.row.icon"></span>
           </template>
         </el-table-column>
-        <el-table-column label="图标" sortable width="120">
+        <el-table-column label="类型" sortable width="120">
           <template slot-scope="scope">
             <el-tag size="medium" v-if="scope.row.menuType === 0">目录</el-tag>
             <el-tag size="medium" v-if="scope.row.menuType === 1" type="success">菜单</el-tag>

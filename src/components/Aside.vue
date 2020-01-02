@@ -7,7 +7,7 @@
                  :default-active="$route.path" text-color="rgba(255,255,255,.65)" active-text-color="#fff">
           <div class="el-logo">
             <!--        <i class="el-icon-lollipop"></i>-->
-            <span>饺子包</span>
+            <span>{{collapse ? '饺子' : '饺子包'}}</span>
           </div>
           <template v-for="item in this.routes">
             <el-submenu :index="item.id+''" :key="item.id" v-if="item && item.children">
