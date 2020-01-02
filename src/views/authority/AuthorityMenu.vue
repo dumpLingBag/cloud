@@ -57,8 +57,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="sort" label="排序" sortable width="100"></el-table-column>
-        <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
-        <el-table-column label="操作" fixed="right" width="220">
+        <el-table-column prop="createTime" label="创建时间" sortable width="160"></el-table-column>
+        <el-table-column label="操作" fixed="right" width="260">
           <template slot-scope="scope">
             <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
             <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>

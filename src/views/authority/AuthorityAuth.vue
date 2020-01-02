@@ -4,7 +4,7 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="用户角色管理" name="userRole">
                 <el-row>
-                    <el-col :span="4">
+                    <el-col :span="5" class="colSpan">
                         <div style="padding: 0 15px;margin-bottom: 10px">
                             <el-input placeholder="输入角色关键字进行过滤" v-model="filterText"></el-input>
                         </div>
@@ -12,12 +12,12 @@
                                 :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser" @node-click="nodeRoleUser">
                             </el-tree>
                     </el-col>
-                    <el-col :span="20">222</el-col>
+                    <el-col :span="19">222</el-col>
                 </el-row>
             </el-tab-pane>
             <el-tab-pane label="角色权限设置" name="userAuth">
                 <el-row>
-                    <el-col :span="4">
+                    <el-col :span="5" class="colSpan">
                         <div style="padding: 0 15px;margin-bottom: 10px">
                             <el-input placeholder="输入角色关键字进行过滤" v-model="filterText"></el-input>
                         </div>
@@ -25,17 +25,17 @@
                                  :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser" @node-click="nodeRoleUser">
                         </el-tree>
                     </el-col>
-                    <el-col :span="20">
+                    <el-col :span="19">
 
                     </el-col>
                 </el-row>
             </el-tab-pane>
             <el-tab-pane label="用户部门管理" name="userDept">
                 <el-row>
-                    <el-col :span="4">
+                    <el-col :span="5" class="colSpan">
 
                     </el-col>
-                    <el-col :span="20">222</el-col>
+                    <el-col :span="19">222</el-col>
                 </el-row>
             </el-tab-pane>
         </el-tabs>
@@ -88,7 +88,7 @@ export default {
             width: 90%;
             margin-bottom: 10px;
         }
-        .el-col-4 {
+        .colSpan {
             border-right: 1px solid rgba(235, 235, 235, 1);
         }
         .el-tree-node__content {

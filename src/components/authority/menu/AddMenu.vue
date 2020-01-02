@@ -68,7 +68,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="closeDialogAddMenu">取 消</el-button>
         <el-button type="primary" @click="addMenu('menuData')">确 定</el-button>
-    </span>
+      </span>
     </el-dialog>
   </div>
 </template>
