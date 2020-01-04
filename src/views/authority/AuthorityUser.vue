@@ -8,8 +8,8 @@
     <div class="user-main vue-padding radius">
       <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection" fixed width="55"></el-table-column>
-        <el-table-column prop="username" label="账号" ></el-table-column>
-        <el-table-column prop="nickname" label="名称" ></el-table-column>
+        <el-table-column prop="username" label="账号名称" ></el-table-column>
+        <el-table-column prop="nickname" label="用户昵称" ></el-table-column>
         <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
         <el-table-column prop="mobile" label="号码" width="150"></el-table-column>
         <el-table-column label="状态">

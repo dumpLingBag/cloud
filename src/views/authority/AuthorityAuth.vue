@@ -5,7 +5,7 @@
             <el-tab-pane label="用户角色管理" name="userRole">
                 <el-row>
                     <el-col :span="5" class="colSpan">
-                        <div style="padding: 0 15px;margin-bottom: 10px">
+                        <div class="roleFilter">
                             <el-input placeholder="输入角色关键字进行过滤" v-model="filterText"></el-input>
                         </div>
                             <el-tree :data="roleList" show-checkbox accordion :expand-on-click-node="false"
@@ -18,7 +18,7 @@
             <el-tab-pane label="角色权限设置" name="userAuth">
                 <el-row>
                     <el-col :span="5" class="colSpan">
-                        <div style="padding: 0 15px;margin-bottom: 10px">
+                        <div class="roleFilter">
                             <el-input placeholder="输入角色关键字进行过滤" v-model="filterText"></el-input>
                         </div>
                         <el-tree :data="roleList" show-checkbox accordion :expand-on-click-node="false"
@@ -85,11 +85,14 @@ export default {
 <style lang="scss">
     .sys-auth {
         .el-input {
-            width: 90%;
             margin-bottom: 10px;
         }
         .colSpan {
             border-right: 1px solid rgba(235, 235, 235, 1);
+        }
+        .roleFilter {
+            padding: 0 20px;
+            margin-bottom: 10px
         }
         .el-tree-node__content {
             height: 2.5rem;

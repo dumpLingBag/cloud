@@ -67,7 +67,7 @@
         </el-table-column>
       </el-table>
       <!-- 添加路由弹框 -->
-      <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData" :menuList="addMenuList"
+      <v-add-menu :dialogAddMenu="dialogAddMenu" :isMenuProp="isMenuProp" :nodeData="nodeData" :selectId="selectId" :menuList="addMenuList"
                   v-on:closeDialogAddMenu="closeDialogAddMenu" v-on:updateMenu="updateMenu" :addOrEdit="addOrEdit"></v-add-menu>
     </div>
   </div>
@@ -117,6 +117,7 @@ export default {
         sort: '',
         authority: ''
       },
+      selectId: '',
       node: '',
       addOrEdit: false,
       currentKey: Number,
@@ -154,15 +155,15 @@ export default {
         if (key === 'enabled' || key === 'menuType') {
           this.nodeData[key] = '1'
         } else {
-          if (key === 'id') {
-            this.nodeData[key] = data[key]
+          if (key === 'pid') {
+            this.selectId = data.id
           } else {
             this.nodeData[key] = ''
           }
         }
       })
       let children = data.children
-      this.nodeData.sort = children && children.length > 0 ? children.length + 1 : 0;
+      this.nodeData.sort = children && children.length > 0 ? children.length + 1 : 1;
       this.dialog()
     },
 
@@ -199,6 +200,8 @@ export default {
         }).catch(() => {
           this.$message.success('菜单状态更新失败')
         })
+      }).catch(() => {
+        this.$message.info('取消更新')
       })
     },
 
@@ -210,6 +213,7 @@ export default {
     modify (data) { // 修改菜单
       this.addOrEdit = false
       this.keysNode(data)
+      this.selectId = data.pid
       this.dialog();
     },
 
@@ -257,7 +261,7 @@ export default {
 
     appendNode () { // 开启添加菜单弹框
       this.addOrEdit = true;
-      this.nodeData.id = '0'
+      this.selectId = '0'
       this.nodeData.enabled = '1'
       this.nodeData.menuType = '0'
       this.nodeData.sort = this.menuList.length + 1

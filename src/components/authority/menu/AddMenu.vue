@@ -6,7 +6,7 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item label="上级菜单">
-                <treeselect v-model="nodeData.id" :show-count="true" placeholder="请选择上级菜单" :options="menuList"></treeselect>
+                <treeselect v-model="selectId" :show-count="true" placeholder="请选择上级菜单" :options="menuList"></treeselect>
             </el-form-item>
           </el-col>
           <el-col :span="24">
@@ -109,7 +109,8 @@ export default {
     isMenuProp: Boolean,
     nodeData: Object,
     addOrEdit: Boolean,
-    menuList: Array
+    menuList: Array,
+    selectId: String
   },
   methods: {
     handleClose () {
@@ -129,6 +130,7 @@ export default {
             this.nodeData.id = ''
             url = this.$url.AuthorityMenu.save
           }
+          this.nodeData.pid = this.selectId
           this.$api.request(url, this.addOrEdit ? this.$method.post : this.$method.put, this.nodeData).then(res => {
             if (res.code === 0) {
               this.$emit('updateMenu', this.addOrEdit ? '添加菜单成功' : '更新菜单成功')
@@ -144,6 +146,7 @@ export default {
     },
 
     open () {
+      console.log(this.nodeData)
       this.clearVal('menuData')
     },
 

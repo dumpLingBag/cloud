@@ -32,7 +32,7 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="上级角色">
-                <treeselect v-model="roleData.id" :show-count="true" placeholder="请选择上级角色" :options="roleListDialog"></treeselect>
+                <treeselect v-model="selectId" :show-count="true" placeholder="请选择上级角色" :options="roleListDialog"></treeselect>
               </el-form-item>
             </el-col>
             <el-col :span="24">
@@ -74,6 +74,7 @@ export default {
       loading: false,
       dialogRole: false,
       roleStatus: false,
+      selectId: '',
       roleData: {
         id: '',
         name: '',
@@ -111,7 +112,7 @@ export default {
       })
     },
     appendRole () {
-      this.roleData.id = 0
+      this.selectId = '0'
       this.roleData.enabled = '1'
       this.roleData.sort = this.roleList.length + 1
       this.dialogRole = true
@@ -119,16 +120,17 @@ export default {
     },
     modify (data) {
       this.roleStatus = false
+      this.selectId = data.pid
+      this.dialogRole = true
     },
     append (data) {
-      console.log(data)
       this.roleStatus = true
       Object.keys(this.roleData).forEach(key => {
         if (key === 'enabled') {
           this.roleData[key] = '1'
         } else {
-          if (key === 'id') {
-            this.roleData[key] = data[key]
+          if (key === 'pid') {
+            this.selectId = data.id
           } else {
             this.roleData[key] = ''
           }
@@ -144,6 +146,7 @@ export default {
     addRole (role) {
       this.$refs[role].validate((valid) => {
         if (valid) {
+          this.roleData.pid = this.selectId
           this.$api.request(this.$url.AuthorityRole.save, this.$method.post, this.roleData).then(res => {
             if (res.code === 0) {
               this.$message.success('添加角色成功')
