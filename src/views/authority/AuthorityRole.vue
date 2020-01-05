@@ -80,7 +80,8 @@ export default {
         name: '',
         enabled: '',
         sort: '',
-        createTime: ''
+        createTime: '',
+        pid: ''
       },
       roleList: [],
       roleListDialog: [{ id: '0', label: '主目录', children: []}],
@@ -120,7 +121,7 @@ export default {
     },
     modify (data) {
       this.roleStatus = false
-      this.selectId = data.pid
+      this.selectId = data.id
       this.dialogRole = true
     },
     append (data) {
@@ -162,7 +163,40 @@ export default {
       })
     },
     tagEnabled (index, row) {
-
+      let enabled = String(row.enabled) === '1' ? '0' : '1';
+      let text = enabled === '1' ? '显示' : '隐藏'
+      this.$confirm(String(row.pid) === '0' ? '确定'+text+'所有子角色吗？' : '确定'+text+'该角色吗？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        let array = [row.id]
+        if (String(row.pid) === '0') {
+          this.delRole(array, row)
+        }
+        let obj = { enabled: enabled, roleIdList: array}
+        this.$api.request(this.$url.AuthorityRole.updateInList, this.$method.put, obj).then(res => {
+          if (res.code === 0) {
+            this.$message.success('菜单状态更新成功')
+            this.loadRole()
+          }
+        }).catch(() => {
+          this.$message.success('菜单状态更新失败')
+        })
+      }).catch(() => {
+        this.$message.info('取消更新')
+      })
+    },
+    delRole(array, data) {
+      if (data && data.children) {
+        for (let i = 0; i < data.children.length; i++) {
+          array.push(data.children[i].id);
+          let children = data.children[i]
+          if (children.children && children.children.length > 0) {
+            this.delRole(children.children)
+          }
+        }
+      }
     }
   }
 }

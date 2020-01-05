@@ -83,6 +83,7 @@
                 },
                 disabled: false,
                 labelPosition: 'left',
+                clear: false,
                 rules: {
                     nickname: [
                         { required: true, message: '请输入用户名称', trigger: 'blur' },
@@ -118,6 +119,9 @@
             addOrEdit: Boolean, // 添加或者编辑用户
             userForm: Object
         },
+        mounted() {
+            this.clear = false
+        },
         methods: {
             // 添加或编辑用户
             submitForm (formName) {
@@ -140,8 +144,8 @@
                                         message: '添加用户成功',
                                         type: 'success'
                                     });
+                                    this.clear = true
                                     this.cancel('save')
-                                    //this.pageList(this.page)
                                 } else {
                                     this.$toolUtil.msg(res, this.error)
                                 }
@@ -157,8 +161,8 @@
                                         message: '编辑用户成功',
                                         type: 'success'
                                     });
+                                    this.clear = true
                                     this.cancel('update')
-                                    //this.pageList(this.page)
                                 } else {
                                     this.$toolUtil.msg(res, this.error)
                                 }
@@ -177,6 +181,10 @@
                 this.clearValidate('userForm');
                 if (!this.addOrEdit) {
                     this.$toolUtil.clearForm(this.userForm)
+                } else {
+                    if (this.clear) {
+                        this.$toolUtil.clearForm(this.userForm)
+                    }
                 }
                 this.cancel()
             },
@@ -185,8 +193,8 @@
                 this.$refs[formName].clearValidate()
             },
             // 关闭弹框
-            cancel (status) {
-                this.$emit('cancel', false, status)
+            cancel (status, code) {
+                this.$emit('cancel', false, status, code)
             },
         }
     }

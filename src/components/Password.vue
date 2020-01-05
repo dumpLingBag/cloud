@@ -28,7 +28,7 @@ export default {
       if (value === '') {
         callback(new Error('请输入旧的密码'))
       } else {
-        this.$api.httpPost(this.$url.User.checkPassword, this.$qs.stringify({ password: this.$md5(value) })).then(res => {
+        this.$api.request(this.$url.User.checkPassword, this.$method.get, this.$qs.stringify({ password: this.$md5(value) })).then(res => {
           if (res.code !== 0) {
             callback(new Error(res.msg))
           }
@@ -93,7 +93,7 @@ export default {
           Object.keys(this.passwordModel).forEach(key => {
             obj[key] = this.$md5(this.passwordModel[key])
           });
-          this.$api.httpPost(this.$url.User.updatePassword, obj).then(res => {
+          this.$api.request(this.$url.User.updatePassword, this.$method.put, obj).then(res => {
             if (res.code === 0) {
               this.passwordDialog();
               this.$alert('密码修改成功，请重新登录', '提示', {

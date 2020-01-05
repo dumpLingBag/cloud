@@ -6,11 +6,12 @@
                 <el-row>
                     <el-col :span="5" class="colSpan">
                         <div class="roleFilter">
-                            <el-input placeholder="输入角色关键字进行过滤" v-model="filterText"></el-input>
+                            <el-input placeholder="输入角色关键字进行过滤" :clearable="true" v-model="userFilterText"></el-input>
                         </div>
-                            <el-tree :data="roleList" show-checkbox accordion :expand-on-click-node="false"
-                                :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser" @node-click="nodeRoleUser">
-                            </el-tree>
+                        <el-tree :data="roleList" ref="userTree" show-checkbox accordion :expand-on-click-node="false"
+                             :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser"
+                             :filter-node-method="userFilterNode" @node-click="nodeRoleUser">
+                        </el-tree>
                     </el-col>
                     <el-col :span="19">222</el-col>
                 </el-row>
@@ -19,10 +20,11 @@
                 <el-row>
                     <el-col :span="5" class="colSpan">
                         <div class="roleFilter">
-                            <el-input placeholder="输入角色关键字进行过滤" v-model="filterText"></el-input>
+                            <el-input placeholder="输入角色关键字进行过滤" :clearable="true" v-model="roleFilterText"></el-input>
                         </div>
-                        <el-tree :data="roleList" show-checkbox accordion :expand-on-click-node="false"
-                                 :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser" @node-click="nodeRoleUser">
+                        <el-tree :data="roleList" ref="roleTree" show-checkbox accordion :expand-on-click-node="false"
+                             :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser"
+                             :filter-node-method="roleFilterNode" @node-click="nodeRoleUser">
                         </el-tree>
                     </el-col>
                     <el-col :span="19">
@@ -45,6 +47,14 @@
 <script>
 export default {
   name: 'AuthorityAuth',
+  watch: {
+      userFilterText(val) {
+          this.$refs.userTree.filter(val);
+      },
+      roleFilterText(val) {
+          this.$refs.roleTree.filter(val);
+      }
+  },
   data() {
       return {
           activeName: 'userRole',
@@ -53,11 +63,13 @@ export default {
               label: 'name',
               children: 'children'
           },
-          checkRoleUserName: ''
+          checkRoleUserName: '',
+          userFilterText: '',
+          roleFilterText: ''
       }
   },
   mounted() {
-      this.$api.request(this.$url.AuthorityRole.load, this.$method.get).then(res => {
+      this.$api.request(this.$url.AuthorityRole.loadRole, this.$method.get).then(res => {
           if (res.code === 0) {
               this.roleList = res.data
           }
@@ -66,8 +78,8 @@ export default {
       })
   },
   methods: {
-      handleClick(tab, event) {
-        console.log(tab, event)
+      handleClick(tab) {
+        console.log(tab.index)
       },
       nodeRoleUser(data) {
         console.log(data)
@@ -77,6 +89,14 @@ export default {
       },
       checkRoleUserChange(data) {
           console.log(data)
+      },
+      userFilterNode(value, data) {
+          if (!value) return true;
+          return data.name.indexOf(value) !== -1;
+      },
+      roleFilterNode(value, data) {
+          if (!value) return true;
+          return data.name.indexOf(value) !== -1;
       }
   }
 }

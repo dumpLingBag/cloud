@@ -42,10 +42,12 @@ export default {
   },
   AuthorityRole: {
     load: 'authority/authorityRole/load',
+    loadRole: 'authority/authorityRole/loadRole',
     save: 'authority/authorityRole/save',
     update: 'authority/authorityRole/update',
     delete: 'authority/authorityRole/delete',
-    loadByPid: 'authority/authorityRole/loadByPid'
+    loadByPid: 'authority/authorityRole/loadByPid',
+    updateInList: 'authority/authorityRole/updateInList'
   },
   AuthorityRoleMenu: {
     load: 'authority/authorityRoleMenu/load',
