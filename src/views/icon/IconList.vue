@@ -29,11 +29,7 @@ export default {
     }
   },
   mounted () {
-    this.$api.request(this.$url.IconList.loadIcon, this.$method.get).then(res => {
-      if (res.code === 0) {
-        this.icon = res.data
-      }
-    })
+    this.getIconList()
   },
   computed : {
     maxHeight () {
@@ -47,6 +43,19 @@ export default {
     },
     onError (e) {
       this.$message.error('复制' + e.text + '到剪切板失败')
+    },
+    getIconList() {
+      this.$loading({
+        'text': '图标加载中...'
+      });
+      this.$api.request(this.$url.IconList.loadIcon, this.$method.get).then(res => {
+        if (res.code === 0) {
+          this.icon = res.data
+        }
+        this.$loading().close()
+      }, () => {
+        this.$loading().close()
+      })
     }
   }
 }

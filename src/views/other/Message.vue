@@ -136,7 +136,7 @@ export default {
     },
 
     tabClick (data) {
-      this.$api.httpGet(this.$url.Message.load + '/' + data).then(res => {
+      this.$api.request(this.$url.Message.load + '/' + data).then(res => {
         if (res.code === 0) {
           this.messageList(data, res.data)
         }
@@ -183,5 +183,8 @@ export default {
   }
   .message-handle {
     margin-top: 20px;
+  }
+  .message .el-tabs__header {
+    margin-bottom: 0;
   }
 </style>

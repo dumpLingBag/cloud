@@ -1,6 +1,6 @@
 import getRequest from '@/interface/index'
 
-export const initMenu = (router, store) => {
+const initMenu = (router, store) => {
   if (store.state.menuList.length > 0) {
     return false
   }
@@ -86,4 +86,9 @@ const url = (component) => {
     component = component.replace(component[0], component[0].toLowerCase())
     return component.replace(/([A-Z])/g, '_$1').toLowerCase()
   }
+}
+
+export default {
+  initMenu,
+  formatRoutes
 }

@@ -62,7 +62,7 @@ export default {
       this.$refs.elMenu.close(index)
     },
     url (str) {
-      return lineUtil.line(str)
+      return lineUtil.toLine(str)
     }
   },
   computed: {

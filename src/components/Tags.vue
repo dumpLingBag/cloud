@@ -17,7 +17,15 @@
     </div>
     <div class="tags">
       <vue-scroll>
-        <ul class="tags-title" style="left: 0" ref="tags">
+        <div class="tabs__nav" style="transform: translateX(0px)">
+          <div :class="['tabs__item', isActive(item) ? 'active' : '']"
+               v-for="(item,index) in Array.from(visitedViews)"
+               :key="index" v-if="item.path !== '/main'" @click="go(item.path)">
+            <span>{{item.name}}</span>
+            <span class="el-icon-close" @click.prevent.stop="closeTags(item)"></span>
+          </div>
+        </div>
+        <!--<ul class="tags-title" style="left: 0" ref="tags">
           <template v-for="(item,index) in Array.from(visitedViews)">
             <li :class="[isActive(item) ? 'active' : '', 'tags-li']" :key="index" @mouseenter="tags = item.path" @mouseleave="tags = ''"
                 v-if="item.name !== '主视图' && item.path !== '/main'" @click="go(item.path)">
@@ -27,7 +35,7 @@
               </transition>
             </li>
           </template>
-        </ul>
+        </ul>-->
       </vue-scroll>
     </div>
   </div>
@@ -191,80 +199,66 @@ export default {
       cursor: pointer;
       box-sizing: border-box;
     }
-    .tags{
-      margin: 0;
-      overflow: hidden;
-      -webkit-transition: width .3s ease-out;
-      transition: width .3s ease-out;
-      .tags-title{
-        padding: 5px 0;
-        position: relative;
-        white-space: nowrap;
-        transition: all .3s;
-        -webkit-transition: all .3s;
-        height: 30px;
-        line-height: 30px;
-        .tags-li>.tags-name{
-          font-size: 14px;
-          color: #666;
-        }
-        .tags-li:hover{
-          background: #409EFF;
-          .tags-name{
-            color: #ffffff;
-          }
-          .el-icon-close{
-            color: #ffffff;
-            transition: all .3s cubic-bezier(.645,.045,.355,1);
-          }
-        }
-        .active{
-          background: #409EFF;
-          color: #ffffff;
-          .tags-name{
-            color: #ffffff;
-          }
-        }
-        li{
-          display: inline-block;
-          min-width: 0;
-          height: 30px;
-          line-height: 30px;
-          max-width: 160px;
-          text-overflow: ellipsis;
+    .tabs__nav {
+      white-space: nowrap;
+      position: relative;
+      transition: transform .3s;
+      float: left;
+      .tabs__item {
+        transition: color .3s cubic-bezier(.645,.045,.355,1),padding .3s cubic-bezier(.645,.045,.355,1);
+        .el-icon-close {
+          position: relative;
+          font-size: 12px;
+          width: 0;
+          height: 14px;
+          vertical-align: middle;
+          line-height: 15px;
           overflow: hidden;
-          border-radius: 3px;
-          margin-right: 5px;
-          background: whitesmoke;
-          vertical-align: top;
-          padding: 0 15px;
-          text-align: center;
-          cursor: pointer;
-          transition: all .3s cubic-bezier(.645,.045,.355,1),width .3s cubic-bezier(.645,.045,.355,1);
-          i{
-            margin-left: 6px;
-            width: 16px;
-            height: 16px;
-            line-height: 16px;
-            border-radius: 50%;
-            font-size: 14px;
-          }
-          i:hover{
-            color: #fff;
-            background-color: #F56C6C;
-          }
+          top: -1px;
+          right: -2px;
+          transform-origin: 100% 50%;
         }
       }
+      .active {
+        background-color: #409EFF;
+        color: #ffffff;
+      }
     }
-    .move-enter-active,.move-leave-active {
-      transition: all .3s ease;
+    .tabs__item {
+      padding: 0 10px 0 15px;
+      height: 30px;
+      box-sizing: border-box;
+      line-height: 30px;
+      display: inline-block;
+      list-style: none;
+      font-size: 14px;
+      font-weight: 500;
+      color: #666;
+      position: relative;
+      background: whitesmoke;
+      border-radius: 3px;
+      margin-right: 5px;
+      .el-icon-close {
+        border-radius: 50%;
+        text-align: center;
+        transition: all .3s cubic-bezier(.645,.045,.355,1);
+        margin-left: 5px;
+      }
+      .el-icon-close:hover {
+        background-color: #F56C6C;
+      }
     }
-    .move-enter {
-      transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    .tabs__item:last-child {
+      margin-right: 0;
     }
-    .move-leave-to {
-      transform: translateX(10px);
-      opacity: 0;
+    .tabs__item:hover {
+      cursor: pointer;
+      background-color: #409EFF;
+      color: #ffffff;
+      .el-icon-close {
+        width: 14px;
+        color: #ffffff;
+      }
     }
   }
 </style>

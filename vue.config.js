@@ -27,7 +27,8 @@ module.exports = {
             'axios': 'axios',
             'element-ui': 'ELEMENT',
             'qs': 'Qs',
-            'echarts': 'echarts'
+            'echarts': 'echarts',
+            'js-cookie': 'Cookies'
         }
     }
 }

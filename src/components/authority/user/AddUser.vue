@@ -125,9 +125,9 @@
         methods: {
             // 添加或编辑用户
             submitForm (formName) {
+                this.disabled = true
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.disabled = true
                         const obj = {};
                         Object.keys(this.userForm).forEach(key => {
                             obj[key] = this.userForm[key]
@@ -172,6 +172,7 @@
                             })
                         }
                     } else {
+                        this.disabled = false
                         return false
                     }
                 })

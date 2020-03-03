@@ -22,7 +22,7 @@
                     <a href="javascript:;">
                         <el-dropdown trigger="hover" @command="commandUser">
                             <div class="el-dropdown-link">
-                                <span class="hd-name" style="font-size: 16px">{{user.nickname}}</span>
+                                <span class="hd-name" style="font-size: 16px">{{nickname}}</span>
                                 <el-avatar class="hd-img" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
                             </div>
                             <el-dropdown-menu slot="dropdown">
@@ -45,7 +45,8 @@
         name: 'sys-header',
         data() {
             return {
-                dialogPassword: false
+                dialogPassword: false,
+                nickname: this.$cookies.get('nickname')
             }
         },
         methods: {
@@ -103,9 +104,6 @@
             }
         },
         computed: {
-            user() {
-                return JSON.parse(window.localStorage.getItem('user'))
-            },
             collapse () {
                 return this.$store.state.collapse
             }

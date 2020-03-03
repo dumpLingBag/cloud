@@ -303,10 +303,6 @@ export default {
     .el-dialog__body {
       padding: 30px 80px;
     }
-    .el-pagination {
-      margin-top: 30px;
-      float: right;
-    }
     .el-select{
       width: 100%;
     }

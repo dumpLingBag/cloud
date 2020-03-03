@@ -1,40 +1,51 @@
 <template>
-  <div class="user-info vue-padding radius">
-    <div class="tips">{{$route.name}}</div>
-    <div style="width: 50%">
-      <el-form ref="userInfo" :model="userInfo" :rules="rules" label-width="80px">
-        <el-form-item label="用户名称" prop="nickname" :error="error.nickname">
-          <el-input v-model="userInfo.nickname"></el-input>
-        </el-form-item>
-        <el-form-item label="账号名称" prop="username" :error="error.username">
-          <el-input v-model="userInfo.username"></el-input>
-        </el-form-item>
-        <el-form-item label="用户邮箱" prop="email" :error="error.email">
-          <el-input v-model="userInfo.email"></el-input>
-        </el-form-item>
-        <el-form-item label="用户号码" prop="mobile" :error="error.mobile">
-          <el-input v-model="userInfo.mobile"></el-input>
-        </el-form-item>
-        <el-form-item label="用户头像">
-          <el-upload class="avatar-uploader" :action="uploadUrl" :auto-upload="true"
-                     :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-            <img v-if="imageUrl" :src="imageUrl" class="avatar">
-            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-          </el-upload>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="onSubmit('userInfo')">立即修改</el-button>
-          <el-button>取消</el-button>
-        </el-form-item>
-      </el-form>
-    </div>
+  <div class="user-info">
+    <el-row>
+      <el-col :span="8">
+        <div class="vue-padding radius" style="margin-right: 20px;">
+          <vue-cropper></vue-cropper>
+        </div>
+      </el-col>
+      <el-col :span="16">
+        <div class="vue-padding radius">
+          <el-form ref="userInfo" :model="userInfo" :rules="rules" label-width="80px">
+            <el-form-item label="用户名称" prop="nickname" :error="error.nickname">
+              <el-input v-model="userInfo.nickname"></el-input>
+            </el-form-item>
+            <el-form-item label="账号名称" prop="username" :error="error.username">
+              <el-input v-model="userInfo.username"></el-input>
+            </el-form-item>
+            <el-form-item label="用户邮箱" prop="email" :error="error.email">
+              <el-input v-model="userInfo.email"></el-input>
+            </el-form-item>
+            <el-form-item label="用户号码" prop="mobile" :error="error.mobile">
+              <el-input v-model="userInfo.mobile"></el-input>
+            </el-form-item>
+            <el-form-item label="用户头像">
+              <el-upload class="avatar-uploader" :action="uploadUrl" :auto-upload="true"
+                         :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="onSubmit('userInfo')">立即修改</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script>
 import config from '@/http/config'
+import { VueCropper } from 'vue-cropper'
 export default {
   name: 'UserInfo',
+  components: {
+    VueCropper
+  },
   data () {
     const mobile = (rule, value, callback) => {
       if (value === '') {
@@ -48,7 +59,12 @@ export default {
       }
     };
     return {
-      userInfo: {},
+      userInfo: {
+        nickname: '',
+        username: '',
+        email: '',
+        mobile: ''
+      },
       imageUrl: '',
       uploadUrl: config.baseUrl + 'file/upload',
       headers: { 'token': localStorage.token },
@@ -82,7 +98,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.userInfo.avatar = this.imageUrl
-          this.$api.httpPost(this.$url.AuthorityUser.editUser, this.userInfo).then(res => {
+          this.$api.request(this.$url.AuthorityUser.editUser, this.$method.put, this.userInfo).then(res => {
             if (res.code === 0) {
               let user = JSON.parse(window.localStorage.getItem('user'))
               Object.keys(this.userInfo).forEach(key => {
@@ -117,7 +133,6 @@ export default {
     }
   },
   mounted () {
-    this.userInfo = JSON.parse(window.localStorage.getItem('user'))
     this.imageUrl = this.userInfo.avatar
   }
 }

@@ -1,4 +1,8 @@
-const Vuex = require('vuex')
+const Vuex = require('vuex');
+const Cookies = require('js-cookie');
+const menuUtil = require('../utils/index').default;
+const router = require('../router/router').default;
+const hump = require('../utils/humpToLine')
 
 export default new Vuex.Store({
   state: {
@@ -15,13 +19,22 @@ export default new Vuex.Store({
   },
   mutations: {
     LOGIN (state, user) {
-      state.user = user
-      window.localStorage.setItem('user', JSON.stringify(user))
+      state.user = user;
+      Cookies.set('avatar', user.avatar);
+      Cookies.set('nickname', user.nickname);
+      Cookies.set('authorities', user.authorities);
+      Cookies.set('uid', user.userId);
+      let fmRoutes = menuUtil.formatRoutes(user.menuList);
+      router.addRoutes(fmRoutes);
+      state.menuList = user.menuList
     },
     LOGIN_OUT (state) {
-      window.localStorage.removeItem('user')
-      window.localStorage.removeItem('token')
-      state.menuList = []
+      Cookies.remove('access_token');
+      Cookies.remove('avatar');
+      Cookies.remove('nickname');
+      Cookies.remove('authorities');
+      Cookies.remove('uid');
+      state.menuList = [];
       state.visitedViews = []
     },
     INIT_FLAG (state, initFlag) {
@@ -39,26 +52,21 @@ export default new Vuex.Store({
     INNER_HEIGHT (state, height) {
       state.innerHeight = height
     },
-    TAG_LIST (state, tagList) {
-      for (let i = 0; i < tagList.length; i++) {
-        state.tagList.push(tagList[i].name)
-      }
-    },
     ADD_VISITED_VIEWS: (state, view) => {
       if (state.visitedViews.some(v => v.path === view.fullPath)) return
       state.visitedViews.push({
         name: view.name,
         path: view.path,
         title: view.meta.title || 'no-name'
-      })
-      let path = view.path.split('/')
-      state.tagList.push(path[path.length - 1])
+      });
+      let path = view.path.split('/');
+      state.tagList.push(hump.default.toHump(path[path.length -1]))
     },
     DEL_VISITED_VIEWS: (state, view) => {
       for (const [i, v] of state.visitedViews.entries()) {
         if (v.path === view.path) {
-          state.visitedViews.splice(i, 1)
-          state.tagList.splice(i, 1)
+          state.visitedViews.splice(i, 1);
+          state.tagList.splice(i, 1);
           break
         }
       }
@@ -66,15 +74,15 @@ export default new Vuex.Store({
     DEL_OTHERS_VIEWS: (state, view) => {
       state.visitedViews = state.visitedViews.filter(item => {
         return item.path === view.fullPath
-      })
+      });
       state.tagList = state.tagList.filter(item => {
-        let path = view.path.split('/')
-        return item === path[path.length - 1]
+        let path = view.path.split('/');
+        return item === hump.default.toHump(path[path.length - 1])
       })
     },
     DEL_ALL_VIEWS: (state) => {
-      state.visitedViews = []
-      state.visitedViews = []
+      state.visitedViews = [];
+      state.tagList = []
     }
   },
   actions: {
@@ -104,19 +112,19 @@ export default new Vuex.Store({
     },
     delVisitedViews ({ commit, state }, view) {
       return new Promise((resolve) => {
-        commit('DEL_VISITED_VIEWS', view)
+        commit('DEL_VISITED_VIEWS', view);
         resolve([...state.visitedViews])
       })
     },
     delOthersViews ({ commit, state }, view) {
       return new Promise((resolve) => {
-        commit('DEL_OTHERS_VIEWS', view)
+        commit('DEL_OTHERS_VIEWS', view);
         resolve([...state.visitedViews])
       })
     },
     delAllViews ({ commit, state }) {
       return new Promise((resolve) => {
-        commit('DEL_ALL_VIEWS')
+        commit('DEL_ALL_VIEWS');
         resolve([...state.visitedViews])
       })
     }

@@ -8,6 +8,7 @@
       <div class="vue-padding radius">
         <el-table :data="roleList" v-loading="loading" row-key="id" :tree-props="{children: 'children', hasChildren: 'hasChildren'}">
           <el-table-column prop="name" label="角色名称" sortable></el-table-column>
+          <el-table-column prop="authName" label="权限字符" sortable></el-table-column>
           <el-table-column prop="sort" label="角色排序" sortable></el-table-column>
           <el-table-column prop="enabled" label="状态" sortable>
             <template slot-scope="scope">
@@ -17,7 +18,7 @@
             </template>
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column label="操作" fixed="right" width="260">
             <template slot-scope="scope">
               <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
               <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>
@@ -37,7 +38,12 @@
             </el-col>
             <el-col :span="24">
               <el-form-item label="角色名称" prop="name">
-                <el-input v-model="roleData.name" placeholder="角色名称即菜单展示名称"></el-input>
+                <el-input v-model="roleData.name" placeholder="请输入角色名称"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="24">
+              <el-form-item label="权限字符" prop="authName">
+                <el-input v-model="roleData.authName" placeholder="请输入权限字符 如:ROLE_ADMIN"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -81,13 +87,17 @@ export default {
         enabled: '',
         sort: '',
         createTime: '',
-        pid: ''
+        pid: '',
+        authName: ''
       },
       roleList: [],
       roleListDialog: [{ id: '0', label: '主目录', children: []}],
       rules: {
         name: [
-          { required: true, message: '菜单只能是中文或英文名称', target: 'blur', pattern: '^[\u4e00-\u9fa5a-zA-Z]+$' }
+          { required: true, message: '只能是中文，英文，数字和下划线', target: 'blur', pattern: '^[\u4e00-\u9fa5a-zA-Z_0-9]+$' }
+        ],
+        authName: [
+          { required: true, message: '只能为大写英文和下划线并以大写字母结尾', target: 'blur', pattern: '(^[A-Z][A-Z_]*[A-Z])|(^[A-Z]{1})$' }
         ]
       }
     }
@@ -121,7 +131,17 @@ export default {
     },
     modify (data) {
       this.roleStatus = false
-      this.selectId = data.id
+      Object.keys(this.roleData).forEach(key => {
+        if (key === 'enabled') {
+          this.roleData[key] = String(data.enabled)
+        } else {
+          if (key === 'pid') {
+            this.selectId = data.pid
+          } else {
+            this.roleData[key] = data[key]
+          }
+        }
+      })
       this.dialogRole = true
     },
     append (data) {
@@ -148,7 +168,13 @@ export default {
       this.$refs[role].validate((valid) => {
         if (valid) {
           this.roleData.pid = this.selectId
-          this.$api.request(this.$url.AuthorityRole.save, this.$method.post, this.roleData).then(res => {
+          let url = this.$url.AuthorityRole.save
+          let method = this.$method.post
+          if (this.roleData.id) {
+            url = this.$url.AuthorityRole.update
+            method = this.$method.put
+          }
+          this.$api.request(url, method, this.roleData).then(res => {
             if (res.code === 0) {
               this.$message.success('添加角色成功')
               this.dialogRole = false

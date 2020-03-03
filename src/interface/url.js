@@ -3,7 +3,8 @@ export default {
     /* 登录 */
     login: 'authority/authorityLogin/login',
     /* 登出 */
-    loginOut: 'authority/authorityLogin/loginOut'
+    loginOut: 'authority/authorityLogin/loginOut',
+    captcha: 'authority/authorityLogin/captcha'
   },
   AuthorityUser: {
     /* 添加用户 */
@@ -71,5 +72,9 @@ export default {
     kickOut: 'authority/socket/kickOut',
     sendUser: 'authority/socket/sendUser',
     banned: 'authority/socket/banned'
+  },
+  Log: {
+    loginInfoIndex: 'authority/log/loginInfoIndex',
+    operLogIndex: 'authority/log/operLogIndex'
   }
 }
