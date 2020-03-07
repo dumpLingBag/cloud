@@ -12,13 +12,13 @@
           <el-input v-model="login.password" type="password" @keyup.enter.native="enterSubmit('login')"
                     placeholder="输入登录密码" auto-complete="off" prefix-icon="el-icon-lock" ></el-input>
         </el-form-item>
-        <el-form-item prop="code">
+        <el-form-item prop="code" v-if="failNum > 2">
           <el-input v-model="login.code" style="width: calc(100% - 142px)" prefix-icon="iconfont icon-anquan" placeholder="验证码"></el-input>
           <div class="login-code" @click="getLoginCode()" style="border: 1px solid #DCDFE6;width: 130px;height: 2.68rem;float: right;border-radius: 4px;overflow: hidden;">
             <img :src="codeImage">
           </div>
         </el-form-item>
-        <el-checkbox v-model="login.checked">记住密码</el-checkbox>
+        <el-checkbox v-model="login.checked">记住我</el-checkbox>
         <el-button type="primary" style="width: 100%;margin-top: 30px" @click="submitForm('login')" :loading="loading">
           {{loading ? '登录中' : '登录'}}
         </el-button>
@@ -44,6 +44,7 @@ export default {
       },
       codeImage: '',
       passVal: '',
+      failNum: 0,
       rules: {
         account: [
           { required: true, message: '请输入用户名或手机号', trigger: 'blur' }
@@ -71,7 +72,6 @@ export default {
       password : password ? password : that.login.password,
       checked : checked ? Boolean(checked) : false
     };
-    that.getLoginCode();
     window.onkeydown = function (event) {
       if (event.key && event.key === 'Enter') {
         that.submitForm('login')
@@ -113,6 +113,10 @@ export default {
                 });
               }
             } else {
+              that.failNum++;
+              if (that.failNum > 2) {
+                that.getLoginCode()
+              }
               that.loading = !that.loading
             }
           }).catch(() => {

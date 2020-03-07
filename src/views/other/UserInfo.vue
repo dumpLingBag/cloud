@@ -3,7 +3,9 @@
     <el-row>
       <el-col :span="8">
         <div class="vue-padding radius" style="margin-right: 20px;">
-          <vue-cropper></vue-cropper>
+          <div class="head-img">
+
+          </div>
         </div>
       </el-col>
       <el-col :span="16">
@@ -66,8 +68,8 @@ export default {
         mobile: ''
       },
       imageUrl: '',
-      uploadUrl: config.baseUrl + 'file/upload',
-      headers: { 'token': localStorage.token },
+      uploadUrl: config.baseUrl + 'authority/file/upload',
+      headers: { 'Authorization': this.$cookies.get('access_token') },
       error: {
         nickname: '',
         username: '',
