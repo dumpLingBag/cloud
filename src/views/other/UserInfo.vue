@@ -4,18 +4,15 @@
       <el-col :span="8">
         <div class="vue-padding radius" style="margin-right: 20px;">
           <div class="head-img">
-
+            <avatar-user :user="userInfo"></avatar-user>
           </div>
         </div>
       </el-col>
       <el-col :span="16">
         <div class="vue-padding radius">
           <el-form ref="userInfo" :model="userInfo" :rules="rules" label-width="80px">
-            <el-form-item label="用户名称" prop="nickname" :error="error.nickname">
+            <el-form-item label="用户昵称" prop="nickname" :error="error.nickname">
               <el-input v-model="userInfo.nickname"></el-input>
-            </el-form-item>
-            <el-form-item label="账号名称" prop="username" :error="error.username">
-              <el-input v-model="userInfo.username"></el-input>
             </el-form-item>
             <el-form-item label="用户邮箱" prop="email" :error="error.email">
               <el-input v-model="userInfo.email"></el-input>
@@ -23,12 +20,11 @@
             <el-form-item label="用户号码" prop="mobile" :error="error.mobile">
               <el-input v-model="userInfo.mobile"></el-input>
             </el-form-item>
-            <el-form-item label="用户头像">
-              <el-upload class="avatar-uploader" :action="uploadUrl" :auto-upload="true"
-                         :headers="headers" :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </el-upload>
+            <el-form-item label="用户性别">
+              <el-radio-group v-model="userInfo.sex">
+                <el-radio label="0">男</el-radio>
+                <el-radio label="1">女</el-radio>
+              </el-radio-group>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="onSubmit('userInfo')">立即修改</el-button>
@@ -42,11 +38,11 @@
 
 <script>
 import config from '@/http/config'
-import { VueCropper } from 'vue-cropper'
+import avatarUser from "@/components/user/avatarUser";
 export default {
   name: 'UserInfo',
   components: {
-    VueCropper
+    avatarUser
   },
   data () {
     const mobile = (rule, value, callback) => {
@@ -63,11 +59,10 @@ export default {
     return {
       userInfo: {
         nickname: '',
-        username: '',
         email: '',
-        mobile: ''
+        mobile: '',
+        sex: ''
       },
-      imageUrl: '',
       uploadUrl: config.baseUrl + 'authority/file/upload',
       headers: { 'Authorization': this.$cookies.get('access_token') },
       error: {

@@ -10,6 +10,11 @@
         <el-table-column type="selection" fixed width="55"></el-table-column>
         <el-table-column prop="username" label="账号名称" ></el-table-column>
         <el-table-column prop="nickname" label="用户昵称" ></el-table-column>
+        <el-table-column prop="sex" label="性别" >
+          <template slot-scope="scope">
+            {{Number(scope.row.sex) === 1 ? '女' : '男'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
         <el-table-column prop="mobile" label="号码" width="150"></el-table-column>
         <el-table-column label="状态">
@@ -71,7 +76,8 @@ export default {
         email: '',
         mobile: '',
         enable: '',
-        parentId: ''
+        parentId: '',
+        sex: ''
       },
       page: {// 初始分页数据
         pageSize: 10,
@@ -157,7 +163,7 @@ export default {
       this.dialogUser = true;
       this.addOrEdit = false;
       Object.keys(this.userForm).forEach(key => {
-        if (key === 'enable') {
+        if (key === 'enable' || key === 'sex') {
           this.userForm[key] = String(row[key])
         } else {
           this.userForm[key] = row[key]

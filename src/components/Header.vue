@@ -23,7 +23,7 @@
                         <el-dropdown trigger="hover" @command="commandUser">
                             <div class="el-dropdown-link">
                                 <span class="hd-name" style="font-size: 16px">{{nickname}}</span>
-                                <el-avatar class="hd-img" src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+                                <el-avatar class="hd-img" :src="avatar"></el-avatar>
                             </div>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item command="personal">个人中心</el-dropdown-item>
@@ -46,7 +46,8 @@
         data() {
             return {
                 dialogPassword: false,
-                nickname: this.$cookies.get('nickname')
+                nickname: this.$cookies.get('nickname'),
+                avatar: this.$cookies.get('avatar')
             }
         },
         methods: {
@@ -92,7 +93,6 @@
                 if (screenfull.enabled) {
                     let that = this;
                     screenfull.toggle().then(() => {
-                        //console.log('高度是', document.documentElement.clientHeight)
                         that.$store.commit('INNER_HEIGHT', document.documentElement.clientHeight)
                     })
                 } else {

@@ -8,7 +8,7 @@
                         <div class="roleFilter">
                             <el-input placeholder="输入角色关键字进行过滤" :clearable="true" v-model="userFilterText"></el-input>
                         </div>
-                        <el-tree :data="roleList" ref="userTree" show-checkbox accordion :expand-on-click-node="false"
+                        <el-tree :data="roleList" ref="userTree" accordion :expand-on-click-node="false"
                              :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser"
                              :filter-node-method="userFilterNode" @node-click="nodeRoleUser">
                         </el-tree>
@@ -22,7 +22,7 @@
                         <div class="roleFilter">
                             <el-input placeholder="输入角色关键字进行过滤" :clearable="true" v-model="roleFilterText"></el-input>
                         </div>
-                        <el-tree :data="roleList" ref="roleTree" show-checkbox accordion :expand-on-click-node="false"
+                        <el-tree :data="roleList" ref="roleTree" accordion :expand-on-click-node="false"
                              :props="defaultProps" @check-change="checkRoleUserChange" @check="checkRoleUser"
                              :filter-node-method="roleFilterNode" @node-click="nodeRoleUser">
                         </el-tree>

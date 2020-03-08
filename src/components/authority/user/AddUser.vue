@@ -1,32 +1,61 @@
 <template>
     <div class="addUser">
-        <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible.sync="dialogUser" width="40%"
+        <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible.sync="dialogUser" width="50%"
                    @closed="closeDialog" :modal-append-to-body='true' :append-to-body="true">
             <el-form :label-position="labelPosition" :rules="rules" ref="userForm" label-width="80px" :model="userForm">
-                <el-form-item label="用户昵称" prop="nickname" :error="error.nickname">
-                    <el-input v-model="userForm.nickname" placeholder="请输入用户昵称" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="账号名称" prop="username" :error="error.username">
-                    <el-input v-model="userForm.username" placeholder="请输入账号名称" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="账号密码" prop="password" v-if="addOrEdit">
-                    <el-input type="password" v-model="userForm.password" placeholder="请输入账号密码" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码" prop="checkPassword" v-if="addOrEdit">
-                    <el-input type="password" v-model="userForm.checkPassword" placeholder="请再次输入账号密码" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="用户邮箱" prop="email">
-                    <el-input v-model="userForm.email" placeholder="请输入用户邮箱" :error="error.email"></el-input>
-                </el-form-item>
-                <el-form-item label="用户号码" prop="mobile" :error="error.mobile">
-                    <el-input v-model="userForm.mobile" placeholder="请输入用户号码"></el-input>
-                </el-form-item>
-                <el-form-item label="账号状态" prop="enable">
-                    <el-radio-group v-model="userForm.enable" :disabled="!addOrEdit && userForm.parentId === '0'" size="medium">
-                        <el-radio border label="1">启用</el-radio>
-                        <el-radio border label="0">禁用</el-radio>
-                    </el-radio-group>
-                </el-form-item>
+                <el-row :gutter="20">
+                    <el-col :span="12">
+                        <el-form-item label="用户昵称" prop="nickname" :error="error.nickname">
+                            <el-input v-model="userForm.nickname" placeholder="请输入用户昵称" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="账号名称" prop="username" :error="error.username">
+                            <el-input v-model="userForm.username" placeholder="请输入账号名称" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="账号密码" prop="password" v-if="addOrEdit">
+                            <el-input type="password" v-model="userForm.password" placeholder="请输入账号密码" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="确认密码" prop="checkPassword" v-if="addOrEdit">
+                            <el-input type="password" v-model="userForm.checkPassword" placeholder="请再次输入账号密码" autocomplete="off"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="用户邮箱" prop="email">
+                            <el-input v-model="userForm.email" placeholder="请输入用户邮箱" :error="error.email"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="用户号码" prop="mobile" :error="error.mobile">
+                            <el-input v-model="userForm.mobile" placeholder="请输入用户号码"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="账号状态" prop="enable">
+                            <el-radio-group v-model="userForm.enable" :disabled="!addOrEdit && userForm.parentId === '0'" size="medium">
+                                <el-radio label="1">启用</el-radio>
+                                <el-radio label="0">禁用</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="用户性别" prop="sex">
+                            <el-radio-group v-model="userForm.sex" size="medium">
+                                <el-radio label="0">男</el-radio>
+                                <el-radio label="1">女</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="24">
+                        <el-form-item label="备注信息">
+                            <el-input type="textarea" v-model="userForm.desc"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="cancel">取 消</el-button>
@@ -110,6 +139,9 @@
                     ],
                     enable: [
                         { required: true, message: '请选择账号状态', trigger: 'blur' }
+                    ],
+                    sex: [
+                        { required: true, message: '请选择用户性别', trigger: 'blur' }
                     ]
                 },
             }

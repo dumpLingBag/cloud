@@ -25,7 +25,8 @@ export default {
   },
   User: {
     updatePassword: 'authority/user/updatePassword',
-    checkPassword: 'authority/user/checkPassword'
+    checkPassword: 'authority/user/checkPassword',
+    uploadAvatar: 'authority/user/uploadAvatar'
   },
   AuthorityMenu: {
     /* 加载地址url */
@@ -76,5 +77,8 @@ export default {
   Log: {
     loginInfoIndex: 'authority/log/loginInfoIndex',
     operLogIndex: 'authority/log/operLogIndex'
+  },
+  File: {
+    upload: 'authority/file/upload'
   }
 }
