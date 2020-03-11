@@ -34,9 +34,7 @@
     export default {
         name: "SearchUser",
         data() {
-            return {
-
-            }
+            return {}
         },
         props: {
             page: Object

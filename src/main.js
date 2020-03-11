@@ -14,6 +14,7 @@ import VueScroll from 'vuescroll'
 import 'vuescroll/dist/vuescroll.css'
 import md5 from 'js-md5'
 import './directive/permission/index'
+import { Notification } from 'element-ui';
 
 const VueClipboard = require('vue-clipboard2')
 const Vue = require('vue')

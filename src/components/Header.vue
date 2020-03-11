@@ -17,7 +17,8 @@
                 <li @click="notice()">
                     <a href="javascript:;" title="消息"><i class="el-icon-bell"></i></a>
                 </li>
-                <li @click="screen()" title="全屏"><a href="javascript:;"><i class="el-icon-c-scale-to-original"></i></a></li>
+                <li @click="screen()" title="全屏"><a href="javascript:;"><i class="el-icon-c-scale-to-original"></i></a>
+                </li>
                 <li>
                     <a href="javascript:;">
                         <el-dropdown trigger="hover" @command="commandUser">
@@ -58,10 +59,10 @@
                     this.$message.warning('分辨率过低禁止展开侧边栏')
                 }
             },
-            passwordDialog (password) {
+            passwordDialog(password) {
                 this.dialogPassword = password
             },
-            password (password) {
+            password(password) {
                 this.dialogPassword = password
             },
             commandUser(command) {
@@ -104,7 +105,7 @@
             }
         },
         computed: {
-            collapse () {
+            collapse() {
                 return this.$store.state.collapse
             }
         }
@@ -144,12 +145,12 @@
                     font-size: 1.5rem;
 
                     .el-dropdown-link {
-                      display: flex;
-                      display: -webkit-flex;
-                      flex-direction: row;
-                      flex-wrap: nowrap;
-                      justify-content: space-between;
-                      align-items: center;
+                        display: flex;
+                        display: -webkit-flex;
+                        flex-direction: row;
+                        flex-wrap: nowrap;
+                        justify-content: space-between;
+                        align-items: center;
                     }
 
                     .hd-img {
@@ -161,6 +162,7 @@
 
                 a:hover {
                     color: #409EFF;
+
                     .hd-name {
                         color: #409EFF;
                     }

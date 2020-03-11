@@ -83,6 +83,9 @@ export default new Vuex.Store({
     DEL_ALL_VIEWS: (state) => {
       state.visitedViews = [];
       state.tagList = []
+    },
+    UPDATE_USER: (state, user) => {
+
     }
   },
   actions: {
@@ -125,6 +128,12 @@ export default new Vuex.Store({
     delAllViews ({ commit, state }) {
       return new Promise((resolve) => {
         commit('DEL_ALL_VIEWS');
+        resolve([...state.visitedViews])
+      })
+    },
+    updateUser ({ commit, state }) {
+      return new Promise((resolve) => {
+        commit('UPDATE_USER');
         resolve([...state.visitedViews])
       })
     }

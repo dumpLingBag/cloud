@@ -16,12 +16,14 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="账号密码" prop="password" v-if="addOrEdit">
-                            <el-input type="password" v-model="userForm.password" placeholder="请输入账号密码" autocomplete="off"></el-input>
+                            <el-input type="password" v-model="userForm.password" placeholder="请输入账号密码"
+                                      autocomplete="off"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="确认密码" prop="checkPassword" v-if="addOrEdit">
-                            <el-input type="password" v-model="userForm.checkPassword" placeholder="请再次输入账号密码" autocomplete="off"></el-input>
+                            <el-input type="password" v-model="userForm.checkPassword" placeholder="请再次输入账号密码"
+                                      autocomplete="off"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -36,7 +38,8 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="账号状态" prop="enable">
-                            <el-radio-group v-model="userForm.enable" :disabled="!addOrEdit && userForm.parentId === '0'" size="medium">
+                            <el-radio-group v-model="userForm.enable"
+                                            :disabled="!addOrEdit && userForm.parentId === '0'" size="medium">
                                 <el-radio label="1">启用</el-radio>
                                 <el-radio label="0">禁用</el-radio>
                             </el-radio-group>
@@ -115,33 +118,33 @@
                 clear: false,
                 rules: {
                     nickname: [
-                        { required: true, message: '请输入用户名称', trigger: 'blur' },
-                        { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
+                        {required: true, message: '请输入用户名称', trigger: 'blur'},
+                        {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
                     ],
                     username: [
-                        { required: true, message: '请输入账号名称', trigger: 'blur' },
-                        { min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur' }
+                        {required: true, message: '请输入账号名称', trigger: 'blur'},
+                        {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
                     ],
                     password: [
-                        { validator: password, trigger: 'blur' },
-                        { required: true, trigger: 'blur' }
+                        {validator: password, trigger: 'blur'},
+                        {required: true, trigger: 'blur'}
                     ],
                     checkPassword: [
-                        { validator: checkPassword, trigger: 'blur' },
-                        { required: true, trigger: 'blur' }
+                        {validator: checkPassword, trigger: 'blur'},
+                        {required: true, trigger: 'blur'}
                     ],
                     email: [
-                        { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-                        { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+                        {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
                     ],
                     mobile: [
-                        { validator: mobile, required: true, trigger: 'blur' }
+                        {validator: mobile, required: true, trigger: 'blur'}
                     ],
                     enable: [
-                        { required: true, message: '请选择账号状态', trigger: 'blur' }
+                        {required: true, message: '请选择账号状态', trigger: 'blur'}
                     ],
                     sex: [
-                        { required: true, message: '请选择用户性别', trigger: 'blur' }
+                        {required: true, message: '请选择用户性别', trigger: 'blur'}
                     ]
                 },
             }
@@ -156,7 +159,7 @@
         },
         methods: {
             // 添加或编辑用户
-            submitForm (formName) {
+            submitForm(formName) {
                 this.disabled = true
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
@@ -210,7 +213,7 @@
                 })
             },
             // 清除表单校验信息
-            closeDialog () {
+            closeDialog() {
                 this.clearValidate('userForm');
                 if (!this.addOrEdit) {
                     this.$toolUtil.clearForm(this.userForm)
@@ -222,11 +225,11 @@
                 this.cancel()
             },
             // 清除表单校验信息
-            clearValidate (formName) {
+            clearValidate(formName) {
                 this.$refs[formName].clearValidate()
             },
             // 关闭弹框
-            cancel (status, code) {
+            cancel(status, code) {
                 this.$emit('cancel', false, status, code)
             },
         }

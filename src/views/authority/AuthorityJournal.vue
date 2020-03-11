@@ -5,9 +5,9 @@
 </template>
 
 <script>
-export default {
-  name: 'AuthorityJournal'
-}
+    export default {
+        name: 'AuthorityJournal'
+    }
 </script>
 
 <style scoped>
