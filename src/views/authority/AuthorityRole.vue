@@ -121,11 +121,10 @@
         mounted() {
             this.loadRole()
         },
-        computed: {},
         methods: {
             loadRole() {
                 // 加载角色信息
-                this.loading = true
+                this.loading = true;
                 this.$api.request(this.$url.AuthorityRole.load, this.$method.get).then(res => {
                     if (res.code === 0) {
                         this.roleList = res.data

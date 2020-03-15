@@ -18,24 +18,14 @@
         <div class="tags">
             <vue-scroll>
                 <div class="tabs__nav" style="transform: translateX(0px)">
-                    <div :class="['tabs__item', isActive(item) ? 'active' : '']"
-                         v-for="(item,index) in Array.from(visitedViews)"
-                         :key="index" v-if="item.path !== '/main'" @click="go(item.path)">
-                        <span>{{item.name}}</span>
-                        <span class="el-icon-close" @click.prevent.stop="closeTags(item)"></span>
-                    </div>
+                    <template v-for="(item,index) in Array.from(visitedViews)">
+                        <div :class="['tabs__item', isActive(item) ? 'active' : '']"
+                             :key="index" v-if="item.path !== '/main'" @click="go(item.path)" @dblclick="reloadView">
+                            <span>{{item.name}}</span>
+                            <span class="el-icon-close" @click.prevent.stop="closeTags(item)"></span>
+                        </div>
+                    </template>
                 </div>
-                <!--<ul class="tags-title" style="left: 0" ref="tags">
-                  <template v-for="(item,index) in Array.from(visitedViews)">
-                    <li :class="[isActive(item) ? 'active' : '', 'tags-li']" :key="index" @mouseenter="tags = item.path" @mouseleave="tags = ''"
-                        v-if="item.name !== '主视图' && item.path !== '/main'" @click="go(item.path)">
-                      <span class="tags-name">{{item.name}}</span>
-                      <transition name="move" mode="out-in">
-                        <i class="el-icon-close" v-show="item.path === tags" @click.prevent.stop="closeTags(item)"></i>
-                      </transition>
-                    </li>
-                  </template>
-                </ul>-->
             </vue-scroll>
         </div>
     </div>
@@ -44,6 +34,7 @@
 <script>
     export default {
         name: 'Tags',
+        inject: ['reload'],
         data() {
             return {
                 tagsWidth: 0,
@@ -126,6 +117,9 @@
                         this.closeAll();
                         break
                 }
+            },
+            reloadView() {
+                this.reload()
             }
         },
         computed: {
@@ -217,6 +211,9 @@
 
             .tabs__item {
                 transition: color .3s cubic-bezier(.645, .045, .355, 1), padding .3s cubic-bezier(.645, .045, .355, 1);
+                -moz-user-select: none;
+                -khtml-user-select: none;
+                user-select: none;
 
                 .el-icon-close {
                     position: relative;
