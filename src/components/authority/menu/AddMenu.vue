@@ -41,9 +41,14 @@
                             <el-input v-model="nodeData.component" placeholder="路由文件具体名称"></el-input>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="24" v-if="nodeData.menuType === '1' || nodeData.menuType === '2'">
+                    <el-col :span="12" v-if="nodeData.menuType === '1' || nodeData.menuType === '2'">
                         <el-form-item label="权限标识" :prop="isMenuProp ? '' : 'authority'">
                             <el-input v-model="nodeData.authority" placeholder="权限标识"></el-input>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" v-if="nodeData.menuType === '1' || nodeData.menuType === '2'">
+                        <el-form-item label="请求路径" :prop="isMenuProp ? '' : 'authority'">
+                            <el-input v-model="nodeData.menuUrl" placeholder="请求路径"></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24" v-if="nodeData.menuType !== '2'">

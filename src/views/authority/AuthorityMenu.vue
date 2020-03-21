@@ -85,7 +85,8 @@
                     path: '',
                     pid: '',
                     sort: '',
-                    authority: ''
+                    authority: '',
+                    menuUrl: ''
                 },
                 selectId: '',
                 node: '',

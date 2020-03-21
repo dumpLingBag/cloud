@@ -81,6 +81,9 @@
                 fileName: ''
             }
         },
+        mounted()  {
+            this.options.img = this.$cookies.get('avatar')
+        },
         methods: {
             editAvatar() {
                 this.open = true
@@ -123,7 +126,8 @@
                     this.$api.request(this.$url.User.uploadAvatar, this.$method.post, formData).then(res => {
                         if (res.code === 0) {
                             this.open = false;
-                            this.options.img = res.data
+                            this.options.img = res.data;
+                            this.$cookies.set('avatar', res.data, {expires: 7})
                         } else {
                             this.$message.error(res.msg)
                         }
@@ -161,8 +165,8 @@
         position: absolute;
         top: 50%;
         transform: translate(50%, -50%);
-        width: 180px;
-        height: 180px;
+        width: 200px;
+        height: 200px;
         border-radius: 50%;
         box-shadow: 0 0 4px #ccc;
         overflow: hidden;

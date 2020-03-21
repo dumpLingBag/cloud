@@ -54,11 +54,13 @@ export default {
     AuthorityRoleMenu: {
         load: 'authority/authorityRoleMenu/load',
         loadMenu: 'authority/authorityRoleMenu/loadMenu',
-        update: 'authority/authorityRoleMenu/update'
+        update: 'authority/authorityRoleMenu/update',
+        save: 'authority/authorityRoleMenu/save'
     },
     AuthorityUserRole: {
         load: 'authority/authorityUserRole/load',
         update: 'authority/authorityUserRole/update',
+        save: 'authority/authorityUserRole/save',
         loadUserByRoleId: 'authority/authorityUserRole/loadUserByRoleId'
     },
     AuthorityCommonUrl: {

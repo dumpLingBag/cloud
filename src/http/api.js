@@ -81,9 +81,6 @@ export default function $axios (options) {
             break;
           case 0:
             // 正常的请求返回
-            if (result.data && result.data.access_token && result.data.access_token !== '') {
-              cookie.set('access_token', result.data.access_token);
-            }
             break;
           case 401:
             MessageBox.alert(result.msg, '提醒', {
