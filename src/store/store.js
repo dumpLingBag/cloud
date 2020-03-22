@@ -20,10 +20,10 @@ export default new Vuex.Store({
   mutations: {
     LOGIN (state, user) {
       state.user = user;
-      Cookies.set('avatar', user.avatar);
-      Cookies.set('nickname', user.nickname);
-      Cookies.set('authorities', user.authorities);
-      Cookies.set('uid', user.userId);
+      Cookies.set('avatar', user.avatar, {expires: 7});
+      Cookies.set('nickname', user.nickname, {expires: 7});
+      Cookies.set('authorities', user.authorities, {expires: 7});
+      Cookies.set('uid', user.userId, {expires: 7});
       let fmRoutes = menuUtil.formatRoutes(user.menuList);
       router.addRoutes(fmRoutes);
       state.menuList = user.menuList

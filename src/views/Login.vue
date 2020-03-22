@@ -108,6 +108,7 @@
                                         that.$cookies.set('username', that.login.account, {expires: 7});
                                         that.$cookies.set('password', obj.password, {expires: 7});
                                         that.$cookies.set('checked', that.login.checked, {expires: 7});
+                                        that.$cookies.set('access_token', res.data.access_token, {expires: 7});
                                     } else {
                                         that.$cookies.remove('username');
                                         that.$cookies.remove('password');
