@@ -115,7 +115,6 @@
 
                 }
 
-
                 if (this.userId.length > 0) {
                     if (role.length > 0) {
                         this.$confirm('请否为当前选中用户分配角色', '提示', {
@@ -135,7 +134,7 @@
             nodeRoleUser(data) {
                 if (!data.children) {
                     this.userRole.roleId = data.id;
-                    this.$refs.userTree.setCheckedKeys([data.id]);
+                    //this.$refs.userTree.setCheckedKeys([data.id]);
                     this.getUserList()
                 }
             },
