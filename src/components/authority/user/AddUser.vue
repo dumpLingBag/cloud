@@ -38,7 +38,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="账号状态" prop="enable">
-                            <el-radio-group v-model="userForm.enable"
+                            <el-radio-group v-model="userForm.enabled"
                                             :disabled="!addOrEdit && userForm.parentId === '0'" size="medium">
                                 <el-radio label="1">启用</el-radio>
                                 <el-radio label="0">禁用</el-radio>
@@ -140,7 +140,7 @@
                     mobile: [
                         {validator: mobile, required: true, trigger: 'blur'}
                     ],
-                    enable: [
+                    enabled: [
                         {required: true, message: '请选择账号状态', trigger: 'blur'}
                     ],
                     sex: [

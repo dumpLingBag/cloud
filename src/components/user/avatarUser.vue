@@ -106,9 +106,15 @@
             },
             // 上传预处理
             beforeUpload(file) {
-                if (file.type.indexOf("image/") === -1) {
-                    this.$message.error('文件格式错误，请上传图片类型,如：JPG，PNG后缀的文件。')
-                } else {
+                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 5;
+                if (!isJPG) {
+                    this.$message.error('上传头像图片只能是 JPG或PNG 格式!')
+                }
+                if (!isLt2M) {
+                    this.$message.error('上传头像图片大小不能超过 5MB!')
+                }
+                if (isJPG && isLt2M) {
                     const reader = new FileReader();
                     reader.readAsDataURL(file);
                     reader.onload = () => {
@@ -116,6 +122,7 @@
                         this.options.img = reader.result;
                     };
                 }
+                return isJPG && isLt2M;
             },
             // 上传图片
             uploadImg() {

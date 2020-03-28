@@ -23,8 +23,8 @@
                 <el-table-column label="状态">
                     <template slot-scope="scope">
                         <el-tag size="medium" @click="tagEnable(scope.$index, scope.row)"
-                                :type="Number(scope.row.enable) === 1 ? 'success' : 'warning'">
-                            {{ Number(scope.row.enable) === 1 ? '启用' : '禁用' }}
+                                :type="Number(scope.row.enabled) === 1 ? 'success' : 'warning'">
+                            {{ Number(scope.row.enabled) === 1 ? '启用' : '禁用' }}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -88,7 +88,7 @@
                     checkPassword: '',
                     email: '',
                     mobile: '',
-                    enable: '',
+                    enabled: '',
                     parentId: '',
                     sex: ''
                 },
@@ -97,7 +97,7 @@
                     currentPage: 1,
                     search: {
                         username: '',
-                        enable: '',
+                        enabled: '',
                         nickname: ''
                     }
                 }
@@ -166,7 +166,7 @@
             },
             // 关闭添加用户弹窗
             cancel(dialogUser, status) {
-                this.dialogUser = dialogUser
+                this.dialogUser = dialogUser;
                 if (status) {
                     this.currentChange(this.page.currentPage)
                 }
@@ -176,7 +176,7 @@
                 this.dialogUser = true;
                 this.addOrEdit = false;
                 Object.keys(this.userForm).forEach(key => {
-                    if (key === 'enable' || key === 'sex') {
+                    if (key === 'enabled' || key === 'sex') {
                         this.userForm[key] = String(row[key])
                     } else {
                         this.userForm[key] = row[key]

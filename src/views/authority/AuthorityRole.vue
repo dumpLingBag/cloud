@@ -15,7 +15,7 @@
                     <template slot-scope="scope">
                         <el-tag size="medium" @click="tagEnabled(scope.$index, scope.row)"
                                 :type="String(scope.row.enabled) === '1' ? 'success' : 'warning'">
-                            {{String(scope.row.enabled) === '1' ? '可见' : '隐藏'}}
+                            {{String(scope.row.enabled) === '1' ? '启用' : '禁用'}}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -53,8 +53,8 @@
                     <el-col :span="12">
                         <el-form-item label="角色状态" prop="enabled">
                             <el-radio-group v-model="roleData.enabled" size="medium">
-                                <el-radio border label="1">显示</el-radio>
-                                <el-radio border label="0">隐藏</el-radio>
+                                <el-radio border label="1">启用</el-radio>
+                                <el-radio border label="0">禁用</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -127,7 +127,7 @@
                 this.loading = true;
                 this.$api.request(this.$url.AuthorityRole.load, this.$method.get).then(res => {
                     if (res.code === 0) {
-                        this.roleList = res.data
+                        this.roleList = res.data;
                         this.roleListDialog[0].children = res.data
                     }
                     this.loading = false
@@ -136,14 +136,14 @@
                 })
             },
             appendRole() {
-                this.selectId = '0'
-                this.roleData.enabled = '1'
-                this.roleData.sort = this.roleList.length + 1
-                this.dialogRole = true
+                this.selectId = '0';
+                this.roleData.enabled = '1';
+                this.roleData.sort = this.roleList.length + 1;
+                this.dialogRole = true;
                 this.roleStatus = true
             },
             modify(data) {
-                this.roleStatus = false
+                this.roleStatus = false;
                 Object.keys(this.roleData).forEach(key => {
                     if (key === 'enabled') {
                         this.roleData[key] = String(data.enabled)
@@ -154,43 +154,66 @@
                             this.roleData[key] = data[key]
                         }
                     }
-                })
+                });
                 this.dialogRole = true
             },
             append(data) {
-                this.roleStatus = true
-                Object.keys(this.roleData).forEach(key => {
-                    if (key === 'enabled') {
-                        this.roleData[key] = '1'
-                    } else {
-                        if (key === 'pid') {
-                            this.selectId = data.id
+                if (data.pid === '0') {
+                    this.roleStatus = true;
+                    Object.keys(this.roleData).forEach(key => {
+                        if (key === 'enabled') {
+                            this.roleData[key] = '1'
                         } else {
-                            this.roleData[key] = ''
+                            if (key === 'pid') {
+                                this.selectId = data.id
+                            } else {
+                                this.roleData[key] = ''
+                            }
                         }
-                    }
-                })
-                let children = data.children
-                this.roleData.sort = children && children.length > 0 ? children.length + 1 : 0
-                this.dialogRole = true
+                    });
+                    let children = data.children;
+                    this.roleData.sort = children && children.length > 0 ? children.length + 1 : 0;
+                    this.dialogRole = true
+                } else {
+                    this.$message.warning('角色最多添加两级')
+                }
+
             },
             remove(data) {
-
+                let text = data.pid === '0' ? '你确定删除该角色及其子角色吗？角色删除会导致分配的权限失效' : '你确定删除该角色吗？角色删除会导致分配的权限失效';
+                this.$confirm(text, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(()  => {
+                    let array = [data.id];
+                    if (data.pid === '0') {
+                        this.delRole(array, data)
+                    }
+                    this.$api.request(this.$url.AuthorityRole.delete, this.$method.delete, {roleIdList: array}).then(res => {
+                        if (res.code === 0) {
+                            this.$message.success('角色删除成功');
+                            this.loadRole()
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info('取消删除角色');
+                })
             },
             addRole(role) {
                 this.$refs[role].validate((valid) => {
                     if (valid) {
-                        this.roleData.pid = this.selectId
-                        let url = this.$url.AuthorityRole.save
-                        let method = this.$method.post
+                        this.roleData.pid = this.selectId;
+                        let url = this.$url.AuthorityRole.save;
+                        let method = this.$method.post;
                         if (this.roleData.id) {
-                            url = this.$url.AuthorityRole.update
+                            url = this.$url.AuthorityRole.update;
                             method = this.$method.put
                         }
                         this.$api.request(url, method, this.roleData).then(res => {
                             if (res.code === 0) {
-                                this.$message.success('添加角色成功')
-                                this.dialogRole = false
+                                this.$message.success('添加角色成功');
+                                this.dialogRole = false;
                                 this.loadRole()
                             }
                         }).catch(() => {
@@ -203,20 +226,20 @@
             },
             tagEnabled(index, row) {
                 let enabled = String(row.enabled) === '1' ? '0' : '1';
-                let text = enabled === '1' ? '显示' : '隐藏'
+                let text = enabled === '1' ? '启用' : '禁用';
                 this.$confirm(String(row.pid) === '0' ? '确定' + text + '所有子角色吗？' : '确定' + text + '该角色吗？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    let array = [row.id]
+                    let array = [row.id];
                     if (String(row.pid) === '0') {
                         this.delRole(array, row)
                     }
-                    let obj = {enabled: enabled, roleIdList: array}
+                    let obj = {enabled: enabled, roleIdList: array};
                     this.$api.request(this.$url.AuthorityRole.updateInList, this.$method.put, obj).then(res => {
                         if (res.code === 0) {
-                            this.$message.success('菜单状态更新成功')
+                            this.$message.success('菜单状态更新成功');
                             this.loadRole()
                         }
                     }).catch(() => {
@@ -230,7 +253,7 @@
                 if (data && data.children) {
                     for (let i = 0; i < data.children.length; i++) {
                         array.push(data.children[i].id);
-                        let children = data.children[i]
+                        let children = data.children[i];
                         if (children.children && children.children.length > 0) {
                             this.delRole(children.children)
                         }

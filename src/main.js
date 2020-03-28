@@ -14,18 +14,17 @@ import VueScroll from 'vuescroll'
 import 'vuescroll/dist/vuescroll.css'
 import md5 from 'js-md5'
 import './directive/permission/index'
-import { Notification } from 'element-ui';
 
-const VueClipboard = require('vue-clipboard2')
-const Vue = require('vue')
-const qs = require('qs')
-const echarts = require('echarts')
-const cookie = require('js-cookie')
+const VueClipboard = require('vue-clipboard2');
+const Vue = require('vue');
+const qs = require('qs');
+const echarts = require('echarts');
+const cookie = require('js-cookie');
 
 Vue.config.productionTip = false;
-Vue.use(store)
+Vue.use(store);
 Vue.use(VueClipboard);
-Vue.use(VueScroll)
+Vue.use(VueScroll);
 Vue.prototype.$vuescrollConfig = {
     bar: {
         size: '4px',
@@ -33,14 +32,14 @@ Vue.prototype.$vuescrollConfig = {
         onlyShowBarOnScroll: false, // 是否只有滚动的时候才显示滚动条
         background: 'hsla(220,4%,58%,.3)'
     }
-}
+};
 
 Vue.prototype.$method = {
     'get': 'GET',
     'post': 'POST',
     'delete': 'DELETE',
     'put': 'PUT'
-}
+};
 
 Vue.use(api);
 Vue.prototype.$qs = qs;

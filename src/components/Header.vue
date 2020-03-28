@@ -4,7 +4,7 @@
             <ul class="el-ul el-ul-left ul-icon" style="float: left">
                 <li @click="isHeader()" :title='collapse ? "打开侧栏" : "关闭侧栏"'>
                     <a href="javascript:;">
-                        <i :class="collapse ? 'el-icon-s-operation' : 'el-icon-s-operation'"></i>
+                        <i :class="collapse ? 'el-icon-lock' : 'el-icon-unlock'"></i>
                     </a>
                 </li>
                 <li @click="isTags()" title="显示tags">
@@ -34,7 +34,17 @@
                         </el-dropdown>
                     </a>
                 </li>
+                <li @click="drawer = true"><a href="javascript:;"><i class="el-icon-s-operation"></i></a></li>
             </ul>
+            <el-drawer
+                    title="我是标题"
+                    :visible.sync="drawer"
+                    :append-to-body="true"
+                    :modal="true"
+                    size="20%"
+                    :with-header="false">
+                <span>我来啦!</span>
+            </el-drawer>
         </el-header>
     </div>
 </template>
@@ -48,7 +58,8 @@
             return {
                 dialogPassword: false,
                 nickname: this.$cookies.get('nickname'),
-                avatar: this.$cookies.get('avatar')
+                avatar: this.$cookies.get('avatar'),
+                drawer: false,
             }
         },
         methods: {

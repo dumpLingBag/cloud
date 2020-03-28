@@ -63,18 +63,6 @@
         },
         mounted() {
             let that = this;
-            let username = that.$cookies.get('username');
-            let password = that.$cookies.get('password');
-            let checked = that.$cookies.get('checked');
-            if (checked && password && password !== '') {
-                password = that.$pass.password(12);
-                that.passVal = password
-            }
-            that.login = {
-                account: username ? username : that.login.account,
-                password: password ? password : that.login.password,
-                checked: checked ? Boolean(checked) : false
-            };
             window.onkeydown = function (event) {
                 if (event.key && event.key === 'Enter') {
                     that.submitForm('login')
@@ -87,34 +75,17 @@
                 that.$refs[formName].validate((valid) => {
                     if (valid) {
                         that.loading = !that.loading;
-                        const obj = {account: that.login.account};
-                        let password = that.$cookies.get('password');
-                        if (password && password !== '') {
-                            if (that.passVal !== '' && that.passVal !== that.login.password) {
-                                obj.password = md5(that.login.password)
-                            } else {
-                                obj.password = password;
-                            }
-                        } else {
-                            obj.password = md5(that.login.password)
-                        }
+                        const obj = {account: that.login.account, password: md5(that.login.password)};
                         obj.code = that.login.code;
                         obj.codeKey = that.login.codeKey;
                         obj.checked = that.login.checked;
                         that.$api.request(that.$url.Login.login, that.$method.post, that.$qs.stringify(obj)).then(res => {
                             if (res.code === 0) {
                                 if (res.data !== '') {
-                                    if (that.login.checked) {
-                                        that.$cookies.set('username', that.login.account, {expires: 7});
-                                        that.$cookies.set('password', obj.password, {expires: 7});
-                                        that.$cookies.set('checked', that.login.checked, {expires: 7});
-                                        that.$cookies.set('access_token', res.data.access_token, {expires: 7});
-                                    } else {
-                                        that.$cookies.remove('username');
-                                        that.$cookies.remove('password');
-                                        that.$cookies.remove('checked')
-                                    }
-                                    that.$store.dispatch('login', res.data.userInfo).then(() => {
+                                    let userInfo = res.data.userInfo;
+                                    userInfo.checked = that.login.checked;
+                                    userInfo.access_token = res.data.access_token;
+                                    that.$store.dispatch('login', userInfo).then(() => {
                                         that.$router.push('/main')
                                     });
                                 }

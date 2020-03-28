@@ -4,7 +4,7 @@ const install = Vue => {
   if (install.installed) {
     return
   }
-  install.installed = true
+  install.installed = true;
 
   Object.defineProperties(Vue.prototype, {
     $api: {
@@ -13,6 +13,6 @@ const install = Vue => {
       }
     }
   })
-}
+};
 
 export default install
