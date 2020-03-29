@@ -18,13 +18,13 @@ export default new Vuex.Store({
     },
     mutations: {
         LOGIN(state, user) {
-            if (user.checked) {
+            /*if (user.checked) {*/
                 Cookies.set('access_token', user.access_token, {expires: 7});
                 Cookies.set('avatar', user.avatar, {expires: 7});
                 Cookies.set('nickname', user.nickname, {expires: 7});
                 Cookies.set('uid', user.userId, {expires: 7});
                 Cookies.set('checked', user.checked, {expires: 7});
-            }
+            /*}*/
             state.permissions = user.authorities;
             let fmRoutes = menuUtil.formatRoutes(user.menuList);
             router.addRoutes(fmRoutes);
@@ -32,13 +32,13 @@ export default new Vuex.Store({
         },
         LOGIN_OUT(state) {
             let checked = Cookies.get('checked');
-            if (checked) {
+            /*if (checked) {*/
                 Cookies.remove('access_token');
                 Cookies.remove('avatar');
                 Cookies.remove('nickname');
                 Cookies.remove('uid');
                 Cookies.remove('checked')
-            }
+            /*}*/
             state.menuList = [];
             state.visitedViews = []
         },

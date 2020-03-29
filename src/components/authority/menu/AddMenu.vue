@@ -47,7 +47,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" v-if="nodeData.menuType === '1' || nodeData.menuType === '2'">
-                        <el-form-item label="请求路径" :prop="isMenuProp ? '' : 'authority'">
+                        <el-form-item label="请求路径" :prop="isMenuProp ? '' : 'menuUrl'">
                             <el-input v-model="nodeData.menuUrl" placeholder="请求路径"></el-input>
                         </el-form-item>
                     </el-col>
@@ -111,7 +111,10 @@
                         {required: true, message: '请选择菜单图标', target: 'blur'}
                     ],
                     authority: [
-                        {required: true, message: '请输入权限标识', target: 'blur'}
+                        {required: true, message: '请输入权限标识', target: 'blur', pattern: '^[a-z][a-z:]+$'}
+                    ],
+                    menuUrl: [
+                        {required: true, message: '请输入请求路径', target: 'blur', pattern: '^[/][a-zA-Z/]+$'}
                     ]
                 }
             }
