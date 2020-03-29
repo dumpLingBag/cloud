@@ -63,7 +63,7 @@
                 dict: {
                     dictType: '',
                     dictName: '',
-                    enable: '',
+                    enabled: '',
                     currentPage: 1,
                     pageSize: 10,
                     totalSize: 0

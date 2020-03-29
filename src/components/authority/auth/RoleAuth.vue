@@ -142,7 +142,7 @@
                                 this.authConfirm('是否为选中角色分配权限', role[0].id, this.getAuthIds(auth), 1)
                             }
                         } else {
-                            this.authConfirm('是否取消该角色权限', role[0].id, this.getAuthIds(auth), 0)
+                            this.authConfirm('是否取消该角色权限', role[0].id, this.getAuthIds(data.children), 0)
                         }
                     }
                 } else {

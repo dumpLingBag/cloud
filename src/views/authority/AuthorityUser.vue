@@ -246,8 +246,8 @@
                 if (row.parentId === '0') {
                     this.$message.warning('禁止修改超级管理员状态')
                 } else {
-                    const enable = row.enable === 1 ? 0 : 1;
-                    this.$api.request(this.$url.AuthorityUser.enable + '/' + row.id + '/' + enable,
+                    const enabled = row.enabled === 1 ? 0 : 1;
+                    this.$api.request(this.$url.AuthorityUser.enabled + '/' + row.id + '/' + enabled,
                         this.$method.put).then(res => {
                         if (res.code === 0) {
                             this.currentChange(this.page.currentPage)

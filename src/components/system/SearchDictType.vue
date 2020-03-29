@@ -8,7 +8,7 @@
                 <el-form ref="dict" :model="dict" :inline="true" label-width="10px" size="small"
                          class="demo-form-inline el-input-height">
                     <el-form-item prop="enable">
-                        <el-select v-model="dict.enable" @change="enableSelect($event)" placeholder="字典状态">
+                        <el-select v-model="dict.enabled" @change="enableSelect($event)" placeholder="字典状态">
                             <el-option label="启用" value="1"></el-option>
                             <el-option label="禁用" value="0"></el-option>
                         </el-select>

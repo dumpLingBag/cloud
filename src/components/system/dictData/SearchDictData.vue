@@ -18,7 +18,7 @@
                         <el-input v-model="dict.dictName" placeholder="请输入字典标签"></el-input>
                     </el-form-item>
                     <el-form-item prop="enable">
-                        <el-select v-model="dict.enable" @change="enableSelect($event)" placeholder="字典状态">
+                        <el-select v-model="dict.enabled" @change="enableSelect($event)" placeholder="字典状态">
                             <el-option label="启用" value="1"></el-option>
                             <el-option label="禁用" value="0"></el-option>
                         </el-select>

@@ -39,11 +39,13 @@
                     if (!reg.test(value)) {
                         callback(new Error('字典类型只能为小写字母和下划线'))
                     }
-                    if (!this.dictForm.id) {
+                    if (!this.dictForm.id || this.dictForm.id  === '') {
                         this.getDictType(value, callback)
                     } else {
                         if (value !== this.defaultDictType) {
                             this.getDictType(value, callback)
+                        } else {
+                            callback()
                         }
                     }
                 }
@@ -94,6 +96,8 @@
                     if (res.code === 0) {
                         if (res.data) {
                             callback(new Error('已存在相同字典类型'))
+                        } else {
+                            callback()
                         }
                     }
                 })

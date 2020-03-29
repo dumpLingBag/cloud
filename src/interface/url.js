@@ -16,7 +16,7 @@ export default {
         /* 重置密码${id} */
         resetPassword: 'authority/user/reset',
         /* 启用禁用账号${id}/${enable} */
-        enable: 'authority/user/enable',
+        enabled: 'authority/user/enabled',
         delete: 'authority/user/delete'
     },
     IconList: {
