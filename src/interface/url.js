@@ -83,5 +83,19 @@ export default {
     },
     File: {
         upload: 'authority/file/upload'
+    },
+    DictType: {
+        loadDictType: 'authority/dictType/pageList',
+        list: 'authority/dictType/list',
+        save: 'authority/dictType/save',
+        update: 'authority/dictType/update',
+        delete: 'authority/dictType/delete',
+        getDictType: 'authority/dictType/getDictType'
+    },
+    DictData: {
+        loadDictData: 'authority/dictData/list',
+        save: 'authority/dictData/save',
+        update: 'authority/dictData/update',
+        delete: 'authority/dictData/delete'
     }
 }

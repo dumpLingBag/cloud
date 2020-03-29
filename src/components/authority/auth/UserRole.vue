@@ -298,7 +298,7 @@
 
             // 切换角色分配
             isSelection() {
-                this.selection = !this.selection
+                this.selection = !this.selection;
                 if (this.selection) {
                     if (this.userRole.roleId && this.userList.length > 0) {
                         if (this.userId.length <= 0) {

@@ -91,20 +91,17 @@
                 }
             }
         },
+        mounted() {
+            this.imageUrl = this.userInfo.avatar
+        },
         methods: {
             onSubmit(formName) {
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        this.userInfo.avatar = this.imageUrl
+                        this.userInfo.avatar = this.imageUrl;
                         this.$api.request(this.$url.AuthorityUser.editUser, this.$method.put, this.userInfo).then(res => {
                             if (res.code === 0) {
-                                let user = JSON.parse(window.localStorage.getItem('user'))
-                                Object.keys(this.userInfo).forEach(key => {
-                                    if (this.userInfo[key]) {
-                                        user[key] = this.userInfo[key]
-                                    }
-                                })
-                                window.localStorage.setItem('user', JSON.stringify(user))
+
                             } else {
                                 this.$toolUtil.msg(res, this.error)
                             }
@@ -114,12 +111,9 @@
                     }
                 })
             },
-            handleAvatarSuccess(res, file) {
-                this.imageUrl = URL.createObjectURL(file.raw)
-            },
             beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-                const isLt2M = file.size / 1024 / 1024 < 5
+                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+                const isLt2M = file.size / 1024 / 1024 < 5;
 
                 if (!isJPG) {
                     this.$message.error('上传头像图片只能是 JPG 格式!')
@@ -129,9 +123,6 @@
                 }
                 return isJPG && isLt2M
             }
-        },
-        mounted() {
-            this.imageUrl = this.userInfo.avatar
         }
     }
 </script>
