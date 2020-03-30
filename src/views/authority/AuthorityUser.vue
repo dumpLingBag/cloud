@@ -1,8 +1,8 @@
 <template>
     <div class="sys-user">
         <v-search-user v-on:addUser="addUser" :page="page" v-on:userStyle="userStyle"
-                       v-on:enableSelect="enableSelect" v-on:onSubmit="onSubmit"
-                       v-on:resetSearch="resetSearch"></v-search-user>
+                       v-on:enableSelect="enableSelect" v-on:onSubmit="onSubmit" v-on:delBatchUser="delBatchUser"
+                       v-on:resetSearch="resetSearch" :multipleSelection="multipleSelection"></v-search-user>
         <v-add-user :dialogUser="dialogUser" :addOrEdit="addOrEdit" v-on:cancel="cancel"
                     :userForm="userForm"></v-add-user>
         <v-role-user :selectRole="selectRole" :roleList="roleList" :dialogRole="dialogRole"
@@ -202,6 +202,24 @@
                     this.$message.info('取消删除!')
                 })
             },
+            // 批量删除用户
+            delBatchUser() {
+                this.$confirm('确定要删除选中的用户吗？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$api.request(this.$url.AuthorityUser.delete, this.$method.delete,
+                        {userIds: this.getUserIds(this.multipleSelection)}).then(res => {
+                        if (res.code === 0) {
+                            this.$message.success('删除用户成功');
+                            this.currentChange(this.page.currentPage)
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info('取消删除!')
+                })
+            },
             // 重置用户密码
             resetPassword(row) {
                 this.$confirm('确定重置该用户的密码吗?', '提示', {
@@ -309,6 +327,13 @@
                     }
                     return arr
                 }
+            },
+            getUserIds(obj) {
+                let ids = [];
+                Object.keys(obj).forEach(key => {
+                    ids.push(key.id)
+                });
+                return ids;
             }
         }
     }

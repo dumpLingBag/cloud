@@ -21,18 +21,18 @@
                         <el-tag size="medium" v-if="scope.row.menuType === 2" type="warning">按钮</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column label="路径" :show-overflow-tooltip="true" sortable width="180">
+                <el-table-column label="组件路径" :show-overflow-tooltip="true" sortable width="180">
                     <template slot-scope="scope">
                         <span v-if="scope.row.path && scope.row.component">{{scope.row.path + '/' + url(scope.row.component)}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="路由名称" prop="component" :show-overflow-tooltip="true" sortable width="180">
-                </el-table-column>
-                <el-table-column prop="enabled" label="可见" sortable width="100">
+                <el-table-column label="路由名称" prop="component" :show-overflow-tooltip="true" sortable width="180"></el-table-column>
+                <el-table-column label="请求路径" prop="menuUrl" :show-overflow-tooltip="true" sortable width="180"></el-table-column>
+                <el-table-column prop="enabled" label="状态" sortable width="100">
                     <template slot-scope="scope">
                         <el-tag size="medium" @click="tagEnabled(scope.$index, scope.row)"
                                 :type="String(scope.row.enabled) === '1' ? 'success' : 'warning'">
-                            {{String(scope.row.enabled) === '1' ? '可见' : '隐藏'}}
+                            {{String(scope.row.enabled) === '1' ? '启用' : '禁用'}}
                         </el-tag>
                     </template>
                 </el-table-column>
@@ -41,7 +41,7 @@
                 <el-table-column label="操作" fixed="right" width="260">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
-                        <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>
+                        <el-button size="mini" type="primary" :disabled="scope.row.menuType && scope.row.menuType === 2" @click="append(scope.row)">增加</el-button>
                         <el-button size="mini" type="danger" @click="remove(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
@@ -107,7 +107,7 @@
         methods: {
             loadMenu() {
                 this.loading = true
-                this.$api.request(this.$url.AuthorityMenu.load).then(res => {
+                this.$api.request(this.$url.AuthorityMenu.list).then(res => {
                     if (res.code === 0) {
                         this.menuList = res.data
                         this.addMenuList[0].children = res.data
@@ -123,21 +123,25 @@
             },
 
             append(data) { // 添加菜单
-                this.addOrEdit = true
-                Object.keys(this.nodeData).forEach(key => {
-                    if (key === 'enabled' || key === 'menuType') {
-                        this.nodeData[key] = '1'
-                    } else {
-                        if (key === 'pid') {
-                            this.selectId = data.id
+                if (data.menuType && data.menuType === 2) {
+                    this.$message.warning('按钮不支持添加下级菜单')
+                } else {
+                    this.addOrEdit = true
+                    Object.keys(this.nodeData).forEach(key => {
+                        if (key === 'enabled' || key === 'menuType') {
+                            this.nodeData[key] = '1'
                         } else {
-                            this.nodeData[key] = ''
+                            if (key === 'pid') {
+                                this.selectId = data.id
+                            } else {
+                                this.nodeData[key] = ''
+                            }
                         }
-                    }
-                })
-                let children = data.children
-                this.nodeData.sort = children && children.length > 0 ? children.length + 1 : 1;
-                this.dialog()
+                    })
+                    let children = data.children
+                    this.nodeData.sort = children && children.length > 0 ? children.length + 1 : 1;
+                    this.dialog()
+                }
             },
 
             keysNode(data) {
@@ -165,7 +169,7 @@
                         this.delMenu(array, row)
                     }
                     let obj = {enabled: enabled, menuIdList: array}
-                    this.$api.request(this.$url.AuthorityMenu.updateInList, this.$method.put, obj).then(res => {
+                    this.$api.request(this.$url.AuthorityMenu.updateInMenu, this.$method.put, obj).then(res => {
                         if (res.code === 0) {
                             this.$message.success('菜单状态更新成功')
                             this.loadMenu()

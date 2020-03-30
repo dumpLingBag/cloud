@@ -114,7 +114,7 @@
                         {required: true, message: '请输入权限标识', target: 'blur', pattern: '^[a-z][a-z:]+$'}
                     ],
                     menuUrl: [
-                        {required: true, message: '请输入请求路径', target: 'blur', pattern: '^[/][a-zA-Z/]+$'}
+                        {required: true, message: '请求路径以/开头并且只能是大小写字母', target: 'blur', pattern: '^[/][a-zA-Z/]+$'}
                     ]
                 }
             }
@@ -143,7 +143,7 @@
                         if (this.addOrEdit) { // 添加菜单
                             this.nodeData.pid = this.nodeData.id
                             this.nodeData.id = ''
-                            url = this.$url.AuthorityMenu.save
+                            url = this.$url.AuthorityMenu.insert
                         }
                         this.nodeData.pid = this.selectId
                         this.$api.request(url, this.addOrEdit ? this.$method.post : this.$method.put, this.nodeData).then(res => {
@@ -161,7 +161,6 @@
             },
 
             open() {
-                console.log(this.nodeData)
                 this.clearVal('menuData')
             },
 

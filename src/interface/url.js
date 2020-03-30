@@ -1,18 +1,18 @@
 export default {
     Login: {
         /* 登录 */
-        login: 'authority/authorityLogin/login',
+        login: 'authority/login/login',
         /* 登出 */
-        loginOut: 'authority/authorityLogin/loginOut',
-        captcha: 'authority/authorityLogin/captcha'
+        loginOut: 'authority/login/loginOut',
+        captcha: 'authority/login/captcha'
     },
     AuthorityUser: {
         /* 添加用户 */
-        addUser: 'authority/user/save',
+        addUser: 'authority/user/insert',
         /* 修改用户 */
         editUser: 'authority/user/update',
         /* 获取用户信息 */
-        pageList: 'authority/user/pageList',
+        pageList: 'authority/user/page',
         /* 重置密码${id} */
         resetPassword: 'authority/user/reset',
         /* 启用禁用账号${id}/${enable} */
@@ -21,7 +21,7 @@ export default {
     },
     IconList: {
         /* 加载图标 */
-        loadIcon: 'authority/authoritySys/loadIcon'
+        loadIcon: 'authority/system/listIcon'
     },
     User: {
         updatePassword: 'authority/user/updatePassword',
@@ -30,43 +30,43 @@ export default {
     },
     AuthorityMenu: {
         /* 加载地址url */
-        load: 'authority/authorityMenu/load',
-        save: 'authority/authorityMenu/save',
-        update: 'authority/authorityMenu/update',
-        delete: 'authority/authorityMenu/delete',
-        loadByPid: 'authority/authorityMenu/loadByPid',
-        updateInList: 'authority/authorityMenu/updateInList'
+        list: 'authority/menu/list',
+        insert: 'authority/menu/insert',
+        update: 'authority/menu/update',
+        delete: 'authority/menu/delete',
+        listByPid: 'authority/menu/listByPid',
+        updateInMenu: 'authority/menu/updateInMenu'
     },
     AuthorityMenuUrl: {
-        load: 'authority/authorityMenuUrl/load',
-        loadUrl: 'authority/authorityMenuUrl/loadUrl',
-        update: 'authority/authorityMenuUrl/update'
+        load: 'authority/menuUrl/load',
+        loadUrl: 'authority/menuUrl/loadUrl',
+        update: 'authority/menuUrl/update'
     },
     AuthorityRole: {
-        load: 'authority/authorityRole/load',
-        loadRole: 'authority/authorityRole/loadRole',
-        save: 'authority/authorityRole/save',
-        update: 'authority/authorityRole/update',
-        delete: 'authority/authorityRole/delete',
-        loadByPid: 'authority/authorityRole/loadByPid',
-        updateInList: 'authority/authorityRole/updateInList'
+        load: 'authority/role/list',
+        loadRole: 'authority/role/listRole',
+        save: 'authority/role/insert',
+        update: 'authority/role/update',
+        delete: 'authority/role/delete',
+        loadByPid: 'authority/role/listByPid',
+        updateInList: 'authority/role/updateInList'
     },
     AuthorityRoleMenu: {
-        load: 'authority/authorityRoleMenu/load',
-        loadMenu: 'authority/authorityRoleMenu/loadMenu',
-        update: 'authority/authorityRoleMenu/update',
-        save: 'authority/authorityRoleMenu/save'
+        load: 'authority/roleMenu/list',
+        loadMenu: 'authority/roleMenu/listMenu',
+        update: 'authority/roleMenu/update',
+        save: 'authority/roleMenu/insert'
     },
     AuthorityUserRole: {
-        load: 'authority/authorityUserRole/load',
-        update: 'authority/authorityUserRole/update',
-        save: 'authority/authorityUserRole/save',
-        loadUserByRoleId: 'authority/authorityUserRole/loadUserByRoleId'
+        load: 'authority/userRole/list',
+        update: 'authority/userRole/update',
+        save: 'authority/userRole/insert',
+        loadUserByRoleId: 'authority/userRole/pageUserByRoleId'
     },
     AuthorityCommonUrl: {
-        load: 'authority/authorityCommonUrl/load',
-        update: 'authority/authorityCommonUrl/update',
-        loadOpen: 'authority/authorityCommonUrl/loadOpen'
+        load: 'authority/commonUrl/list',
+        update: 'authority/commonUrl/update',
+        loadOpen: 'authority/commonUrl/listOpen'
     },
     Message: {
         load: 'authority/message/load'
@@ -85,16 +85,16 @@ export default {
         upload: 'authority/file/upload'
     },
     DictType: {
-        loadDictType: 'authority/dictType/pageList',
+        loadDictType: 'authority/dictType/page',
         list: 'authority/dictType/list',
-        save: 'authority/dictType/save',
+        save: 'authority/dictType/insert',
         update: 'authority/dictType/update',
         delete: 'authority/dictType/delete',
         getDictType: 'authority/dictType/getDictType'
     },
     DictData: {
         loadDictData: 'authority/dictData/list',
-        save: 'authority/dictData/save',
+        save: 'authority/dictData/insert',
         update: 'authority/dictData/update',
         delete: 'authority/dictData/delete'
     }

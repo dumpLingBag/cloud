@@ -3,6 +3,7 @@
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
                 <el-button type="primary" size="small" icon="el-icon-plus" @click="addUser">增加</el-button>
+                <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length <= 0" @click="delUser">删除</el-button>
                 <el-button type="primary" size="small" icon="el-icon-finished" @click="userStyle">切换样式</el-button>
             </div>
             <div class="el-right">
@@ -37,7 +38,8 @@
             return {}
         },
         props: {
-            page: Object
+            page: Object,
+            multipleSelection: Array
         },
         methods: {
             onSubmit() {
@@ -56,6 +58,9 @@
             },
             addUser() {
                 this.$emit('addUser')
+            },
+            delBatchUser() {
+                this.$emit('delBatchUser')
             }
         }
     }

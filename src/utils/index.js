@@ -4,7 +4,7 @@ const initMenu = (router, store) => {
     if (store.state.menuList.length > 0) {
         return false
     }
-    getRequest.request('authority/authoritySys/loadForMenu').then(res => {
+    getRequest.request('authority/system/listForMenu').then(res => {
         if (res && res.code === 0) {
             if (res.data && res.data.length > 0) {
                 store.dispatch('initMenuList', res.data);
