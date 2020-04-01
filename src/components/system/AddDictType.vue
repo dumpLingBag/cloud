@@ -1,7 +1,7 @@
 <template>
     <div class="add-dict-type">
         <el-dialog :title="addOrEdit ? '添加字典' : '编辑字典'" :visible.sync="dialogDict" width="30%"
-                   @closed="closeDialog" :modal-append-to-body='true' :append-to-body="true">
+                   @closed="closeDialog" @open="openDialog" :modal-append-to-body='true' :append-to-body="true">
             <el-form :label-position="labelPosition" :rules="rules" ref="dictForm" label-width="80px" :model="dictForm">
                 <el-form-item label="字典名称" prop="dictName" :error="error.dictName">
                     <el-input v-model="dictForm.dictName" placeholder="请输入字典名称" autocomplete="off"></el-input>
@@ -75,8 +75,7 @@
             dictForm: Object
         },
         mounted() {
-            this.clear = false;
-            this.defaultDictType = this.dictForm.dictType
+            this.clear = false
         },
         methods: {
             closeDialog() {
@@ -89,6 +88,10 @@
                     }
                 }
                 this.cancel()
+            },
+
+            openDialog() {
+                this.defaultDictType = this.dictForm.dictType
             },
 
             getDictType(dictType, callback) {

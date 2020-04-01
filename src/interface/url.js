@@ -1,10 +1,10 @@
 export default {
     Login: {
         /* 登录 */
-        login: 'authority/login/login',
+        login: 'authority/authorityLogin/login',
         /* 登出 */
-        loginOut: 'authority/login/loginOut',
-        captcha: 'authority/login/captcha'
+        loginOut: 'authority/authorityLogin/loginOut',
+        captcha: 'authority/authorityLogin/captcha'
     },
     AuthorityUser: {
         /* 添加用户 */
@@ -78,8 +78,8 @@ export default {
         banned: 'authority/socket/banned'
     },
     Log: {
-        loginInfoIndex: 'authority/log/loginInfoIndex',
-        operLogIndex: 'authority/log/operLogIndex'
+        loginInfo: 'authority/log/loginInfo',
+        operation: 'authority/log/operation'
     },
     File: {
         upload: 'authority/file/upload'
@@ -96,6 +96,7 @@ export default {
         loadDictData: 'authority/dictData/list',
         save: 'authority/dictData/insert',
         update: 'authority/dictData/update',
-        delete: 'authority/dictData/delete'
+        delete: 'authority/dictData/delete',
+        listDictData: 'authority/dictData/listDictData'
     }
 }

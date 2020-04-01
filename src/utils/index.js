@@ -6,10 +6,13 @@ const initMenu = (router, store) => {
     }
     getRequest.request('authority/system/listForMenu').then(res => {
         if (res && res.code === 0) {
-            if (res.data && res.data.length > 0) {
+            if (res.data && res.data.menuList && res.data.menuList.length > 0) {
                 store.dispatch('initMenuList', res.data);
-                const fmRoutes = formatRoutes(res.data);
+                const fmRoutes = formatRoutes(res.data.menuList);
                 router.addRoutes(fmRoutes)
+            } else {
+                // 没有菜单则跳转到登录页
+                router.push('/login')
             }
         }
     })

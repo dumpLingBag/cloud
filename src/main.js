@@ -14,6 +14,8 @@ import VueScroll from 'vuescroll'
 import 'vuescroll/dist/vuescroll.css'
 import md5 from 'js-md5'
 import './directive/permission/index'
+import cloud from './utils/cloud'
+import message from './utils/message'
 
 const VueClipboard = require('vue-clipboard2');
 const Vue = require('vue');
@@ -51,6 +53,8 @@ Vue.prototype.$echarts = echarts;
 Vue.prototype.$md5 = md5;
 Vue.prototype.$cookies = cookie;
 Vue.prototype.$pass = pass;
+Vue.prototype.$cloud = cloud;
+Vue.prototype.$message = message;
 
 router.beforeEach((to, from, next) => {
     if (to.name) {

@@ -3,14 +3,14 @@
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
                 <el-button type="primary" size="small" icon="el-icon-plus" @click="addUser">增加</el-button>
-                <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length <= 0" @click="delUser">删除</el-button>
+                <el-button type="danger" size="small" icon="el-icon-delete" v-hasPerm="['sys:user:add']" :disabled="multipleSelection.length <= 0" @click="delBatchUser">删除</el-button>
                 <el-button type="primary" size="small" icon="el-icon-finished" @click="userStyle">切换样式</el-button>
             </div>
             <div class="el-right">
                 <el-form ref="page" :model="page.search" :inline="true" label-width="10px" size="small"
                          class="demo-form-inline el-input-height">
-                    <el-form-item prop="enable">
-                        <el-select v-model="page.search.enable" @change="enableSelect($event)" placeholder="请选择状态">
+                    <el-form-item prop="enabled">
+                        <el-select v-model="page.search.enabled" @change="enableSelect($event)" placeholder="请选择状态">
                             <el-option label="启用" value="1"></el-option>
                             <el-option label="禁用" value="0"></el-option>
                         </el-select>

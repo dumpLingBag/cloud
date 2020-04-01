@@ -1,14 +1,14 @@
-let baseUrl = ''
+let baseUrl = '';
 
 switch (process.env.NODE_ENV) {
   case 'development':
-    baseUrl = 'http://localhost:9001/' // 开发环境url
-    break
+    baseUrl = 'http://localhost:9001/'; // 开发环境url
+    break;
   case 'cloud': // 注意这里的名字要和步骤二中设置的环境名字对应起来
-    baseUrl = 'http://localhost:9001/' // 测试环境中的url
-    break
+    baseUrl = 'http://localhost:9001/'; // 测试环境中的url
+    break;
   case 'production':
-    baseUrl = 'https://cloud.rngay.cn/' // 生产环境url
+    baseUrl = 'https://cloud.rngay.cn/'; // 生产环境url
     break
 }
 
@@ -28,6 +28,6 @@ let config = {
   withCredentials: true,
   // 返回数据类型
   responseType: 'json'
-}
+};
 
 export default config

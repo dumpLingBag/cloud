@@ -5,8 +5,6 @@
                        v-on:resetSearch="resetSearch" :multipleSelection="multipleSelection"></v-search-user>
         <v-add-user :dialogUser="dialogUser" :addOrEdit="addOrEdit" v-on:cancel="cancel"
                     :userForm="userForm"></v-add-user>
-        <v-role-user :selectRole="selectRole" :roleList="roleList" :dialogRole="dialogRole"
-                     v-on:dialogAddRole="dialogAddRole" v-on:closeDialogRole="closeDialogRole"></v-role-user>
         <div class="user-main vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" style="width: 100%"
                       @selection-change="handleSelectionChange">
@@ -37,13 +35,10 @@
                 <el-table-column fixed="right" label="操作" width="300">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="editUser(scope.row)">编辑</el-button>
-                        <el-button type="primary" size="mini" @click="userRole(scope.row)"
-                                   :disabled="scope.row.parentId === '0'">角色
-                        </el-button>
                         <el-button type="warning" size="mini" @click="resetPassword(scope.row)"
                                    :disabled="scope.row.parentId === '0'">重置
                         </el-button>
-                        <el-button type="danger" size="mini" @click="delUser(scope.row)"
+                        <el-button type="danger" v-hasPerm="['sys:user:add']" size="mini" @click="delUser(scope.row)"
                                    :disabled="scope.row.parentId === '0'">删除
                         </el-button>
                     </template>
@@ -59,12 +54,11 @@
 <script>
     import {httpData} from '@/common/httpData'
     import vAddUser from '@/components/authority/user/AddUser'
-    import vRoleUser from '@/components/authority/user/RoleUser'
     import vSearchUser from '@/components/authority/user/SearchUser'
 
     export default {
         name: 'AuthorityUser',
-        components: {vAddUser, vRoleUser, vSearchUser},
+        components: {vAddUser, vSearchUser},
         data() {
             return {
                 userList: [], // 表格数据
@@ -105,55 +99,26 @@
         },
         mounted() {
             this.currentChange(); // 分页获取用户信息
-            this.getRoleList() // 获取对应账号的角色信息
         },
         methods: {
-            // 获取对应角色信息
-            getRoleList() {
-                this.$api.request(this.$url.AuthorityRole.loadByPid, this.$method.get).then(res => {
-                    if (res.code === 0) {
-                        this.roleList = res.data
-                    }
-                })
-            },
             // 表格复选框
             handleSelectionChange(val) {
                 this.multipleSelection = val
             },
             // 模糊搜索
-            onSubmit(page) {
-                this.page = page
+            onSubmit() {
+                //this.page = page;
                 this.currentChange()
             },
             // 重置搜索表单数据
             resetSearch(page) {
-                this.page = page
+                this.page = page;
                 this.currentChange() // 重新加载分页数据
             },
             // 模糊搜索下拉框监听事件
             enableSelect(enable) {
                 this.page.search.enable = enable;
                 this.currentChange()
-            },
-            // 获取用户拥有的角色
-            userRole(row) {
-                this.userId = row.id;
-                this.dialogRole = !this.dialogRole;
-                this.$api.request(this.$url.AuthorityUserRole.load + '?userId=' + row.id,
-                    this.$method.get).then(res => {
-                    if (res.code === 0) {
-                        this.selectRole = [];
-                        this.selectAddRoleValue = res.data;
-                        this.selectDiffRoleValue = res.data;
-                        if (res.data && res.data.length > 0) {
-                            for (let i = 0; i < res.data.length; i++) {
-                                this.selectRole.push(res.data[i].roleId)
-                            }
-                        }
-                    }
-                }).catch(() => {
-                    this.selectRole = []
-                })
             },
             // 添加用户
             addUser() {

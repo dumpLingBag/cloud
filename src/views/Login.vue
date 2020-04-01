@@ -63,6 +63,7 @@
         },
         mounted() {
             let that = this;
+            this.$cookies.remove('access_token');
             window.onkeydown = function (event) {
                 if (event.key && event.key === 'Enter') {
                     that.submitForm('login')

@@ -2,7 +2,8 @@ const axios = require('axios')
 import config from '@/http/config'
 import router from '@/router/router'
 import NProgress from 'nprogress'
-import { MessageBox, Message } from 'element-ui'
+import { MessageBox } from 'element-ui'
+import Message from '@/utils/message'
 import 'nprogress/nprogress.css'
 const cookie = require('js-cookie')
 
@@ -169,7 +170,7 @@ export default function $axios (options) {
 
     // 请求处理
     instance(options).then(res => {
-      resolve(res)
+      resolve(res);
       return false
     }).catch(error => {
       reject(error)

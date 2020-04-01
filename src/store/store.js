@@ -18,35 +18,31 @@ export default new Vuex.Store({
     },
     mutations: {
         LOGIN(state, user) {
-            /*if (user.checked) {*/
-                Cookies.set('access_token', user.access_token, {expires: 7});
-                Cookies.set('avatar', user.avatar, {expires: 7});
-                Cookies.set('nickname', user.nickname, {expires: 7});
-                Cookies.set('uid', user.userId, {expires: 7});
-                Cookies.set('checked', user.checked, {expires: 7});
-            /*}*/
+            Cookies.set('access_token', user.access_token, {expires: 7});
+            Cookies.set('avatar', user.avatar, {expires: 7});
+            Cookies.set('nickname', user.nickname, {expires: 7});
+            Cookies.set('uid', user.userId, {expires: 7});
+            Cookies.set('checked', user.checked, {expires: 7});
             state.permissions = user.authorities;
             let fmRoutes = menuUtil.formatRoutes(user.menuList);
             router.addRoutes(fmRoutes);
             state.menuList = user.menuList
         },
         LOGIN_OUT(state) {
-            let checked = Cookies.get('checked');
-            /*if (checked) {*/
-                Cookies.remove('access_token');
-                Cookies.remove('avatar');
-                Cookies.remove('nickname');
-                Cookies.remove('uid');
-                Cookies.remove('checked')
-            /*}*/
+            Cookies.remove('access_token');
+            Cookies.remove('avatar');
+            Cookies.remove('nickname');
+            Cookies.remove('uid');
+            Cookies.remove('checked');
             state.menuList = [];
             state.visitedViews = []
         },
         INIT_FLAG(state, initFlag) {
             state.initFlag = initFlag
         },
-        INIT_MENU_LIST(state, menuList) {
-            state.menuList = menuList
+        INIT_MENU_LIST(state, menuAuth) {
+            state.menuList = menuAuth.menuList;
+            state.permissions = menuAuth.authorities
         },
         COLLAPSE(state, collapse) {
             state.collapse = collapse

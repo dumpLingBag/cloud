@@ -1,7 +1,7 @@
 <template>
     <div class="dictionary">
-        <v-search-dict v-on:addDict="addDict" :dict="dict" v-on:onSubmit="onSubmit"
-        v-on:enableSelect="enableSelect" v-on:resetSearch="resetSearch"></v-search-dict>
+        <v-search-dict v-on:addDict="addDict" :dict="dict" v-on:onSubmit="onSubmit" v-on:delBatchDict="delBatchDict"
+        v-on:enableSelect="enableSelect" v-on:resetSearch="resetSearch" :multipleSelection="multipleSelection"></v-search-dict>
         <v-add-dict :dialogDict="dialogDict" :addOrEdit="addOrEdit" :dictForm="dictForm" v-on:cancel="cancel"></v-add-dict>
         <div class="dict vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="dictList" style="width: 100%"
@@ -70,7 +70,8 @@
                     dictType: '',
                     enabled: '1',
                     remark: ''
-                }
+                },
+                multipleSelection: []
             }
         },
         mounted() {
@@ -109,8 +110,8 @@
                 this.loadDict()
             },
 
-            handleSelectionChange() {
-
+            handleSelectionChange(row) {
+                this.multipleSelection = row
             },
 
             editDict(row) {
@@ -132,7 +133,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$api.request(this.$url.DictType.delete+'/'+row.id, this.$method.delete).then(res => {
+                    this.$api.request(this.$url.DictType.delete, this.$method.delete, {dictTypeId: [row.id]}).then(res => {
                         if (res.code === 0) {
                             this.$message.success('删除字典成功');
                             this.loadDict()
@@ -148,6 +149,39 @@
                 if (status) {
                     this.loadDict()
                 }
+            },
+            // 批量删除
+            delBatchDict() {
+                if (this.multipleSelection.length > 0) {
+                    this.$confirm('确定要删除选中的字典吗？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                    }).then(() => {
+                        let dictTypeIds = this.getDictTypeId(this.multipleSelection);
+                        this.$api.request(this.$url.DictType.delete, this.$method.delete,
+                            {dictTypes: dictTypeIds}).then(res => {
+                            if (res.code === 0) {
+                                this.$notify({
+                                    title: '成功',
+                                    message: '删除字典成功',
+                                    type: 'success'
+                                });
+                                this.loadDict()
+                            }
+                        })
+                    }).catch(() => {
+                        this.$message.info('取消操作')
+                    })
+                }
+            },
+
+            getDictTypeId(selectIds) {
+                let obj = [];
+                selectIds.forEach(key => {
+                    obj.push(key.dictType)
+                });
+                return obj;
             }
         }
     }

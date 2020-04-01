@@ -37,7 +37,7 @@
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
-                        <el-form-item label="账号状态" prop="enable">
+                        <el-form-item label="账号状态" prop="enabled">
                             <el-radio-group v-model="userForm.enabled"
                                             :disabled="!addOrEdit && userForm.parentId === '0'" size="medium">
                                 <el-radio label="1">启用</el-radio>

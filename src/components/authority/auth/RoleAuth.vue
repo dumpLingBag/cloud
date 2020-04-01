@@ -1,5 +1,6 @@
 <template>
     <div class="role-auth">
+
         <el-row :gutter="50">
             <el-col :span="6" class="colSpan">
                 <div class="roleFilter">
@@ -16,6 +17,9 @@
                 <el-tree :data="menuList" ref="authTree" accordion :expand-on-click-node="true" :show-checkbox="selection" node-key="id"
                          :props="defaultProps" :filter-node-method="authFilterNode" @node-click="authRoleUser" @check="authCheck">
                 </el-tree>
+            </el-col>
+            <el-col :span="6">
+                <el-button type="primary" icon="el-icon-magic-stick" size="small" @click="reset">重置选中</el-button>
             </el-col>
         </el-row>
     </div>
@@ -183,6 +187,11 @@
                         this.$message.success('权限更新成功')
                     }
                 })
+            },
+
+            reset() {
+                this.$refs.authTree.setCheckedKeys([]);
+                this.$refs.roleTree.setCheckedKeys([]);
             },
 
             getAuthIds(authIds) {

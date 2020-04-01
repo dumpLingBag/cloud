@@ -93,7 +93,8 @@
             addDict() {
                 this.dialogDict = true;
                 this.addOrEdit = true;
-                this.dictForm.dictType = this.dict.dictType
+                this.dictForm.dictType = this.dict.dictType;
+                this.dictForm.dictSort = this.dictList.length + 1;
             },
 
             onSubmit(dict) {

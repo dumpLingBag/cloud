@@ -18,9 +18,9 @@ const request = (url, method, data) => {
 
 const dict = (data) => {
     return axios({
-        url: '',
+        url: url.DictData.listDictData,
         method: 'GET',
-        params: data
+        params: {'dictType': data}
     })
 };
 
