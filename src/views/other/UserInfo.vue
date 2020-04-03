@@ -2,34 +2,38 @@
     <div class="user-info">
         <el-row>
             <el-col :span="8">
-                <div class="vue-padding radius" style="margin-right: 20px;">
-                    <div class="head-img">
+                <div class="radius" style="margin-right: 20px;">
+                    <div class="user-title">个人信息</div>
+                    <div class="vue-padding head-img">
                         <avatar-user :user="userInfo"></avatar-user>
                     </div>
                 </div>
             </el-col>
             <el-col :span="16">
-                <div class="vue-padding radius">
-                    <el-form ref="userInfo" :model="userInfo" :rules="rules" label-width="80px">
-                        <el-form-item label="用户昵称" prop="nickname" :error="error.nickname">
-                            <el-input v-model="userInfo.nickname"></el-input>
-                        </el-form-item>
-                        <el-form-item label="用户邮箱" prop="email" :error="error.email">
-                            <el-input v-model="userInfo.email"></el-input>
-                        </el-form-item>
-                        <el-form-item label="用户号码" prop="mobile" :error="error.mobile">
-                            <el-input v-model="userInfo.mobile"></el-input>
-                        </el-form-item>
-                        <el-form-item label="用户性别">
-                            <el-radio-group v-model="userInfo.sex">
-                                <el-radio label="0">男</el-radio>
-                                <el-radio label="1">女</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item>
-                            <el-button type="primary" @click="onSubmit('userInfo')">立即修改</el-button>
-                        </el-form-item>
-                    </el-form>
+                <div class="radius">
+                    <div class="user-title">基本资料</div>
+                    <div class="vue-padding">
+                        <el-form ref="userInfo" :model="userInfo" :rules="rules" label-width="80px">
+                            <el-form-item label="用户昵称" prop="nickname" :error="error.nickname">
+                                <el-input v-model="userInfo.nickname"></el-input>
+                            </el-form-item>
+                            <el-form-item label="用户邮箱" prop="email" :error="error.email">
+                                <el-input v-model="userInfo.email"></el-input>
+                            </el-form-item>
+                            <el-form-item label="用户号码" prop="mobile" :error="error.mobile">
+                                <el-input v-model="userInfo.mobile"></el-input>
+                            </el-form-item>
+                            <el-form-item label="用户性别">
+                                <el-radio-group v-model="userInfo.sex">
+                                    <el-radio label="0">男</el-radio>
+                                    <el-radio label="1">女</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="onSubmit('userInfo')">立即修改</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
                 </div>
             </el-col>
         </el-row>
@@ -128,6 +132,19 @@
 </script>
 
 <style lang="scss">
+    .user-info {
+        color: #303133;
+    }
+    .user-info .user-title {
+        font-size: 16px;
+        padding: 10px 20px 5px;
+        border-bottom: 1px solid #e6ebf5;
+    }
+
+    .user-info .vue-padding {
+        padding: 20px;
+    }
+
     .avatar-uploader .el-upload {
         border: 1px dashed #d9d9d9;
         border-radius: 6px;

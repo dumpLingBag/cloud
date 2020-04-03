@@ -2,6 +2,8 @@
     <div class="search-operation">
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
+                <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length <= 0" @click="delBatchOperation">删除</el-button>
+                <el-button type="danger" size="small" icon="el-icon-delete" @click="clearOperation">清空</el-button>
             </div>
             <div class="el-right">
                 <el-form ref="operation" :model="operation" :inline="true" label-width="10px" size="small"
@@ -13,7 +15,7 @@
                         <el-input v-model="operation.operName" placeholder="请输入操作人员"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-select v-model="operation.businessType" filterable clearable placeholder="请选择">
+                        <el-select v-model="operation.businessType" filterable clearable placeholder="操作类型">
                             <el-option
                                     v-for="item in operType"
                                     :key="item.dictValue"
@@ -54,7 +56,8 @@
         name: "SearchOperation",
         props: {
             operation: Object,
-            operType: Array
+            operType: Array,
+            multipleSelection: Array
         },
         data() {
             return {
@@ -76,6 +79,50 @@
                 this.$toolUtil.clearForm(this.operation);
                 this.dateTime = '';
                 this.$emit('resetSearch', this.operation)
+            },
+
+            // 删除操作日志
+            delBatchOperation() {
+                this.$confirm('是否要删除选中操作日志？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$api.request(this.$url.OperationLog.delete, this.$method.delete, {ids: this.$cloud.getIds(this.multipleSelection)}).then(res => {
+                        if (res.code === 0) {
+                            this.$notify({
+                                title: '提示',
+                                message: '成功删除选中操作日志',
+                                type: 'success'
+                            });
+                            this.$emit('update')
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info('取消操作')
+                })
+            },
+
+            // 清空操作日志
+            clearOperation() {
+                this.$confirm('是否要清空操作日志？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$api.request(this.$url.OperationLog.clear, this.$method.delete).then(res => {
+                        if (res.code === 0) {
+                            this.$notify({
+                                title: '提示',
+                                message: '成功清空操作日志',
+                                type: 'success'
+                            });
+                            this.$emit('update')
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info('取消操作')
+                })
             }
         }
     }

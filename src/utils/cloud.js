@@ -19,4 +19,13 @@ export default class cloud {
         return obj1;
     }
 
+    // 获取 ids
+    static getIds(obj) {
+        let array = [];
+        Object.keys(obj).map(key => {
+            array.push(obj[key].id)
+        });
+        return array;
+    }
+
 }

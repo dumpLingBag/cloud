@@ -1,10 +1,10 @@
 export default {
     Login: {
         /* 登录 */
-        login: 'authority/authorityLogin/login',
+        login: 'authority/login',
         /* 登出 */
-        loginOut: 'authority/authorityLogin/loginOut',
-        captcha: 'authority/authorityLogin/captcha'
+        loginOut: 'authority/logout',
+        captcha: 'authority/login/captcha'
     },
     AuthorityUser: {
         /* 添加用户 */
@@ -55,7 +55,8 @@ export default {
         load: 'authority/roleMenu/list',
         loadMenu: 'authority/roleMenu/listMenu',
         update: 'authority/roleMenu/update',
-        save: 'authority/roleMenu/insert'
+        save: 'authority/roleMenu/insert',
+        listAuth: 'authority/roleMenu/listAuth'
     },
     AuthorityUserRole: {
         load: 'authority/userRole/list',
@@ -77,9 +78,15 @@ export default {
         sendUser: 'authority/socket/sendUser',
         banned: 'authority/socket/banned'
     },
-    Log: {
-        loginInfo: 'authority/log/loginInfo',
-        operation: 'authority/log/operation'
+    LoginInfo: {
+        page: 'authority/loginInfo/page',
+        delete: 'authority/loginInfo/delete',
+        clear: 'authority/loginInfo/clear'
+    },
+    OperationLog: {
+        page: 'authority/operation/page',
+        delete: 'authority/operation/delete',
+        clear: 'authority/operation/clear'
     },
     File: {
         upload: 'authority/file/upload'

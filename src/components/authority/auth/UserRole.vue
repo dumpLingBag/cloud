@@ -18,15 +18,15 @@
                     </el-col>
                     <el-col :span="20">
                         <el-form :inline="true" :model="userRole" class="demo-form-inline" size="small" style="float: right;">
-                            <el-form-item label="用户名">
+                            <el-form-item>
                                 <el-input v-model="userRole.username" placeholder="用户名"></el-input>
                             </el-form-item>
-                            <el-form-item label="用户昵称">
+                            <el-form-item>
                                 <el-input v-model="userRole.nickname" placeholder="用户昵称"></el-input>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" @click="userRoleQuery">查询</el-button>
-                                <el-button type="primary" @click="userRoleReset">重置</el-button>
+                                <el-button type="primary" icon="el-icon-search" @click="userRoleQuery">查询</el-button>
+                                <el-button icon="el-icon-refresh" @click="userRoleReset">重置</el-button>
                             </el-form-item>
                         </el-form>
                     </el-col>

@@ -1,6 +1,10 @@
 <template>
     <div class="search-login-info">
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
+            <div class="el-left">
+                <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length <= 0" @click="delBatchLoginInfo">删除</el-button>
+                <el-button type="danger" size="small" icon="el-icon-delete" @click="clearLoginInfo">清空</el-button>
+            </div>
             <div class="el-right">
                 <el-form ref="loginInfo" :model="loginInfo" :inline="true" label-width="10px" size="small"
                          class="demo-form-inline el-input-height">
@@ -41,7 +45,8 @@
     export default {
         name: "SearchLoginInfo",
         props: {
-            loginInfo: Object
+            loginInfo: Object,
+            multipleSelection: Array
         },
         data() {
             return {
@@ -62,6 +67,50 @@
                 this.$toolUtil.clearForm(this.loginInfo);
                 this.dateTime = '';
                 this.$emit('resetSearch')
+            },
+
+            // 删除登录日志
+            delBatchLoginInfo() {
+                this.$confirm('是否要删除选中登录日志？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$api.request(this.$url.LoginInfo.delete, this.$method.delete, {ids: this.$cloud.getIds(this.multipleSelection)}).then(res => {
+                        if (res.code === 0) {
+                            this.$notify({
+                                title: '提示',
+                                message: '成功删除选中登录日志',
+                                type: 'success'
+                            });
+                            this.$emit('update')
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info('取消操作')
+                })
+            },
+
+            // 清空登录日志
+            clearLoginInfo() {
+                this.$confirm('是否要清空登录日志？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$api.request(this.$url.LoginInfo.clear, this.$method.delete).then(res => {
+                        if (res.code === 0) {
+                            this.$notify({
+                                title: '提示',
+                                message: '成功清空登录日志',
+                                type: 'success'
+                            });
+                            this.$emit('update')
+                        }
+                    })
+                }).catch(() => {
+                    this.$message.info('取消操作')
+                })
             }
         }
     }

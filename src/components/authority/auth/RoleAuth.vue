@@ -1,6 +1,5 @@
 <template>
     <div class="role-auth">
-
         <el-row :gutter="50">
             <el-col :span="6" class="colSpan">
                 <div class="roleFilter">
@@ -15,11 +14,30 @@
                     <el-input placeholder="输入权限关键字进行过滤" size="small" :clearable="true" v-model="authFilterText"></el-input>
                 </div>
                 <el-tree :data="menuList" ref="authTree" accordion :expand-on-click-node="true" :show-checkbox="selection" node-key="id"
-                         :props="defaultProps" :filter-node-method="authFilterNode" @node-click="authRoleUser" @check="authCheck">
+                         :check-strictly="false" :filter-node-method="authFilterNode" @node-click="authRoleUser" @check="authCheck">
+                    <span class="custom-tree-node" slot-scope="{ node, data }">
+                        <span>{{data.label}}</span>
+                        <span v-if="data.menuType === 0">（目录）</span>
+                        <span v-if="data.menuType === 1">（菜单）</span>
+                        <span v-if="data.menuType === 2">（权限）</span>
+                    </span>
                 </el-tree>
             </el-col>
-            <el-col :span="6">
+            <el-col :span="12">
                 <el-button type="primary" icon="el-icon-magic-stick" size="small" @click="reset">重置选中</el-button>
+                <el-button type="primary" icon="el-icon-key" size="small" @click="reset">分配权限</el-button>
+                <div class="power">
+                    <!--<el-checkbox :indeterminate="isIndeterminate" v-model="check.a" @change="handleCheckAllChange(this,'1')">全选</el-checkbox>
+                    <div style="margin: 15px 0;"></div>
+                    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                        <el-checkbox v-for="city in cities" :label="city" :key="city">{{city}}</el-checkbox>
+                    </el-checkbox-group>
+                    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange(this,'2')">全选</el-checkbox>
+                    <div style="margin: 15px 0;"></div>
+                    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
+                        <el-checkbox v-for="city in cities2" :label="city" :key="city">{{city}}</el-checkbox>
+                    </el-checkbox-group>-->
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -40,6 +58,8 @@
                     username: '',
                     nickname: ''
                 },
+                listMenu: [],
+                listPower: []
             }
         },
         props: {
@@ -66,6 +86,16 @@
                     }
                 })
             },
+
+            /*handleCheckAllChange(val) {
+                this.checkedCities = val ? cityOptions : [];
+                this.isIndeterminate = false;
+            },*/
+            /*handleCheckedCitiesChange(value) {
+                let checkedCount = value.length;
+                this.checkAll = checkedCount === this.cities.length;
+                this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+            },*/
 
             loadCheckMenu(roleId) {
                 this.$api.request(this.$url.AuthorityRoleMenu.loadMenu, this.$method.get, {'roleId': roleId}).then(res => {
@@ -99,7 +129,11 @@
             },
 
             authRoleUser(data) {
-
+                this.$api.request(this.$url.AuthorityRoleMenu.listAuth, this.$method.post, {ids: [data.id, data.id]}).then(res => {
+                    if (res.code === 0) {
+                        console.log(res.data)
+                    }
+                })
             },
 
             roleCheck(data) {
@@ -131,6 +165,7 @@
             authCheck(data) {
                 let role = this.$refs.roleTree.getCheckedNodes(true, false);
                 let auth = this.$refs.authTree.getCheckedNodes(false, true);
+                console.log(this.getAuthIds(auth));
                 if (data.pid === '0') {
                     if (role.length > 0) {
                         if (auth.length > 0) {
@@ -182,11 +217,12 @@
 
             saveRoleAuth(roleId, menuIds, type) {
                 let obj = {roleId: roleId, menuId: menuIds, type: type};
-                this.$api.request(this.$url.AuthorityRoleMenu.save, this.$method.post, obj).then(res => {
+                console.log(obj)
+                /*this.$api.request(this.$url.AuthorityRoleMenu.save, this.$method.post, obj).then(res => {
                     if (res.code === 0) {
                         this.$message.success('权限更新成功')
                     }
-                })
+                })*/
             },
 
             reset() {
@@ -209,6 +245,10 @@
     .role-auth {
         .roleFilter {
 
+        }
+        .power {
+            margin-top: 20px;
+            color: #606266;
         }
     }
 </style>

@@ -3,7 +3,7 @@
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
                 <el-button type="primary" size="small" icon="el-icon-plus" @click="addDict">增加</el-button>
-                <el-button type="danger" size="small" icon="el-icon-plus" :disabled="multipleSelection.length <= 0" @click="delBatchDict">删除</el-button>
+                <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length <= 0" @click="delBatchDict">删除</el-button>
             </div>
             <div class="el-right">
                 <el-form ref="dict" :model="dict" :inline="true" label-width="10px" size="small"

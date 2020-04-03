@@ -1,7 +1,7 @@
 <template>
-    <div class="message vue-padding radius">
-        <div class="tips">{{$route.name}}</div>
-        <div>
+    <div class="message">
+        <v-search-message :message="message" :tabIndex="tabIndex"></v-search-message>
+        <div class="vue-padding radius">
             <el-tabs :tab-position="tabPosition" @tab-click="tabClick($event.index)">
                 <el-tab-pane :label="'未读消息('+ haveReadList.length +')'">
                     <div :style="isHeight ? 'max-height:' + maxHeight : ''">
@@ -29,9 +29,6 @@
                                 </el-collapse-item>
                             </el-collapse>
                         </vue-scroll>
-                    </div>
-                    <div class="message-handle">
-                        <el-button type="primary" @click="haveReadAll()">全部标为已读</el-button>
                     </div>
                 </el-tab-pane>
                 <el-tab-pane :label="'已读消息('+ unreadList.length +')'">
@@ -63,9 +60,6 @@
                             </el-collapse>
                         </vue-scroll>
                     </div>
-                    <div class="message-handle">
-                        <el-button type="danger" @click="unreadAll()">删除全部</el-button>
-                    </div>
                 </el-tab-pane>
                 <el-tab-pane :label="'回收站('+ recycleBinList.length +')'">
                     <div :style="isHeight ? 'max-height:' + maxHeight : ''">
@@ -94,9 +88,6 @@
                             </el-collapse>
                         </vue-scroll>
                     </div>
-                    <div class="message-handle">
-                        <el-button type="danger" @click="deleteAll()">清空回收站</el-button>
-                    </div>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -104,8 +95,12 @@
 </template>
 
 <script>
+    import vSearchMessage from '@/components/other/SearchMessage'
     export default {
         name: 'Message',
+        components: {
+            vSearchMessage
+        },
         data() {
             return {
                 tabPosition: 'top',
@@ -114,7 +109,11 @@
                 haveReadList: [],
                 unreadList: [],
                 recycleBinList: [],
-                system: true
+                system: true,
+                tabIndex: '',
+                message: {
+
+                }
             }
         },
         mounted() {
@@ -150,6 +149,7 @@
             },
 
             tabClick(data) {
+                this.tabIndex = String(data);
                 this.$api.request(this.$url.Message.load + '/' + data).then(res => {
                     if (res.code === 0) {
                         this.messageList(data, res.data)
