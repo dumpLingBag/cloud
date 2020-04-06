@@ -9,9 +9,9 @@
                 <el-table-column prop="title" label="系统模块"></el-table-column>
                 <el-table-column prop="businessType" label="操作类型" :formatter="dictFormat"></el-table-column>
                 <el-table-column prop="requestMethod" label="请求方式"></el-table-column>
-                <el-table-column prop="operName" label="操作人员"></el-table-column>
-                <el-table-column prop="operIp" label="主机"></el-table-column>
-                <el-table-column prop="operLocation" label="操作地点"></el-table-column>
+                <el-table-column prop="operationName" label="操作人员"></el-table-column>
+                <el-table-column prop="operationIp" label="主机"></el-table-column>
+                <el-table-column prop="operationLocation" label="操作地点"></el-table-column>
                 <el-table-column label="操作状态">
                     <template slot-scope="scope">
                         {{scope.row.status === 0 ? '成功' : '失败'}}

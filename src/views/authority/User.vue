@@ -8,7 +8,7 @@
         <div class="user-main vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" style="width: 100%"
                       @selection-change="handleSelectionChange">
-                <el-table-column type="selection" fixed width="55"></el-table-column>
+                <el-table-column type="selection" :selectable="selectable" fixed width="55"></el-table-column>
                 <el-table-column prop="username" label="账号名称"></el-table-column>
                 <el-table-column prop="nickname" label="用户昵称"></el-table-column>
                 <el-table-column prop="sex" label="性别">
@@ -203,8 +203,8 @@
                     this.$message.info('已取消重置密码')
                 })
             },
-            closeDialogRole(dialogRole) {
-                this.dialogRole = dialogRole
+            selectable(row, index) {
+                return row.parentId !== '0';
             },
             // 分页获取用户信息
             currentChange(currentPage) {
@@ -239,46 +239,6 @@
                         }
                     })
                 }
-            },
-            closeRole() {
-                this.selectRole = []
-            },
-            dialogAddRole(selectRole) { // 添加或修改用户角色
-                this.selectRole = selectRole
-                let obj = [];
-                if (this.selectAddRoleValue.length > 0 && this.selectDiffRoleValue.length > 0) {
-                    for (let i = 0; i < this.selectAddRoleValue.length; i++) { // 新增的角色
-                        this.selectRole = this.selectRole.filter(item => {
-                            return item !== this.selectAddRoleValue[i].roleId
-                        })
-                    }
-                    for (let i = 0; i < this.selectRole.length; i++) { // 取消的角色
-                        this.selectDiffRoleValue = this.selectDiffRoleValue.filter(item => {
-                            return item.roleId !== this.selectRole[i]
-                        })
-                    }
-                    let addRole = this.diffRole(this.selectRole, 1, true);
-                    let diffRole = this.diffRole(this.selectDiffRoleValue, 0, false);
-                    if (addRole && addRole.length > 0) {
-                        obj = obj.concat(addRole)
-                    }
-                    if (diffRole && diffRole.length > 0) {
-                        obj = obj.concat(diffRole)
-                    }
-                } else {
-                    obj = obj.concat(this.diffRole(this.selectRole, 1, true))
-                }
-                this.$api.request(this.$url.AuthorityUserRole.update, this.$method.put,
-                    {userId: this.userId, roleId: obj}).then(res => {
-                    if (res.code === 0) {
-                        this.$notify({
-                            title: '成功',
-                            message: '更新角色成功',
-                            duration: 2000,
-                            type: 'success'
-                        })
-                    }
-                })
             },
             diffRole(role, checked, isArr) {
                 if (role && role.length > 0) {

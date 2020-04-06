@@ -62,7 +62,7 @@
             margin-bottom: 10px;
         }
 
-        .roleFilter {
+        .roleFilter,.authFilter {
             padding-left: 20px;
             margin-bottom: 10px
         }

@@ -48,12 +48,12 @@ export default {
         save: 'authority/role/insert',
         update: 'authority/role/update',
         delete: 'authority/role/delete',
-        loadByPid: 'authority/role/listByPid',
+        listByPid: 'authority/role/listByPid',
         updateInList: 'authority/role/updateInList'
     },
     AuthorityRoleMenu: {
         load: 'authority/roleMenu/list',
-        loadMenu: 'authority/roleMenu/listMenu',
+        listMenu: 'authority/roleMenu/listMenu',
         update: 'authority/roleMenu/update',
         save: 'authority/roleMenu/insert',
         listAuth: 'authority/roleMenu/listAuth'
@@ -62,7 +62,9 @@ export default {
         load: 'authority/userRole/list',
         update: 'authority/userRole/update',
         save: 'authority/userRole/insert',
-        loadUserByRoleId: 'authority/userRole/pageUserByRoleId'
+        loadUserByRoleId: 'authority/userRole/pageUserByRoleId',
+        listRoleByUserId: 'authority/userRole/listRoleByUserId',
+        clearRole: 'authority/userRole/clearRole'
     },
     AuthorityCommonUrl: {
         load: 'authority/commonUrl/list',

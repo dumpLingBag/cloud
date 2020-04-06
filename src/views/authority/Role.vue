@@ -36,8 +36,8 @@
                 <el-row>
                     <el-col :span="24">
                         <el-form-item label="上级角色">
-                            <treeselect v-model="selectId" :show-count="true" placeholder="请选择上级角色"
-                                        :options="roleListDialog"></treeselect>
+                            <tree-select v-model="selectId" :show-count="true" placeholder="请选择上级角色"
+                                        :options="roleListDialog"></tree-select>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -75,12 +75,12 @@
 </template>
 
 <script>
-    import Treeselect from '@riophae/vue-treeselect'
+    import TreeSelect from '@riophae/vue-treeselect'
     import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
     export default {
         name: 'AuthorityRole',
-        components: {Treeselect},
+        components: {TreeSelect},
         data() {
             return {
                 loading: false,
@@ -97,7 +97,7 @@
                     authName: ''
                 },
                 roleList: [],
-                roleListDialog: [{id: '0', label: '主目录', children: []}],
+                roleListDialog: [{id: '1', label: '主目录', children: []}],
                 rules: {
                     name: [
                         {
@@ -136,7 +136,7 @@
                 })
             },
             appendRole() {
-                this.selectId = '0';
+                this.selectId = '1';
                 this.roleData.enabled = '1';
                 this.roleData.sort = this.roleList.length + 1;
                 this.dialogRole = true;
@@ -158,7 +158,7 @@
                 this.dialogRole = true
             },
             append(data) {
-                if (data.pid === '0') {
+                if (data.pid === '0' || data.pid === '1') {
                     this.roleStatus = true;
                     Object.keys(this.roleData).forEach(key => {
                         if (key === 'enabled') {
