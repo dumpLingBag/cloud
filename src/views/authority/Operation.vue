@@ -59,7 +59,7 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="请求参数：">
-                            {{operationLog.operationParam}}
+                            {{operationLog.params}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">

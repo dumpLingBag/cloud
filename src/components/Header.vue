@@ -126,7 +126,6 @@
 <style lang="scss">
     .el-header {
         padding: 0;
-        z-index: 1;
         position: fixed;
         top: 15px;
         left: 280px;

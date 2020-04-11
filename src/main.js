@@ -6,7 +6,6 @@ import menuUtil from './utils/index'
 import './directive/directives'
 import url from './interface/url'
 import toolUtil from './utils/toolUtil'
-import Common from './utils/common'
 import time from './utils/timeUtil'
 import pass from './utils/password'
 import './assets/icon/iconfont.css'
@@ -22,6 +21,7 @@ const Vue = require('vue');
 const qs = require('qs');
 const echarts = require('echarts');
 const cookie = require('js-cookie');
+const Vue18n = require('vue-i18n');
 
 Vue.config.productionTip = false;
 Vue.use(store);
@@ -44,10 +44,10 @@ Vue.prototype.$method = {
 };
 
 Vue.use(api);
+Vue.use(Vue18n);
 Vue.prototype.$qs = qs;
 Vue.prototype.$url = url;
 Vue.prototype.$toolUtil = toolUtil;
-Vue.prototype.$common = Common;
 Vue.prototype.$time = time;
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$md5 = md5;
@@ -55,6 +55,16 @@ Vue.prototype.$cookies = cookie;
 Vue.prototype.$pass = pass;
 Vue.prototype.$cloud = cloud;
 Vue.prototype.$message = message;
+
+const i18n = new Vue18n({
+    locale: 'zh-CN',    // 语言标识
+    // this.$i18n.locale // 通过切换locale的值来实现语言切换
+    messages: {
+        'zh-CN': require('@/common/lang/zh_CN'),     // 中文语言包
+        'en-US': require('@/common/lang/en_US'),    // 英文语言包
+        'fr-FR': require('@/common/lang/fr_FR')    // 法文语言包
+    }
+});
 
 router.beforeEach((to, from, next) => {
     if (to.name) {
@@ -74,7 +84,8 @@ router.beforeEach((to, from, next) => {
 });
 
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+    router,
+    i18n,
+    store,
+    render: h => h(App)
 }).$mount("#app");

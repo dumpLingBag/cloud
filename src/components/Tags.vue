@@ -138,7 +138,6 @@
         position: fixed;
         top: 75px;
         right: 20px;
-        z-index: 1;
         left: 245px;
         color: rgb(86, 86, 86);;
         border-radius: 0.3rem;

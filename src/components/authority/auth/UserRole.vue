@@ -160,7 +160,7 @@
             getUserList() {
                 this.loading = true;
                 this.userIds = [];
-                this.$api.request(this.$url.AuthorityUserRole.loadUserByRoleId, this.$method.get, this.userRole).then(res => {
+                this.$api.request(this.$url.AuthorityUserRole.pageUserByRoleId, this.$method.get, this.userRole).then(res => {
                     if (res.code === 0) {
                         this.userList = res.data.records;
                         this.totalSize = Number(res.data.total)
@@ -193,6 +193,7 @@
 
             // 清空筛选条件
             userRoleReset() {
+                this.userRole.roleId = '';
                 this.userRole.nickname = '';
                 this.userRole.username = '';
                 this.getUserList()
@@ -237,6 +238,14 @@
                             this.getUserList()
                         }
                     })
+                }
+            },
+
+            // 点击角色加载对应用户
+            nodeRoleUser(data) {
+                if (data.pid !== '0') {
+                    this.userRole.roleId = data.id;
+                    this.getUserList()
                 }
             }
         }

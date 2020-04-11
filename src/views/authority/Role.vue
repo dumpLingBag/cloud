@@ -79,7 +79,7 @@
     import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
     export default {
-        name: 'AuthorityRole',
+        name: 'Role',
         components: {TreeSelect},
         data() {
             return {

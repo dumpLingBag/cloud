@@ -2,7 +2,7 @@
     <div class="search-message">
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
-                <el-button type="primary" size="small" icon="el-icon-edit">发布消息</el-button>
+                <el-button type="primary" size="small" icon="el-icon-edit" @click="dialogMessage">发布消息</el-button>
                 <el-button type="warning" size="small" v-if="tabIndex === '0'" icon="el-icon-folder-checked">全部标为已读</el-button>
                 <el-button type="danger" size="small" v-if="tabIndex === '1'" icon="el-icon-delete">删除全部</el-button>
                 <el-button type="danger" size="small" v-if="tabIndex === '2'" icon="el-icon-delete">清空回收站</el-button>
@@ -53,6 +53,11 @@
         data() {
             return {
                 dateTime: ''
+            }
+        },
+        methods: {
+            dialogMessage() {
+                this.$emit('dialogMessage', true)
             }
         }
     }

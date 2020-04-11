@@ -57,7 +57,7 @@
     import vSearchUser from '@/components/authority/user/SearchUser'
 
     export default {
-        name: 'AuthorityUser',
+        name: 'User',
         components: {vAddUser, vSearchUser},
         data() {
             return {

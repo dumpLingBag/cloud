@@ -114,7 +114,7 @@
                         {required: true, message: '请输入权限标识', target: 'blur', pattern: '^[a-z][a-z:]+$'}
                     ],
                     menuUrl: [
-                        {required: true, message: '请求路径以/开头并且只能是大小写字母', target: 'blur', pattern: '^[/][a-zA-Z/]+$'}
+                        {required: true, message: '请求路径以/开头并且只能是大小写字母', target: 'blur', pattern: '^[/][a-zA-Z/]+[a-zA-Z\\*]$'}
                     ]
                 }
             }

@@ -14,7 +14,7 @@
                     <el-input placeholder="输入权限关键字进行过滤" size="small" :clearable="true" v-model="authFilterText"></el-input>
                 </div>
                 <el-tree :data="menuList" ref="authTree" accordion :expand-on-click-node="true" :show-checkbox="selection" node-key="id"
-                         :check-strictly="false" :filter-node-method="authFilterNode" @node-click="menuNodeClick">
+                         :check-strictly="false" :filter-node-method="authFilterNode" @node-click="menuNodeClick" @check="menuNodeCheck">
                     <span class="custom-tree-node" slot-scope="{ node, data }">
                         <span>{{data.label}}</span>
                         <span v-if="data.menuType === 0">（目录）</span>
@@ -30,7 +30,7 @@
                     <div v-for="item in listPower" :key="item.id" class="list-power">
                         <div class="power-title">{{item.name}}<el-button @click="handleCheckAllChange(item.id)" type="text">全选权限</el-button></div>
                         <el-checkbox-group v-model="power" @change="handleCheckedCitiesChange">
-                            <el-checkbox v-for="city in item.children" :disabled="disabled" :label="city.id" :key="city.id">{{city.name}}</el-checkbox>
+                            <el-checkbox v-for="city in item.children" :label="city.id" :key="city.id">{{city.name}}</el-checkbox>
                         </el-checkbox-group>
                     </div>
                 </div>
@@ -57,8 +57,7 @@
                 listMenu: [],
                 listPower: [],
                 power: [],
-                checked: {},
-                disabled: false
+                checked: {}
             }
         },
         props: {
@@ -88,10 +87,14 @@
 
             roleNodeCheck(data) {
                 let role = this.$refs.roleTree.getCheckedNodes(true, false);
+                let auth = this.$refs.authTree.getCheckedNodes(true, false);
                 if (data.pid !== '0') {
                     if (role.length > 0) {
                         this.$refs.roleTree.setCheckedKeys([]);
                         this.$refs.roleTree.setCheckedKeys([data.id]);
+                        if (auth.length <= 0)  {
+
+                        }
                     } else {
                         this.$refs.roleTree.setCheckedKeys([]);
                     }
@@ -121,7 +124,6 @@
                             }
                             this.listPower = res.data.menu && res.data.menu.length > 0 ? res.data.menu : [];
                             this.power = res.data.checked && res.data.checked.length > 0 ? res.data.checked : [];
-                            this.disabled = res.data.menu && res.data.menu.length <= 0;
                         }
                     })
                 }
@@ -130,18 +132,92 @@
             menuNodeClick(data) {
                 let that = this;
                 if (data.pid !== '0' || !data.children) {
-                    let role = this.$refs.roleTree.getCheckedNodes(true, false);
-                    that.$api.request(that.$url.AuthorityRoleMenu.listAuth, that.$method.post, {ids: [data.id]}).then(res => {
-                        if (res.code === 0) {
-                            if (res.data && res.data.length > 0) {
-                                let keys = this.$refs.authTree.getCheckedKeys(true).concat([data.id]);
-                                this.$refs.authTree.setCheckedKeys(keys);
-                                that.listPower = that.listPower.concat(res.data);
-                            }
-                        }
+                    let isPower = that.listPower.some((key) => {
+                        return key.id === data.id
                     });
-                    this.disabled = role && role.length <= 0;
+                    if (!isPower) {
+                        that.getMenus([data.id])
+                    }
                 }
+            },
+
+            menuNodeCheck(data) {
+                // 加载出包含半选的树结构权限
+                let keys = this.$refs.authTree.getCheckedNodes(false, true);
+                if (data.pid === '0' || data.children !== undefined) {
+                    if (keys.length <= 0) {
+                        this.listPower = [];
+                        this.power = []
+                    } else {
+                        // 判断是选中还是取消选中 true 选中 false 取消选中
+                        let isPower = keys.some(key => {
+                            return key.id === data.id;
+                        });
+                        let array = [];
+                        this.recursive(array, data.children);
+                        if (isPower) {
+                            if (array.length > 0) {
+                                this.getMenus(array)
+                            }
+                        } else {
+                            array.forEach(key => {
+                                let index = this.listPower.find(k => {
+                                    return k.id === key
+                                });
+                                if (index) {
+                                    let power = index.children;
+                                    if (power && power.length > 0) {
+                                        power.forEach(i => {
+                                            this.power = this.power.filter(ii => {
+                                                return ii !== i.id
+                                            })
+                                        })
+                                    }
+                                }
+                                this.listPower = this.listPower.filter(k => {
+                                    return k.id !== key
+                                });
+                            });
+                        }
+                    }
+                } else {
+                    let isPower = keys.some(key => {
+                        return key.id === data.id;
+                    });
+                    if (isPower) {
+                        // 加载按钮权限
+                        this.getMenus([data.id])
+                    } else {
+                        // 清除按钮权限
+                        this.listPower = this.listPower.filter(k => {
+                            return k.id !== data.id
+                        })
+                    }
+                }
+            },
+
+            getMenus(menuIds) {
+                let that = this;
+                that.$api.request(that.$url.AuthorityRoleMenu.listAuth, that.$method.post, {ids: menuIds}).then(res => {
+                    if (res.code === 0) {
+                        if (res.data && res.data.length > 0) {
+                            let keys = this.$refs.authTree.getCheckedKeys(true).concat(menuIds);
+                            this.$refs.authTree.setCheckedKeys(keys);
+                            that.listPower = that.listPower.concat(res.data);
+                        }
+                    }
+                })
+            },
+
+            recursive(arr, data) {
+                data.forEach(key => {
+                    if (key.menuType === 1) {
+                        arr.push(key.id)
+                    }
+                    if (key.children && key.children.length > 0) {
+                        this.recursive(arr, key.children)
+                    }
+                })
             },
 
             handleCheckAllChange(val) {
@@ -234,14 +310,14 @@
 
         }
         .power {
-            margin-top: 20px;
+            margin-top: 15px;
             color: #606266;
         }
         .list-power {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .power-title {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             .el-button--text {
                 margin-left: 10px;
             }

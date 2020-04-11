@@ -21,7 +21,7 @@
     import userRole from "@/components/authority/auth/UserRole";
 
     export default {
-        name: 'AuthorityAuth',
+        name: 'Authorization',
         components: {
             roleAuth, userRole, userDept
         },

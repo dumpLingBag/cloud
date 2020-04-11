@@ -28,7 +28,8 @@ module.exports = {
             'element-ui': 'ELEMENT',
             'qs': 'Qs',
             'echarts': 'echarts',
-            'js-cookie': 'Cookies'
+            'js-cookie': 'Cookies',
+            'vue-i18n' : 'VueI18n'
         }
     }
 }

@@ -60,7 +60,7 @@
     import lineUtil from '@/utils/humpToLine'
 
     export default {
-        name: 'AuthorityMenu',
+        name: 'Menu',
         components: {vAddMenu},
         watch: {
             filterText(val) {

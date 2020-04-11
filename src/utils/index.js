@@ -93,7 +93,7 @@ const setRoutes = (routes) => {
 const url = (component) => {
     if (component) {
         component = component.replace(component[0], component[0].toLowerCase());
-        return component.replace(/([A-Z])/g, '_$1').toLowerCase()
+        return component.replace(/([A-Z])/g, '-$1').toLowerCase()
     }
 };
 

@@ -27,7 +27,7 @@
 <script>
     import vSearchLoginInfo from '@/components/authority/log/SearchLoginInfo'
     export default {
-        name: "AuthorityLoginInfo",
+        name: "LoginInfo",
         components: {
             vSearchLoginInfo
         },

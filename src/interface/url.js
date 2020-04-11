@@ -62,7 +62,7 @@ export default {
         load: 'authority/userRole/list',
         update: 'authority/userRole/update',
         save: 'authority/userRole/insert',
-        loadUserByRoleId: 'authority/userRole/pageUserByRoleId',
+        pageUserByRoleId: 'authority/userRole/pageUserByRoleId',
         listRoleByUserId: 'authority/userRole/listRoleByUserId',
         clearRole: 'authority/userRole/clearRole'
     },
