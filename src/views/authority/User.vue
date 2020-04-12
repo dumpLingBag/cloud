@@ -52,7 +52,6 @@
 </template>
 
 <script>
-    import {httpData} from '@/common/httpData'
     import vAddUser from '@/components/authority/user/AddUser'
     import vSearchUser from '@/components/authority/user/SearchUser'
 
@@ -211,7 +210,7 @@
                 this.loading = !this.loading;
                 this.page.currentPage = currentPage ? currentPage : 1;
                 this.$api.request(this.$url.AuthorityUser.pageList, this.$method.post,
-                    httpData(this.page)).then(res => {
+                    this.$cloud.httpData(this.page)).then(res => {
                     if (res.code === 0) {
                         if (res.data && res.data.records) {
                             this.userList = res.data.records;

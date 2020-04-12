@@ -21,6 +21,17 @@
                 </li>
                 <li>
                     <a href="javascript:;">
+                        <el-dropdown trigger="hover" @command="commandLanguage">
+                            <span class="el-dropdown-link drop">{{language}}</span>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item command="zh_CN">简体</el-dropdown-item>
+                                <el-dropdown-item command="en_US">English</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:;">
                         <el-dropdown trigger="hover" @command="commandUser">
                             <div class="el-dropdown-link">
                                 <span class="hd-name" style="font-size: 16px">{{nickname}}</span>
@@ -51,6 +62,7 @@
 
 <script>
     import screenfull from 'screenfull'
+    import language from '../utils/language'
 
     export default {
         name: 'sys-header',
@@ -60,6 +72,7 @@
                 nickname: this.$cookies.get('nickname'),
                 avatar: this.$cookies.get('avatar'),
                 drawer: false,
+                language: '简体'
             }
         },
         methods: {
@@ -75,6 +88,17 @@
             },
             password(password) {
                 this.dialogPassword = password
+            },
+            commandLanguage(command) {
+                this.language = language[command]['0'];
+                switch (command) {
+                    case 'zh_CN':
+                        this.$i18n.locale = 'zh_CN';
+                        break;
+                    case 'en_US':
+                        this.$i18n.locale = 'en_US';
+                        break
+                }
             },
             commandUser(command) {
                 switch (command) {
@@ -138,6 +162,10 @@
         .el-header-nav {
             height: 3.8rem;
             position: relative;
+        }
+
+        .drop {
+            font-size: 16px;
         }
 
         .el-ul {

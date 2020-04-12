@@ -7,7 +7,6 @@ import './directive/directives'
 import url from './interface/url'
 import toolUtil from './utils/toolUtil'
 import time from './utils/timeUtil'
-import pass from './utils/password'
 import './assets/icon/iconfont.css'
 import VueScroll from 'vuescroll'
 import 'vuescroll/dist/vuescroll.css'
@@ -52,17 +51,15 @@ Vue.prototype.$time = time;
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$md5 = md5;
 Vue.prototype.$cookies = cookie;
-Vue.prototype.$pass = pass;
 Vue.prototype.$cloud = cloud;
 Vue.prototype.$message = message;
 
 const i18n = new Vue18n({
-    locale: 'zh-CN',    // 语言标识
-    // this.$i18n.locale // 通过切换locale的值来实现语言切换
+    locale: 'zh_CN',    // 语言标识
     messages: {
-        'zh-CN': require('@/common/lang/zh_CN'),     // 中文语言包
-        'en-US': require('@/common/lang/en_US'),    // 英文语言包
-        'fr-FR': require('@/common/lang/fr_FR')    // 法文语言包
+        'zh_CN': require('@/common/lang/zh_CN'),     // 中文语言包
+        'en_US': require('@/common/lang/en_US'),    // 英文语言包
+        'fr_FR': require('@/common/lang/fr_FR')    // 法文语言包
     }
 });
 

@@ -7,7 +7,7 @@ Date.prototype.Format = function (fmt) {
     's+': this.getSeconds(), // 秒
     'q+': Math.floor((this.getMonth() + 3) / 3), // 季度
     'S': this.getMilliseconds() // 毫秒
-  }
+  };
   if (/(y+)/.test(fmt)) {
     fmt = fmt.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length))
   }
@@ -17,7 +17,7 @@ Date.prototype.Format = function (fmt) {
     }
   }
   return fmt
-}
+};
 
 export function formatDate (times, pattern) {
   return new Date(times).Format(pattern || 'yyyy-MM-dd hh:mm:ss').toLocaleString()

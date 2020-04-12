@@ -2,16 +2,16 @@
     <div class="icon vue-padding radius">
         <div class="tips">阿里图标库</div>
         <vue-scroll>
-            <div :style="{ 'max-height': maxHeight+'px' }">
+            <div>
                 <ul class="icon-ul">
                     <li v-for="item in icon" :key="item.id" v-clipboard:copy="item.icon" v-clipboard:success="onCopy"
                         v-clipboard:error="onError">
                         <el-popover placement="top-start" width="200" trigger="hover"
                                     :content="'点击复制<'+item.text+'>图标到剪切板'">
-            <span class="icon" slot="reference">
-              <i :class="item.icon"></i>
-              <span class="icon-name">{{item.text}}</span>
-            </span>
+                            <span class="icon" slot="reference">
+                              <i :class="item.icon"></i>
+                              <span class="icon-name">{{item.text}}</span>
+                            </span>
                         </el-popover>
                     </li>
                 </ul>
@@ -32,10 +32,7 @@
             this.getIconList()
         },
         computed: {
-            maxHeight() {
-                let store = this.$store.state;
-                return store.tagsTop ? store.innerHeight - this.$common.titleMaxHeight - 45 : store.innerHeight - this.$common.titleMaxHeight;
-            }
+
         },
         methods: {
             onCopy(e) {
