@@ -1,7 +1,7 @@
 .index{
   //侧边栏
   .el-aside {
-    position: fixed;
+    position: absolute;
     height: 100%;
     display: flex;
     color: #565656!important;
@@ -133,7 +133,7 @@
   }
   //内容区域
   .el-main {
-    position: fixed;
+    position: absolute;
     top: 135px;
     bottom: 15px;
     left: 280px;

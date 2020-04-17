@@ -1,7 +1,6 @@
 <template>
     <div class="release-message">
-        <el-dialog title="提示" :visible.sync="messageVisible" width="50%" :before-close="handleClose"
-                   :modal-append-to-body='false' :append-to-body="false">
+        <el-dialog title="提示" :visible.sync="messageVisible" width="50%" :before-close="handleClose">
             <tinymce-editor v-model="msg"
                             :disabled="disabled"
                             @onClick="onClick"
@@ -16,7 +15,7 @@
 </template>
 
 <script>
-    import TinymceEditor from '@/components/Tinymce'
+    import TinymceEditor from '@/components/tinymce/Tinymce'
     export default {
         name: "ReleaseMessage",
         components: {

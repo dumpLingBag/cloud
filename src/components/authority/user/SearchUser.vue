@@ -6,7 +6,6 @@
                 <el-button type="danger" size="small" icon="el-icon-delete" v-hasPerm="['sys:user:add']" :disabled="multipleSelection.length <= 0" @click="delBatchUser">删除</el-button>
                 <el-button type="success" size="small" icon="el-icon-bottom" v-hasPerm="['sys:user:export']" @click="exportUser">导出</el-button>
                 <el-button type="warning" size="small" icon="el-icon-top" v-hasPerm="['sys:user:import']" @click="importUser">导入</el-button>
-                <el-button type="primary" size="small" icon="el-icon-finished" @click="userStyle">切换样式</el-button>
             </div>
             <div class="el-right">
                 <el-form ref="page" :model="page.search" :inline="true" label-width="10px" size="small"
@@ -58,10 +57,6 @@
             enableSelect(event) {
                 this.$emit('enableSelect', event)
             },
-            // 切换样式
-            userStyle() {
-
-            },
             // 添加用户
             addUser() {
                 this.$emit('addUser')
@@ -72,7 +67,13 @@
             },
             // 导出用户
             exportUser() {
-                this.$emit('exportUser')
+                this.$confirm('确定要导出用户列表吗？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$emit('exportUser')
+                })
             },
             // 导入用户
             importUser() {

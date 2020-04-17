@@ -57,7 +57,8 @@
         },
         methods: {
             dialogMessage() {
-                this.$emit('dialogMessage', true)
+                this.$router.push('/message/release')
+                //this.$emit('dialogMessage', true)
             }
         }
     }

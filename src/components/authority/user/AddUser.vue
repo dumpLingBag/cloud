@@ -1,7 +1,7 @@
 <template>
     <div class="addUser">
         <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible.sync="dialogUser" width="40%"
-                   @closed="closeDialog" :modal-append-to-body='true' :append-to-body="true">
+                   @closed="closeDialog">
             <el-form :label-position="labelPosition" :rules="rules" ref="userForm" label-width="80px" :model="userForm">
                 <el-row :gutter="20">
                     <el-col :span="12">

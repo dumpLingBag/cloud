@@ -29,7 +29,8 @@ module.exports = {
             'qs': 'Qs',
             'echarts': 'echarts',
             'js-cookie': 'Cookies',
-            'vue-i18n' : 'VueI18n'
+            'vue-i18n': 'VueI18n',
+            'tinymce': 'tinymce'
         }
     }
 }

@@ -35,7 +35,7 @@
                         <el-dropdown trigger="hover" @command="commandUser">
                             <div class="el-dropdown-link">
                                 <span class="hd-name" style="font-size: 16px">{{nickname}}</span>
-                                <el-avatar class="hd-img" :src="avatar"></el-avatar>
+                                <el-avatar class="hd-img" :src="userAvatar"></el-avatar>
                             </div>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item command="personal">个人中心</el-dropdown-item>
@@ -69,11 +69,17 @@
         data() {
             return {
                 dialogPassword: false,
-                nickname: this.$cookies.get('nickname'),
-                avatar: this.$cookies.get('avatar'),
+                //nickname: this.$cookies.get('nickname'),
+                //avatar: this.$cookies.get('avatar'),
                 drawer: false,
                 language: '简体'
             }
+        },
+        mounted() {
+            let avatar = this.$cookies.get('avatar');
+            let nickname = this.$cookies.get('nickname');
+            this.$store.dispatch('updateAvatar', avatar);
+            this.$store.dispatch('updateUser', {nickname: nickname})
         },
         methods: {
             isHeader() {
@@ -93,12 +99,19 @@
                 this.language = language[command]['0'];
                 switch (command) {
                     case 'zh_CN':
-                        this.$i18n.locale = 'zh_CN';
+                        this.lang('zh_CN');
                         break;
                     case 'en_US':
-                        this.$i18n.locale = 'en_US';
+                        this.lang('en_US');
                         break
                 }
+            },
+            lang(data) {
+                this.$api.request(this.$url.System.lang, this.$method.put, this.$qs.stringify({lang: data})).then(res => {
+                    if (res.code === 0) {
+                        this.$i18n.locale = data
+                    }
+                })
             },
             commandUser(command) {
                 switch (command) {
@@ -142,6 +155,12 @@
         computed: {
             collapse() {
                 return this.$store.state.collapse
+            },
+            userAvatar() {
+                return this.$store.state.avatar
+            },
+            nickname() {
+                return this.$store.state.nickname
             }
         }
     }
@@ -150,7 +169,7 @@
 <style lang="scss">
     .el-header {
         padding: 0;
-        position: fixed;
+        position: absolute;
         top: 15px;
         left: 280px;
         right: 20px;

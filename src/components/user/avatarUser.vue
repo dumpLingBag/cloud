@@ -130,11 +130,13 @@
                     let formData = new FormData();
                     formData.append('file', data);
                     formData.append('fileName', this.fileName);
-                    this.$api.request(this.$url.User.uploadAvatar, this.$method.post, formData).then(res => {
+                    this.$api.upload(this.$url.User.uploadAvatar, formData).then(res => {
                         if (res.code === 0) {
                             this.open = false;
                             this.options.img = res.data;
-                            this.$cookies.set('avatar', res.data, {expires: 7})
+                            this.$store.dispatch('updateAvatar', res.data).then(() => {
+                                this.$message.success('上传成功')
+                            })
                         } else {
                             this.$message.error(res.msg)
                         }

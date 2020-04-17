@@ -55,13 +55,17 @@ export default function $axios(options) {
             response => {
                 NProgress.done();
                 let result;
-                if (response.data) {
-                    result = JSON.parse(response.data)
+                if (response.request.responseType === 'blob') {
+                    result = response;
                 } else {
-                    // IE9时response.data是undefined，因此需要使用response.request.responseText(Stringify后的字符串)
-                    let res = response.request.responseText;
-                    if (res && res !== '') {
-                        result = JSON.parse(response.request.responseText)
+                    if (response.data) {
+                        result = JSON.parse(response.data)
+                    } else {
+                        // IE9时response.data是undefined，因此需要使用response.request.responseText(Stringify后的字符串)
+                        let res = response.request.responseText;
+                        if (res && res !== '') {
+                            result = JSON.parse(response.request.responseText)
+                        }
                     }
                 }
 

@@ -48,6 +48,12 @@ let fmRoutes = [
                 name: '字典数据',
                 component: resolve => require(['@/views/system/DictionaryData.vue'], resolve),
                 meta: {title: '字典数据', auth: true, keepAlive: true}
+            },
+            {
+                path: '/message/release',
+                name: '发布消息',
+                component: resolve => require(['@/components/tinymce/Tinymce'], resolve),
+                meta: {title: '发布消息', auth:  true, keepAlive: true}
             }
         ]
     }

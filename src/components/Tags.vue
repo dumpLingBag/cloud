@@ -135,7 +135,7 @@
 
 <style lang="scss">
     .page-tags {
-        position: fixed;
+        position: absolute;
         top: 75px;
         right: 20px;
         left: 245px;

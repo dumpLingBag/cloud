@@ -6,6 +6,9 @@ export default {
         loginOut: 'authority/logout',
         captcha: 'authority/login/captcha'
     },
+    System: {
+        lang: 'authority/system/lang'
+    },
     AuthorityUser: {
         /* 添加用户 */
         addUser: 'authority/user/insert',
@@ -17,7 +20,9 @@ export default {
         resetPassword: 'authority/user/reset',
         /* 启用禁用账号${id}/${enable} */
         enabled: 'authority/user/enabled',
-        delete: 'authority/user/delete'
+        delete: 'authority/user/delete',
+        export: 'authority/user/export',
+        importUser: 'authority/user/importUser'
     },
     IconList: {
         /* 加载图标 */

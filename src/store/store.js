@@ -14,7 +14,9 @@ export default new Vuex.Store({
         tagList: [],
         visitedViews: [],
         permissions: [],
-        roles: []
+        roles: [],
+        avatar: '',
+        nickname: ''
     },
     mutations: {
         LOGIN(state, user) {
@@ -86,7 +88,14 @@ export default new Vuex.Store({
             state.tagList = []
         },
         UPDATE_USER: (state, user) => {
-
+            state.nickname = user.nickname
+        },
+        UPDATE_AVATAR: (state, avatar) => {
+            state.avatar = avatar;
+            let userAvatar = Cookies.get('avatar');
+            if (!userAvatar) {
+                Cookies.set('avatar', avatar, {expires: 7})
+            }
         }
     },
     actions: {
@@ -132,9 +141,15 @@ export default new Vuex.Store({
                 resolve([...state.visitedViews])
             })
         },
-        updateUser({commit, state}) {
+        updateUser({commit, state}, user) {
             return new Promise((resolve) => {
-                commit('UPDATE_USER');
+                commit('UPDATE_USER', user);
+                resolve([...state.visitedViews])
+            })
+        },
+        updateAvatar({commit, state}, avatar) {
+            return new Promise((resolve) => {
+                commit('UPDATE_AVATAR', avatar);
                 resolve([...state.visitedViews])
             })
         }

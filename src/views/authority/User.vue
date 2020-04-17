@@ -1,10 +1,23 @@
 <template>
     <div class="sys-user">
-        <v-search-user v-on:addUser="addUser" :page="page" v-on:userStyle="userStyle"
-                       v-on:enableSelect="enableSelect" v-on:onSubmit="onSubmit" v-on:delBatchUser="delBatchUser"
-                       v-on:resetSearch="resetSearch" :multipleSelection="multipleSelection"></v-search-user>
-        <v-add-user :dialogUser="dialogUser" :addOrEdit="addOrEdit" v-on:cancel="cancel"
-                    :userForm="userForm"></v-add-user>
+        <v-search-user v-on:addUser="addUser" :page="page"
+                       v-on:enableSelect="enableSelect"
+                       v-on:onSubmit="onSubmit"
+                       v-on:delBatchUser="delBatchUser"
+                       v-on:resetSearch="resetSearch"
+                       :multipleSelection="multipleSelection"
+                       v-on:exportUser="exportUser"
+                       v-on:importUser="importUser">
+        </v-search-user>
+        <v-add-user :dialogUser="dialogUser"
+                    :addOrEdit="addOrEdit"
+                    v-on:cancel="cancel"
+                    :userForm="userForm">
+        </v-add-user>
+        <v-import-user
+                :importDialog="importDialog"
+                v-on:closeImportUserDialog="closeImportUserDialog">
+        </v-import-user>
         <div class="user-main vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" style="width: 100%"
                       @selection-change="handleSelectionChange">
@@ -54,10 +67,11 @@
 <script>
     import vAddUser from '@/components/authority/user/AddUser'
     import vSearchUser from '@/components/authority/user/SearchUser'
+    import vImportUser from '@/components/authority/user/ImportUser'
 
     export default {
         name: 'User',
-        components: {vAddUser, vSearchUser},
+        components: {vAddUser, vSearchUser, vImportUser},
         data() {
             return {
                 userList: [], // 表格数据
@@ -73,6 +87,7 @@
                 loading: false,
                 multipleSelection: [], // 表格多选框数据
                 formLabelWidth: '120px',
+                importDialog: false,
                 // 添加用户表单数据
                 userForm: {
                     nickname: '',
@@ -123,10 +138,6 @@
             addUser() {
                 this.dialogUser = true;
                 this.addOrEdit = true
-            },
-            // 更换用户列表样式
-            userStyle() {
-                alert('11111')
             },
             // 关闭添加用户弹窗
             cancel(dialogUser, status) {
@@ -238,6 +249,18 @@
                         }
                     })
                 }
+            },
+            // 导出用户列表
+            exportUser() {
+                this.$api.download(this.$url.AuthorityUser.export, this.page.search)
+            },
+            // 导入用户列表
+            importUser() {
+                this.importDialog = true
+            },
+            // 关闭导入用户弹窗
+            closeImportUserDialog(importDialog) {
+                this.importDialog = importDialog
             },
             diffRole(role, checked, isArr) {
                 if (role && role.length > 0) {

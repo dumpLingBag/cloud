@@ -14,6 +14,7 @@ import md5 from 'js-md5'
 import './directive/permission/index'
 import cloud from './utils/cloud'
 import message from './utils/message'
+import method from "./interface/method";
 
 const VueClipboard = require('vue-clipboard2');
 const Vue = require('vue');
@@ -21,6 +22,7 @@ const qs = require('qs');
 const echarts = require('echarts');
 const cookie = require('js-cookie');
 const Vue18n = require('vue-i18n');
+const tinymce = require('tinymce');
 
 Vue.config.productionTip = false;
 Vue.use(store);
@@ -35,12 +37,7 @@ Vue.prototype.$vuescrollConfig = {
     }
 };
 
-Vue.prototype.$method = {
-    'get': 'GET',
-    'post': 'POST',
-    'delete': 'DELETE',
-    'put': 'PUT'
-};
+Vue.prototype.$method = method;
 
 Vue.use(api);
 Vue.use(Vue18n);
@@ -53,6 +50,7 @@ Vue.prototype.$md5 = md5;
 Vue.prototype.$cookies = cookie;
 Vue.prototype.$cloud = cloud;
 Vue.prototype.$message = message;
+Vue.prototype.$tinymce = tinymce;
 
 const i18n = new Vue18n({
     locale: 'zh_CN',    // 语言标识
