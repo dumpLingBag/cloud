@@ -292,10 +292,6 @@
             overflow: hidden;
         }
 
-        .el-dialog__body {
-            padding: 30px 80px;
-        }
-
         .el-select {
             width: 100%;
         }

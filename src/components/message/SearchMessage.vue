@@ -2,9 +2,7 @@
     <div class="search-message">
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
-                <el-button type="warning" size="small" v-if="tabIndex === '0'" icon="el-icon-folder-checked">标为已读</el-button>
-                <el-button type="danger" size="small" v-if="tabIndex === '1'" icon="el-icon-delete">删除全部</el-button>
-                <el-button type="danger" size="small" v-if="tabIndex === '2'" icon="el-icon-delete">清空回收站</el-button>
+                <el-button type="primary" size="small" icon="el-icon-edit" @click="dialogMessage">发布消息</el-button>
             </div>
             <div class="el-right">
                 <el-form ref="operation" :model="message" :inline="true" label-width="10px" size="small"
@@ -43,8 +41,7 @@
     export default {
         name: "SearchMessage",
         props: {
-            message: Object,
-            tabIndex: String
+            message: Object
         },
         data() {
             return {
@@ -52,14 +49,17 @@
             }
         },
         methods: {
+            dialogMessage() {
+                this.$router.push('/message/release')
+            },
             onSubmit() {
-                this.$emit('onSubmit')
+                this.$emit('onSubmit', this.message)
             },
             resetSearch(formName) {
                 this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
                 this.$toolUtil.clearForm(this.message);
                 this.dateTime = '';
-            },
+            }
         }
     }
 </script>

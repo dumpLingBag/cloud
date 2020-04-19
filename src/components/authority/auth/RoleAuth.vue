@@ -203,7 +203,18 @@
                         if (res.data && res.data.length > 0) {
                             let keys = this.$refs.authTree.getCheckedKeys(true).concat(menuIds);
                             this.$refs.authTree.setCheckedKeys(keys);
-                            that.listPower = that.listPower.concat(res.data);
+                            if (that.listPower.length > 0) {
+                                res.data.forEach(keys => {
+                                    let some = that.listPower.some(key => {
+                                        return key.id === keys.id
+                                    });
+                                    if (!some) {
+                                       that.listPower.push(keys)
+                                    }
+                                })
+                            } else {
+                                that.listPower = that.listPower.concat(res.data);
+                            }
                         }
                     }
                 })

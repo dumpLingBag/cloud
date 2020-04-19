@@ -10,7 +10,7 @@
                 <el-table-column prop="dictName" label="字典名称"></el-table-column>
                 <el-table-column label="字典类型">
                     <template slot-scope="scope">
-                        <router-link :to="'/dictionary_data/'+scope.row.dictType" class="link-type">{{scope.row.dictType}} </router-link>
+                        <router-link :to="'/dictionary-data/'+scope.row.dictType" class="link-type">{{scope.row.dictType}} </router-link>
                     </template>
                 </el-table-column>
                 <el-table-column label="状态">

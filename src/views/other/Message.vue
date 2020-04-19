@@ -5,90 +5,13 @@
         <div class="vue-padding radius">
             <el-tabs :tab-position="tabPosition" @tab-click="tabClick($event.index)">
                 <el-tab-pane :label="'未读消息('+ haveReadList.length +')'">
-                    <div :style="isHeight ? 'max-height:' + maxHeight : ''">
-                        <vue-scroll>
-                            <el-collapse accordion>
-                                <el-collapse-item>
-                                    <template slot="title">
-                                        <span :class="['message-title', system ? 'hot' : '']">【系统通知】该系统将于今晚凌晨2点到5点进行升级维护</span>
-                                        <div class="message-time">2018-04-19 20:00:00
-                                            <el-button size="small" @click.prevent.stop="haveRead()">标为已读</el-button>
-                                        </div>
-                                    </template>
-                                    <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                                    <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-                                </el-collapse-item>
-                                <el-collapse-item>
-                                    <template slot="title">
-                                        <span :class="['message-title', system ? 'hot' : '']">今晚12点整发大红包，先到先得</span>
-                                        <div class="message-time">2018-04-19 20:00:00
-                                            <el-button size="small" @click.prevent.stop="haveRead()">标为已读</el-button>
-                                        </div>
-                                    </template>
-                                    <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-                                    <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-                                </el-collapse-item>
-                            </el-collapse>
-                        </vue-scroll>
-                    </div>
+
                 </el-tab-pane>
                 <el-tab-pane :label="'已读消息('+ unreadList.length +')'">
-                    <div :style="isHeight ? 'max-height:' + maxHeight : ''">
-                        <vue-scroll>
-                            <el-collapse accordion>
-                                <el-collapse-item>
-                                    <template slot="title">
-                                        <span :class="['message-title', system ? 'hot' : '']">【系统通知】该系统将于今晚凌晨2点到5点进行升级维护</span>
-                                        <div class="message-time">2018-04-19 20:00:00
-                                            <el-button size="small" type="danger" @click.prevent.stop="unread()">删除
-                                            </el-button>
-                                        </div>
-                                    </template>
-                                    <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                                    <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-                                </el-collapse-item>
-                                <el-collapse-item>
-                                    <template slot="title">
-                                        <span :class="['message-title', system ? 'hot' : '']">今晚12点整发大红包，先到先得</span>
-                                        <div class="message-time">2018-04-19 20:00:00
-                                            <el-button size="small" type="danger" @click.prevent.stop="unread()">删除
-                                            </el-button>
-                                        </div>
-                                    </template>
-                                    <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-                                    <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-                                </el-collapse-item>
-                            </el-collapse>
-                        </vue-scroll>
-                    </div>
+
                 </el-tab-pane>
                 <el-tab-pane :label="'回收站('+ recycleBinList.length +')'">
-                    <div :style="isHeight ? 'max-height:' + maxHeight : ''">
-                        <vue-scroll>
-                            <el-collapse accordion>
-                                <el-collapse-item>
-                                    <template slot="title">
-                                        <span :class="['message-title', system ? 'hot' : '']">【系统通知】该系统将于今晚凌晨2点到5点进行升级维护</span>
-                                        <div class="message-time">2018-04-19 20:00:00
-                                            <el-button size="small" @click.prevent.stop="recycleBin()">还原</el-button>
-                                        </div>
-                                    </template>
-                                    <div>与现实生活一致：与现实生活的流程、逻辑保持一致，遵循用户习惯的语言和概念；</div>
-                                    <div>在界面中一致：所有的元素和结构需保持一致，比如：设计样式、图标和文本、元素的位置等。</div>
-                                </el-collapse-item>
-                                <el-collapse-item>
-                                    <template slot="title">
-                                        <span :class="['message-title', system ? 'hot' : '']">今晚12点整发大红包，先到先得</span>
-                                        <div class="message-time">2018-04-19 20:00:00
-                                            <el-button size="small" @click.prevent.stop="recycleBin()">还原</el-button>
-                                        </div>
-                                    </template>
-                                    <div>控制反馈：通过界面样式和交互动效让用户可以清晰的感知自己的操作；</div>
-                                    <div>页面反馈：操作后，通过页面元素的变化清晰地展现当前状态。</div>
-                                </el-collapse-item>
-                            </el-collapse>
-                        </vue-scroll>
-                    </div>
+
                 </el-tab-pane>
             </el-tabs>
         </div>

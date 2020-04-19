@@ -69,8 +69,6 @@
         data() {
             return {
                 dialogPassword: false,
-                //nickname: this.$cookies.get('nickname'),
-                //avatar: this.$cookies.get('avatar'),
                 drawer: false,
                 language: '简体'
             }
@@ -116,7 +114,7 @@
             commandUser(command) {
                 switch (command) {
                     case 'personal':
-                        this.$router.push('/user_info');
+                        this.$router.push('/user/info');
                         break;
                     case 'password':
                         this.$emit('password', true);
@@ -136,7 +134,7 @@
                 }
             },
             notice() {
-                this.$router.push('/message')
+                this.$router.push('/user/message')
             },
             screen() {
                 if (screenfull.enabled) {

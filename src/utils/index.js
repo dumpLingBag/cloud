@@ -32,19 +32,19 @@ let fmRoutes = [
                 meta: {title: '首页', auth: true, keepAlive: true}
             },
             {
-                path: '/user_info',
+                path: '/user/info',
                 name: '用户中心',
                 component: resolve => require(['@/views/other/UserInfo.vue'], resolve),
                 meta: {title: '用户中心', auth: true, keepAlive: true}
             },
             {
-                path: '/message',
+                path: '/user/message',
                 name: '消息中心',
                 component: resolve => require(['@/views/other/Message.vue'], resolve),
                 meta: {title: '消息中心', auth: true, keepAlive: true}
             },
             {
-                path: '/dictionary_data/:dictType',
+                path: '/dictionary-data/:dictType',
                 name: '字典数据',
                 component: resolve => require(['@/views/system/DictionaryData.vue'], resolve),
                 meta: {title: '字典数据', auth: true, keepAlive: true}
@@ -52,7 +52,7 @@ let fmRoutes = [
             {
                 path: '/message/release',
                 name: '发布消息',
-                component: resolve => require(['@/components/tinymce/Tinymce'], resolve),
+                component: resolve => require(['@/components/message/Release'], resolve),
                 meta: {title: '发布消息', auth:  true, keepAlive: true}
             }
         ]

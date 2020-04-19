@@ -1,5 +1,5 @@
 <template>
-    <div class="vue-padding radius">
+    <div class="tinymce">
         <div class="tinymce-editor tinymce-container editor-container" :class="{fullscreen:fullscreen}">
             <textarea :id="tinymceId" class="tinymce-textarea" />
             <div class="editor-custom-btn-container">
@@ -71,7 +71,8 @@
             }
         },
         mounted() {
-            this.initTinymce()
+            this.initTinymce();
+            this.setContent(this.value)
         },
         activated() {
             if (this.$tinymce) {
