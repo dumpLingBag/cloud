@@ -24,8 +24,8 @@
                         <el-dropdown trigger="hover" @command="commandLanguage">
                             <span class="el-dropdown-link drop">{{language}}</span>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item command="zh_CN">简体</el-dropdown-item>
-                                <el-dropdown-item command="en_US">English</el-dropdown-item>
+                                <el-dropdown-item command="zh_CN" :disabled="this.$i18n.locale === 'zh_CN'">简体</el-dropdown-item>
+                                <el-dropdown-item command="en_US" :disabled="this.$i18n.locale === 'en_US'">English</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </a>
@@ -95,14 +95,7 @@
             },
             commandLanguage(command) {
                 this.language = language[command]['0'];
-                switch (command) {
-                    case 'zh_CN':
-                        this.lang('zh_CN');
-                        break;
-                    case 'en_US':
-                        this.lang('en_US');
-                        break
-                }
+                this.lang(command)
             },
             lang(data) {
                 this.$api.request(this.$url.System.lang, this.$method.put, this.$qs.stringify({lang: data})).then(res => {

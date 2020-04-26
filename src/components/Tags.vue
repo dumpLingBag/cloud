@@ -2,7 +2,7 @@
     <div class="page-tags" :style="collapse ? 'left:100px' : 'left:280px'">
         <div class="tags-control icon-prev" @click="goHome">
             <div :class="['home', this.$route.path === '/main' ? 'active' : '']">
-                <span class="iconfont icon-emojiflashfill"></span>
+                <span>首页</span>
             </div>
         </div>
         <div class="tags-control icon-downs">
@@ -144,7 +144,7 @@
         margin-top: 5px;
         height: 40px;
         line-height: 40px;
-        padding: 0 40px 0 50px;
+        padding: 0 40px 0 66px;
         background-color: #fff;
         box-sizing: border-box;
         overflow: hidden;
@@ -194,7 +194,7 @@
         .tags-control {
             position: absolute;
             top: 0;
-            width: 50px;
+            width: 66px;
             height: 100%;
             line-height: 40px;
             text-align: center;

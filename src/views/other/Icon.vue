@@ -1,8 +1,9 @@
 <template xmlns:v-clipboard="http://www.w3.org/1999/xhtml">
     <div class="icon vue-padding radius">
+        <el-backtop target=".icon-list"></el-backtop>
         <div class="tips">阿里图标库</div>
         <vue-scroll>
-            <div>
+            <div class="icon-list">
                 <ul class="icon-ul">
                     <li v-for="item in icon" :key="item.id" v-clipboard:copy="item.icon" v-clipboard:success="onCopy"
                         v-clipboard:error="onError">
@@ -60,6 +61,9 @@
 
 <style lang="scss">
     .icon {
+        .icon-list::before {
+            content: none;
+        }
         .icon-ul {
             overflow: hidden;
             border: 1px solid #eaeefb;

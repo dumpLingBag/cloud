@@ -56,14 +56,18 @@ export default new Vuex.Store({
             state.innerHeight = height
         },
         ADD_VISITED_VIEWS: (state, view) => {
-            if (state.visitedViews.some(v => v.path === view.fullPath)) return
+            if (state.visitedViews.some(v => v.path === view.fullPath)) {
+                return;
+            }
             state.visitedViews.push({
                 name: view.name,
                 path: view.path,
                 title: view.meta.title || 'no-name'
             });
-            let path = view.path.split('/');
-            state.tagList.push(hump.default.toHump(path[path.length - 1]))
+            if (view.meta.keepAlive === '1') {
+                let path = view.path.split('/');
+                state.tagList.push(hump.default.toHump(path[path.length - 1]))
+            }
         },
         DEL_VISITED_VIEWS: (state, view) => {
             for (const [i, v] of state.visitedViews.entries()) {
