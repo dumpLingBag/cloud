@@ -30,9 +30,9 @@
             </el-col>
         </el-row>
         <el-row class="item">
-            <el-button type="primary" @click="release">发布消息</el-button>
-            <el-button type="success" @click="draft">保存草稿</el-button>
-            <el-button type="danger" @click="cancel">取消</el-button>
+            <el-button type="text" size="small" @click="release">发布消息</el-button>
+            <el-button type="success" size="small" @click="draft">保存草稿</el-button>
+            <el-button type="danger" size="small" @click="cancel">取消</el-button>
         </el-row>
     </div>
 </template>

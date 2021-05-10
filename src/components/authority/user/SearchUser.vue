@@ -1,8 +1,8 @@
 <template>
     <div class="search-user">
-        <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
+        <div class="el-search vue-top-padding" style="margin-bottom: 10px;">
             <div class="el-left">
-                <el-button type="primary" size="small" icon="el-icon-plus" @click="addUser">增加</el-button>
+                <el-button type="text" size="small" icon="el-icon-plus" @click="addUser">增加</el-button>
                 <el-button type="danger" size="small" icon="el-icon-delete" v-hasPerm="['sys:user:add']" :disabled="multipleSelection.length <= 0" @click="delBatchUser">删除</el-button>
                 <el-button type="success" size="small" icon="el-icon-bottom" v-hasPerm="['sys:user:export']" @click="exportUser">导出</el-button>
                 <el-button type="warning" size="small" icon="el-icon-top" v-hasPerm="['sys:user:import']" @click="importUser">导入</el-button>
@@ -23,7 +23,7 @@
                         <el-input v-model="page.search.nickname" placeholder="请输入用户名称"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="onSubmit" icon="el-icon-search">搜索</el-button>
+                        <el-button type="text" @click="onSubmit" icon="el-icon-search">搜索</el-button>
                         <el-button @click="resetSearch('page')" icon="el-icon-refresh">重置</el-button>
                     </el-form-item>
                 </el-form>
@@ -50,7 +50,7 @@
             // 重置
             resetSearch(formName) {
                 this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
-                this.$toolUtil.clearForm(this.page.search);
+                this.$common.clearForm(this.page.search);
                 this.$emit('resetSearch', this.page)
             },
             // 启用禁用

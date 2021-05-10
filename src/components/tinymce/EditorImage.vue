@@ -18,12 +18,10 @@
                     请选择文件
                 </el-button>
             </el-upload>
-            <el-button @click="dialogVisible = false">
-                取消
-            </el-button>
-            <el-button type="primary" @click="handleSubmit">
-                确定
-            </el-button>
+            <div slot="footer" class="dialog-footer">
+                <el-button size="medium" @click="dialogVisible = false">取消</el-button>
+                <el-button size="medium" type="primary" @click="handleSubmit">确定</el-button>
+            </div>
         </el-dialog>
     </div>
 </template>

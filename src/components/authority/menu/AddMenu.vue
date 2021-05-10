@@ -1,8 +1,8 @@
 <template>
     <div class="AddMenu">
-        <el-dialog :title="addOrEdit ? '添加菜单' : '修改菜单'" :visible.sync="dialogAddMenu" width="40%"
+        <el-dialog :title="addOrEdit ? '添加菜单' : '修改菜单'" :visible="dialogAddMenu" width="680px"
                    :modal-append-to-body='true' @open="open"
-                   @closed="closed" :before-close="handleClose" :append-to-body="true">
+                   @close="closed" :before-close="handleClose" :append-to-body="true">
             <el-form ref="menuData" :model="nodeData" :rules="rules" label-width="80px">
                 <el-row :gutter="20">
                     <el-col :span="24">
@@ -14,9 +14,9 @@
                     <el-col :span="24">
                         <el-form-item label="菜单类型" prop="menuType">
                             <el-radio-group v-model="nodeData.menuType" size="medium">
-                                <el-radio border label="0">目录</el-radio>
-                                <el-radio border label="1">菜单</el-radio>
-                                <el-radio border label="2">按钮</el-radio>
+                                <el-radio label="0">目录</el-radio>
+                                <el-radio label="1">菜单</el-radio>
+                                <el-radio label="2">按钮</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -27,8 +27,8 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="菜单排序" prop="sort">
-                            <el-input-number v-model="nodeData.sort" controls-position="right" @change="sortChange"
-                                             :min="1" :max="10"></el-input-number>
+                            <el-input-number v-model="nodeData.sort" controls-position="right"
+                                             :min="1" :max="99"></el-input-number>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" v-if="nodeData.menuType === '1'">
@@ -69,16 +69,16 @@
                     <el-col :span="24" v-if="nodeData.menuType !== '2'">
                         <el-form-item label="菜单状态" prop="menuType">
                             <el-radio-group v-model="nodeData.enabled" size="medium">
-                                <el-radio border label="1">显示</el-radio>
-                                <el-radio border label="0">隐藏</el-radio>
+                                <el-radio label="1">显示</el-radio>
+                                <el-radio label="0">隐藏</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form>
             <span slot="footer" class="dialog-footer">
-        <el-button @click="closeDialogAddMenu">取 消</el-button>
-        <el-button type="primary" @click="addMenu('menuData')">确 定</el-button>
+        <el-button size="medium" @click="closeDialogAddMenu">取 消</el-button>
+        <el-button size="medium" type="primary" @click="addMenu('menuData')">确 定</el-button>
       </span>
         </el-dialog>
     </div>

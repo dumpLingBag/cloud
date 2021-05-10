@@ -1,7 +1,10 @@
 <template>
     <div class="message">
-        <v-search-message :message="message" :tabIndex="tabIndex" v-on:dialogMessage="dialogMessage"></v-search-message>
-        <v-release-message :messageVisible="messageVisible" v-on:closeDialog="closeDialog"></v-release-message>
+        <Search
+            :search="search"
+            :modelData="modelData"
+            @saveChange="saveChange"
+        />
         <div class="vue-padding radius">
             <el-tabs :tab-position="tabPosition" @tab-click="tabClick($event.index)">
                 <el-tab-pane :label="'未读消息('+ haveReadList.length +')'">
@@ -19,13 +22,11 @@
 </template>
 
 <script>
-    import vSearchMessage from '@/components/other/SearchMessage'
-    import vReleaseMessage from '@/components/other/ReleaseMessage'
+    import Search from '@/components/search/Index'
     export default {
         name: 'Message',
         components: {
-            vSearchMessage,
-            vReleaseMessage
+            Search
         },
         data() {
             return {
@@ -40,7 +41,62 @@
                 messageVisible: false,
                 message: {
 
+                },
+                search: {
+                    typeSearch: [
+                        {
+                            label: '消息标题',
+                            name: 'title'
+                        },
+                        {
+                            label: '发布时间',
+                            type: 'date'
+                        },
+                        {
+                            label: '消息状态',
+                            name: 'businessType',
+                            dictType: 'sys_yes_no',
+                            type: 'select'
+                        }
+                    ],
+                    btnSearch: []
+                },
+                modelData: {},
+                btnType: {
+                    '0': {
+                        btnType: {
+                            type: 'warning',
+                            icon: 'el-icon-folder-checked',
+                            event: ''
+                        },
+                        hasPerm: ['sys:message:'],
+                        name: '标为已读'
+                    },
+                    '1': {
+                        btnType: {
+                            type: 'danger',
+                            icon: 'el-icon-delete',
+                            event: ''
+                        },
+                        hasPerm: ['sys:message:'],
+                        name: '删除全部'
+                    },
+                    '2': {
+                        btnType: {
+                            type: 'danger',
+                            icon: 'el-icon-delete',
+                            event: ''
+                        },
+                        hasPerm: ['sys:message:'],
+                        name: '清空回收站'
+                    }
                 }
+            }
+        },
+        watch: {
+            tabIndex: function (newVal) {
+                this.search.btnSearch.splice(0, 1)
+                this.search.btnSearch.push(this.btnType[newVal])
             }
         },
         mounted() {
@@ -48,33 +104,10 @@
             if (clientHeight > window.innerHeight - 369) {
                 this.isHeight = !this.isHeight
             }
-            this.tabClick(0)
+            this.tabClick(0);
+            this.search.btnSearch.push(this.btnType['0'])
         },
         methods: {
-            haveRead() { // 标为已读
-                alert('111')
-            },
-
-            unread() { // 删除
-                alert('222')
-            },
-
-            recycleBin() { // 还原
-                alert('333')
-            },
-
-            haveReadAll(data) { // 标记全部
-                console.log(data)
-            },
-
-            unreadAll(data) { // 删除全部
-
-            },
-
-            deleteAll(data) { // 清空回收站
-
-            },
-
             tabClick(data) {
                 this.tabIndex = String(data);
                 this.$api.request(this.$url.Message.load + '/' + data).then(res => {
@@ -107,6 +140,10 @@
 
             closeDialog(data) {
                 this.messageVisible = data
+            },
+
+            saveChange() {
+
             }
         }
     }

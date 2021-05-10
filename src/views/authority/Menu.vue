@@ -2,7 +2,7 @@
     <div class="sys-tree">
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
-                <el-button type="primary" size="small" icon="el-icon-plus" @click="appendNode">增加</el-button>
+                <el-button plain type="primary" size="small" icon="el-icon-plus" @click="appendNode">增加</el-button>
             </div>
         </div>
         <div class="vue-padding radius">
@@ -16,9 +16,9 @@
                 </el-table-column>
                 <el-table-column label="类型" sortable width="120">
                     <template slot-scope="scope">
-                        <el-tag size="medium" v-if="scope.row.menuType === 0">目录</el-tag>
-                        <el-tag size="medium" v-if="scope.row.menuType === 1" type="success">菜单</el-tag>
-                        <el-tag size="medium" v-if="scope.row.menuType === 2" type="warning">按钮</el-tag>
+                        <el-tag size="small" v-if="scope.row.menuType === 0">目录</el-tag>
+                        <el-tag size="small" v-if="scope.row.menuType === 1" type="success">菜单</el-tag>
+                        <el-tag size="small" v-if="scope.row.menuType === 2" type="warning">按钮</el-tag>
                     </template>
                 </el-table-column>
                 <el-table-column label="组件路径" :show-overflow-tooltip="true" sortable width="180">
@@ -30,7 +30,7 @@
                 <el-table-column label="请求路径" prop="menuUrl" :show-overflow-tooltip="true" sortable width="180"></el-table-column>
                 <el-table-column prop="enabled" label="状态" sortable width="100">
                     <template slot-scope="scope">
-                        <el-tag size="medium" @click="tagEnabled(scope.$index, scope.row)"
+                        <el-tag size="small" @click="tagEnabled(scope.$index, scope.row)"
                                 :type="String(scope.row.enabled) === '1' ? 'success' : 'warning'">
                             {{String(scope.row.enabled) === '1' ? '启用' : '禁用'}}
                         </el-tag>
@@ -40,9 +40,11 @@
                 <el-table-column prop="createTime" label="创建时间" sortable width="160"></el-table-column>
                 <el-table-column label="操作" fixed="right" width="260">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
-                        <el-button size="mini" type="primary" :disabled="scope.row.menuType && scope.row.menuType === 2" @click="append(scope.row)">增加</el-button>
-                        <el-button size="mini" type="danger" @click="remove(scope.row)">删除</el-button>
+                        <el-button type="text" @click="modify(scope.row)">编辑</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" :disabled="scope.row.menuType === 2" @click="append(scope.row)">增加</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" @click="remove(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -57,7 +59,6 @@
 
 <script>
     import vAddMenu from '@/components/authority/menu/AddMenu'
-    import lineUtil from '@/utils/humpToLine'
 
     export default {
         name: 'Menu',
@@ -119,7 +120,7 @@
             },
 
             url(str) {
-                return lineUtil.toLine(str)
+                return this.$common.toLine(str)
             },
 
             append(data) { // 添加菜单

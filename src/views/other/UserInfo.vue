@@ -1,11 +1,13 @@
 <template>
-    <div class="user-info">
+    <div class="user-info vue-margin">
         <el-row>
             <el-col :span="8">
                 <div class="radius" style="margin-right: 20px;">
                     <div class="user-title">个人信息</div>
                     <div class="vue-padding head-img">
-                        <avatar-user :user="userInfo"></avatar-user>
+                        <AvatarUser
+                            :user="userInfo"
+                        />
                     </div>
                 </div>
             </el-col>
@@ -42,12 +44,12 @@
 
 <script>
     import config from '@/http/config'
-    import avatarUser from "@/components/user/avatarUser";
+    import AvatarUser from "@/components/user/AvatarUser";
 
     export default {
         name: 'UserInfo',
         components: {
-            avatarUser
+            AvatarUser
         },
         data() {
             const mobile = (rule, value, callback) => {
@@ -107,7 +109,7 @@
                             if (res.code === 0) {
 
                             } else {
-                                this.$toolUtil.msg(res, this.error)
+                                this.$common.msg(res, this.error)
                             }
                         })
                     } else {

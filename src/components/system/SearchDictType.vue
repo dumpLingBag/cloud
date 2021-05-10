@@ -2,7 +2,7 @@
     <div class="search-dict">
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
-                <el-button type="primary" size="small" icon="el-icon-plus" @click="addDict">增加</el-button>
+                <el-button type="text" size="small" icon="el-icon-plus" @click="addDict">增加</el-button>
                 <el-button type="danger" size="small" icon="el-icon-delete" :disabled="multipleSelection.length <= 0" @click="delBatchDict">删除</el-button>
             </div>
             <div class="el-right">
@@ -21,7 +21,7 @@
                         <el-input v-model="dict.dictType" placeholder="请输入字典类型"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="onSubmit" icon="el-icon-search">搜索</el-button>
+                        <el-button type="text" @click="onSubmit" icon="el-icon-search">搜索</el-button>
                         <el-button @click="resetSearch('dict')" icon="el-icon-refresh">重置</el-button>
                     </el-form-item>
                 </el-form>
@@ -52,7 +52,7 @@
 
             resetSearch(formName) {
                 this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
-                this.$toolUtil.clearForm(this.dict);
+                this.$common.clearForm(this.dict);
                 this.$emit('resetSearch', this.dict)
             },
 

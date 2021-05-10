@@ -22,8 +22,8 @@
                 <div class="el-upload__tip" slot="tip">只能上传 xls 或者 xlsx 文件，且不超过2M</div>
             </el-upload>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="closeImportUserDialog">取 消</el-button>
-                <el-button type="primary" @click="submitUploadUser">确 定</el-button>
+                <el-button size="medium" @click="closeImportUserDialog">取 消</el-button>
+                <el-button size="medium" type="primary" @click="submitUploadUser">确 定</el-button>
             </span>
         </el-dialog>
     </div>

@@ -32,7 +32,7 @@
                         </el-select>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="onSubmit" icon="el-icon-search">搜索</el-button>
+                        <el-button type="text" @click="onSubmit" icon="el-icon-search">搜索</el-button>
                         <el-button @click="resetSearch('loginInfo')" icon="el-icon-refresh">重置</el-button>
                     </el-form-item>
                 </el-form>
@@ -64,7 +64,7 @@
 
             resetSearch(formName) {
                 this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
-                this.$toolUtil.clearForm(this.loginInfo);
+                this.$common.clearForm(this.loginInfo);
                 this.dateTime = '';
                 this.$emit('resetSearch')
             },
@@ -76,7 +76,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$api.request(this.$url.LoginInfo.delete, this.$method.delete, {ids: this.$cloud.getIds(this.multipleSelection)}).then(res => {
+                    this.$api.request(this.$url.LoginInfo.delete, this.$method.delete, {ids: this.$common.getIds(this.multipleSelection)}).then(res => {
                         if (res.code === 0) {
                             this.$notify({
                                 title: '提示',

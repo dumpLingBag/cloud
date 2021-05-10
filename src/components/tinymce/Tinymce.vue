@@ -1,7 +1,7 @@
 <template>
-    <div class="tinymce">
+    <div class="tinymce" v-loading="loading" element-loading-text="加载中...">
         <div class="tinymce-editor tinymce-container editor-container" :class="{fullscreen:fullscreen}">
-            <textarea :id="tinymceId" class="tinymce-textarea" />
+            <editor :id="tinymceId" :init="init" v-model="tinyVal" @onClick="onClick"></editor>
             <div class="editor-custom-btn-container">
                 <editor-image color="#1890ff" class="editor-upload-btn" v-on:imageSuccess="imageSuccess"></editor-image>
             </div>
@@ -10,13 +10,21 @@
 </template>
 
 <script>
-    import plugins from './plugins'
-    import toolbar from './toolbar'
+    import tinymce from 'tinymce'
+    import editor from '@tinymce/tinymce-vue'
+    import 'tinymce/themes/silver'
+    import 'tinymce/icons/default/icons'
     import editorImage from './EditorImage'
+    import 'tinymce/plugins/image'// 插入上传图片插件
+    import 'tinymce/plugins/media'// 插入视频插件
+    import 'tinymce/plugins/table'// 插入表格插件
+    import 'tinymce/plugins/lists'// 列表插件
+    import 'tinymce/plugins/wordcount'// 字数统计插件
     export default {
         name: "Tinymce",
         components: {
-            editorImage
+            editorImage,
+            editor
         },
         props: {
             id: {
@@ -29,12 +37,13 @@
                 type: String,
                 default: ''
             },
+            plugins: {
+              type: [String, Array],
+              default: 'lists image media table wordcount'
+            },
             toolbar: {
-                type: Array,
-                required: false,
-                default() {
-                    return []
-                }
+              type: [String, Array],
+              default: 'undo redo |  formatselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lists image media table | removeformat'
             },
             menubar: {
                 type: String,
@@ -53,11 +62,12 @@
         },
         watch: {
             value(val) {
-                if (!this.hasChange && this.hasInit) {
-                    this.$nextTick(() =>
-                        this.$tinymce.get(this.tinymceId).setContent(val || '')
-                    )
-                }
+              this.$nextTick(() =>
+                  this.tinyVal = val
+              )
+            },
+            tinyVal(val) {
+                this.$emit('input', val)
             }
         },
         data() {
@@ -67,38 +77,21 @@
                 tinymceId: this.id,
                 fullscreen: false,
                 editorContent: '',
-                hasInit: false
-            }
-        },
-        mounted() {
-            this.initTinymce();
-            this.setContent(this.value)
-        },
-        activated() {
-            if (this.$tinymce) {
-                this.initTinymce()
-            }
-        },
-        deactivated() {
-            this.destroyTinymce()
-        },
-        destroyed() {
-            this.destroyTinymce()
-        },
-        methods: {
-            initTinymce() {
-                const that = this;
-                this.$tinymce.init({
+                hasInit: false,
+                loading: true,
+                init: {
                     fontsize_formats: '12px 14px 16px 18px 20px 24px 36px',
                     language: 'zh_CN',
                     language_url: '/tinymce/langs/zh_CN.js',
-                    selector: `#${this.tinymceId}`,
+                    skin_url: '/tinymce/skins/ui/oxide',
+                    content_css: '/tinymce/skins/content/default/content.css',
+                    //selector: `#${this.tinymceId}`,
                     height: 500,
                     body_class: 'panel-body ',
                     object_resizing: false,
-                    toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
+                    toolbar: this.toolbar,
                     menubar: this.menubar,
-                    plugins: plugins,
+                    plugins: this.plugins,
                     end_container_on_empty_block: true,
                     powerpaste_word_import: 'clean',
                     code_dialog_height: 450,
@@ -108,26 +101,73 @@
                     default_link_target: '_blank',
                     link_title: false,
                     nonbreaking_force_tab: true,
-                    init_instance_callback: editor => {
-                        if (that.value) {
-                            editor.setContent(that.value)
-                        }
-                        that.hasInit = true;
-                        editor.on('NodeChange Change KeyUp SetContent', () => {
-                            this.hasChange = true;
-                            that.$emit('input', editor.getContent());
-                            that.editorContent = editor.getContent()
-                        })
+                    automatic_uploads: false,
+                    images_upload_url: 'postAcceptor.php',
+                  file_picker_types: 'file image media',
+                    init_instance_callback: (editor) => {
+                        this.loading = false;
                     },
-                    setup(editor) {
+                    setup: (editor) => {
                         editor.on('FullscreenStateChanged', e => {
-                            that.fullscreen = e.state
+                            this.fullscreen = e.state
                         })
                     }
+                },
+                tinyVal: ''
+            }
+        },
+        mounted() {
+            tinymce.init({})
+        },
+        methods: {
+            onClick(e) {
+                this.$emit('onClick', e, tinymce)
+            },
+            initTinymce() {
+                const self = this;
+                tinymce.init({
+                  fontsize_formats: '12px 14px 16px 18px 20px 24px 36px',
+                  language: 'zh_CN',
+                  language_url: '/tinymce/langs/zh_CN.js',
+                  skin_url: '/tinymce/skins/ui/oxide',
+                  content_css: '/tinymce/skins/content/default/content.css',
+                  selector: `#${this.tinymceId}`,
+                  height: 500,
+                  body_class: 'panel-body ',
+                  object_resizing: false,
+                  toolbar: this.toolbar,
+                  menubar: this.menubar,
+                  plugins: this.plugins,
+                  end_container_on_empty_block: true,
+                  powerpaste_word_import: 'clean',
+                  code_dialog_height: 450,
+                  code_dialog_width: 1000,
+                  advlist_bullet_styles: 'square',
+                  advlist_number_styles: 'default',
+                  default_link_target: '_blank',
+                  link_title: false,
+                  nonbreaking_force_tab: true,
+                  init_instance_callback: editor => {
+                      console.log('11111')
+                    if (self.value) {
+                      editor.setContent(self.value)
+                    }
+                    self.hasInit = true;
+                    editor.on('NodeChange Change KeyUp SetContent', () => {
+                      self.hasChange = true;
+                      self.$emit('input', editor.getContent());
+                      self.editorContent = editor.getContent()
+                    })
+                  },
+                  setup(editor) {
+                    editor.on('FullscreenStateChanged', e => {
+                      self.fullscreen = e.state
+                    })
+                  }
                 })
             },
             destroyTinymce() {
-                const tinymce = this.$tinymce.get(this.tinymceId);
+                const tinymce = tinymce.get(this.tinymceId);
                 if (this.fullscreen) {
                     tinymce.execCommand('mceFullScreen')
                 }
@@ -137,11 +177,11 @@
             },
             // 设置编辑器内容
             setContent(value) {
-                this.$tinymce.get(this.tinymceId).setContent(value)
+                tinymce.get(this.tinymceId).setContent(value)
             },
             // 获取编辑器内容
             getContent() {
-                this.$tinymce.get(this.tinymceId).getContent()
+                tinymce.get(this.tinymceId).getContent()
             },
             // 图片上传成功后填充到富文本编辑器
             async imageSuccess(urlList) {
@@ -151,7 +191,7 @@
                         const image = `<img style="max-width:100%;" src="${item}">`;
                         imageTemplateList = imageTemplateList + image
                     });
-                    this.$tinymce.get(this.tinymceId).insertContent(imageTemplateList);
+                    tinymce.get(this.tinymceId).insertContent(imageTemplateList);
                     this.$message.success('上传成功')
                 } catch (error) {
                     this.$message.error(error.msg)
@@ -162,6 +202,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .tinymce {
+        min-height: 500px;
+    }
     .tinymce-container {
         position: relative;
         line-height: normal;
@@ -175,8 +218,8 @@
     }
     .editor-custom-btn-container {
         position: absolute;
-        right: 4px;
-        top: 4px;
+        right: 6px;
+        top: 6px;
         z-index: 1;
     }
     .fullscreen .editor-custom-btn-container {

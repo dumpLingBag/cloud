@@ -1,7 +1,7 @@
 <template>
     <div class="add-dict-data">
-        <el-dialog :title="addOrEdit ? '添加字典数据' : '编辑字典数据'" :visible.sync="dialogDict" width="30%"
-                   @closed="closeDialog" :modal-append-to-body='true' :append-to-body="true">
+        <el-dialog :title="addOrEdit ? '添加字典数据' : '编辑字典数据'" :visible="dialogDict" width="500px"
+                   @close="closeDialog">
             <el-form :label-position="labelPosition" :rules="rules" ref="dictForm" label-width="80px" :model="dictForm">
                 <el-form-item label="字典类型" prop="dictType" :error="error.dictName">
                     <el-input v-model="dictForm.dictType" disabled="disabled" placeholder="请输入字典类型" autocomplete="off"></el-input>
@@ -13,7 +13,7 @@
                     <el-input v-model="dictForm.dictValue" placeholder="请输入数据键值" autocomplete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="字典排序" prop="dictSort" :error="error.dictType">
-                    <el-input-number v-model="dictForm.dictSort" controls-position="right" @change="handleChange" :min="1" :max="10"></el-input-number>
+                    <el-input-number v-model="dictForm.dictSort" controls-position="right" :min="1" :max="99"></el-input-number>
                 </el-form-item>
                 <el-form-item label="字典状态" prop="enabled">
                     <el-radio-group v-model="dictForm.enabled" size="medium">
@@ -22,12 +22,12 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="备注信息">
-                    <el-input type="textarea" v-model="dictForm.remark"></el-input>
+                    <el-input type="textarea" rows="3" v-model="dictForm.remark"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancel">取 消</el-button>
-                <el-button type="primary" @click="submitForm('dictForm')">确 定</el-button>
+                <el-button size="medium" @click="cancel">取 消</el-button>
+                <el-button size="medium" type="primary" @click="submitForm('dictForm')">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -68,10 +68,10 @@
             closeDialog() {
                 this.clearValidate('dictForm');
                 if (!this.addOrEdit) {
-                    this.$toolUtil.clearForm(this.dictForm)
+                    this.$common.clearForm(this.dictForm)
                 } else {
                     if (this.clear) {
-                        this.$toolUtil.clearForm(this.dictForm)
+                        this.$common.clearForm(this.dictForm)
                     }
                 }
                 this.cancel()

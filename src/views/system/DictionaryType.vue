@@ -1,8 +1,17 @@
 <template>
     <div class="dictionary">
-        <v-search-dict v-on:addDict="addDict" :dict="dict" v-on:onSubmit="onSubmit" v-on:delBatchDict="delBatchDict"
-        v-on:enableSelect="enableSelect" v-on:resetSearch="resetSearch" :multipleSelection="multipleSelection"></v-search-dict>
-        <v-add-dict :dialogDict="dialogDict" :addOrEdit="addOrEdit" :dictForm="dictForm" v-on:cancel="cancel"></v-add-dict>
+        <Search
+            :search="search"
+            :modelData="modelData"
+            @saveChange="addDict"
+            @removeChange="delBatchDict"
+        />
+        <AddDict
+            :dialogDict="dialogDict"
+            :addOrEdit="addOrEdit"
+            :dictForm="dictForm"
+            v-on:cancel="cancel"
+        />
         <div class="dict vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="dictList" style="width: 100%"
                       @selection-change="handleSelectionChange">
@@ -15,7 +24,7 @@
                 </el-table-column>
                 <el-table-column label="状态">
                     <template slot-scope="scope">
-                        <el-tag size="medium" @click="tagEnable(scope.$index, scope.row)"
+                        <el-tag size="small" @click="tagEnable(scope.$index, scope.row)"
                                 :type="Number(scope.row.enabled) === 1 ? 'success' : 'warning'">
                             {{ Number(scope.row.enabled) === 1 ? '启用' : '禁用' }}
                         </el-tag>
@@ -30,8 +39,9 @@
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="300">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="editDict(scope.row)">编辑</el-button>
-                        <el-button type="danger" size="mini" @click="delDict(scope.row)">删除</el-button>
+                        <el-button type="text" @click="editDict(scope.row)">编辑</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" @click="delDict(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -43,13 +53,13 @@
 </template>
 
 <script>
-    import vSearchDict from '@/components/system/SearchDictType'
-    import vAddDict from '@/components/system/AddDictType'
+    import AddDict from '@/components/system/AddDictType'
+    import Search from '@/components/search/Index'
     export default {
         name: "DictionaryType",
         components: {
-            vSearchDict,
-            vAddDict
+            AddDict,
+            Search
         },
         data() {
             return {
@@ -71,7 +81,38 @@
                     enabled: '1',
                     remark: ''
                 },
-                multipleSelection: []
+                multipleSelection: [],
+                search: {
+                    typeSearch: [
+                        {
+                            label: '字典类型',
+                            name: 'dictType'
+                        },
+                        {
+                            label: '字典名称',
+                            name: 'dictName'
+                        },
+                        {
+                            label: '字典状态',
+                            name: 'dictStatus',
+                            dictType: 'sys_yes_no',
+                            type: 'select'
+                        }
+                    ],
+                    btnSearch: [
+                        {
+                            btnType: this.$btnType.SAVE,
+                            hasPerm: ['sys:dict:add'],
+                            name: '增加'
+                        },
+                        {
+                            btnType: this.$btnType.REMOVE,
+                            hasPerm: ['sys:dict:delete'],
+                            name: '删除'
+                        }
+                    ]
+                },
+                modelData: {}
             }
         },
         mounted() {
@@ -182,6 +223,10 @@
                     obj.push(key.dictType)
                 });
                 return obj;
+            },
+
+            tagEnable(index, data) {
+
             }
         }
     }

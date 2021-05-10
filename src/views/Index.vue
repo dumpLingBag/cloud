@@ -1,21 +1,21 @@
 <template>
     <div class="index">
         <el-container>
-            <v-aside></v-aside>
+            <v-aside class="sidebar-container"></v-aside>
             <el-container>
                 <v-header v-on:password="password"></v-header>
                 <transition name="tags" mode="out-in">
                     <v-tags v-show="tagsTop"></v-tags>
                 </transition>
                 <v-password :dialogPassword="dialogPassword" v-on:closePasswordDialog="passwordDialog"></v-password>
-                <el-main :style="{left: collapse ? '100px' : '280px', top: tagsTop ? '135px' : '90px','border-radius' : '0.3rem', 'overflow' : 'auto'}">
-                    <vue-scroll>
+                <el-main :style="{left: collapse ? '80px' : '260px', top: tagsTop ? '104px' : '64px', 'overflow' : 'auto'}">
+                    <!--<vue-scroll>-->
                         <transition name="move-main" mode="out-in">
                             <keep-alive :include="tagList">
                                 <router-view></router-view>
                             </keep-alive>
                         </transition>
-                    </vue-scroll>
+                    <!--</vue-scroll>-->
                 </el-main>
             </el-container>
         </el-container>
@@ -24,9 +24,9 @@
 
 <script>
     import vPassword from '@/components/Password'
-    import vTags from '@/components/Tags'
-    import vAside from '@/components/Aside'
-    import vHeader from '@/components/Header'
+    import vTags from '@/components/tags/Tags'
+    import vAside from '@/components/sidebar/Aside'
+    import vHeader from '@/components/header/Header'
 
     export default {
         name: 'Index',
@@ -86,17 +86,17 @@
     @import '~@/assets/scss/index';
 
     .move-main-enter-active, .move-main-leave-active {
-        transition: all .5s;
+        transition: all ease-in-out .3s;
     }
 
     .move-main-enter {
         opacity: 0;
-        transform: translateX(-30px);
+        //transform: translateX(-30px);
     }
 
     .move-main-leave-to {
         opacity: 0;
-        transform: translateX(30px);
+        //transform: translateX(30px);
     }
 
     .tags-enter-active, .tags-leave-active {

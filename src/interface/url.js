@@ -4,7 +4,8 @@ export default {
         login: 'authority/login',
         /* 登出 */
         loginOut: 'authority/logout',
-        captcha: 'authority/login/captcha'
+        captcha: 'authority/login/captcha',
+        verify: 'authority/login/verify'
     },
     System: {
         lang: 'authority/system/lang'
@@ -31,7 +32,8 @@ export default {
     User: {
         updatePassword: 'authority/user/updatePassword',
         checkPassword: 'authority/user/checkPassword',
-        uploadAvatar: 'authority/user/uploadAvatar'
+        uploadAvatar: 'authority/user/uploadAvatar',
+        retrieve: 'authority/user/retrieve'
     },
     AuthorityMenu: {
         /* 加载地址url */
@@ -61,7 +63,8 @@ export default {
         listMenu: 'authority/roleMenu/listMenu',
         update: 'authority/roleMenu/update',
         save: 'authority/roleMenu/insert',
-        listAuth: 'authority/roleMenu/listAuth'
+        listAuth: 'authority/roleMenu/listAuth',
+        listCheckMenu: 'authority/roleMenu/listCheckMenu'
     },
     AuthorityUserRole: {
         load: 'authority/userRole/list',

@@ -47,7 +47,7 @@
                     <el-button icon="el-icon-refresh-right" size="small" @click="rotateRight()"></el-button>
                 </el-col>
                 <el-col :lg="{span: 2, offset: 6}" :md="2">
-                    <el-button type="primary" size="small" @click="uploadImg()">提 交</el-button>
+                    <el-button size="medium" type="primary" @click="uploadImg()">提 交</el-button>
                 </el-col>
             </el-row>
         </el-dialog>
@@ -82,6 +82,7 @@
             }
         },
         mounted()  {
+            console.log(this.$cookies.get('avatar'))
             this.options.img = this.$cookies.get('avatar')
         },
         methods: {

@@ -28,9 +28,9 @@
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="300">
                     <template slot-scope="scope">
-                        <el-button type="primary" size="mini" @click="sendNotice(scope.row)">发消息</el-button>
-                        <el-button type="warning" size="mini" @click="banned(scope.row)">禁言</el-button>
-                        <el-button type="danger" size="mini" :disabled="scope.row.account === 'admin'"
+                        <el-button type="text" size="mini" @click="sendNotice(scope.row)">发消息</el-button>
+                        <el-button type="text" size="mini" @click="banned(scope.row)">禁言</el-button>
+                        <el-button type="text" size="mini" :disabled="scope.row.account === 'admin'"
                                    @click="kickOut(scope.row)">踢出聊天
                         </el-button>
                     </template>
@@ -111,7 +111,7 @@
                 self.timeoutObj && clearTimeout(self.timeoutObj)
                 self.timeoutObj = setTimeout(() => {
                     if (self.webSocket.readyState === 1) {
-                        const time = this.$time.time(new Date())
+                        const time = this.$common.time(new Date())
                         const obj = {send: 0, receive: 0, sendReceive: 0, content: 'ping', createTime: time, smsType: 0}
                         self.webSocket.send(JSON.stringify(obj))
                     } else {

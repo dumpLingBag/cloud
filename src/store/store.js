@@ -1,8 +1,16 @@
-const Vuex = require('vuex');
-const Cookies = require('js-cookie');
-const menuUtil = require('../utils/index').default;
-const router = require('../router/router').default;
-const hump = require('../utils/humpToLine');
+//const Vuex = require('vuex');
+//const Cookies = require('js-cookie');
+//const menuUtil = require('../utils/index').default;
+//const router = require('../router/router').default;
+//const hump = require('../utils/humpToLine');
+import Vue from 'vue'
+import Vuex from 'vuex'
+import Cookies from 'js-cookie'
+import menuUtil from '@/utils'
+import router from '@/router/router'
+import { toHump } from '@/utils/common'
+
+Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
@@ -66,7 +74,7 @@ export default new Vuex.Store({
             });
             if (view.meta.keepAlive === '1') {
                 let path = view.path.split('/');
-                state.tagList.push(hump.default.toHump(path[path.length - 1]))
+                state.tagList.push(toHump(path[path.length - 1]))
             }
         },
         DEL_VISITED_VIEWS: (state, view) => {
@@ -84,7 +92,7 @@ export default new Vuex.Store({
             });
             state.tagList = state.tagList.filter(item => {
                 let path = view.path.split('/');
-                return item === hump.default.toHump(path[path.length - 1])
+                return item === toHump(path[path.length - 1])
             })
         },
         DEL_ALL_VIEWS: (state) => {

@@ -39,8 +39,8 @@
         },
         methods: {
             gradient() {
-                let grad = this.$echarts.init(document.getElementById('gradient'), macarons);
-                grad.setOption({
+                this.gradEchart = this.$echarts.init(document.getElementById('gradient'), macarons);
+                this.gradEchart.setOption({
                     tooltip: {
                         trigger: 'axis',
                         axisPointer: { // 坐标轴指示器，坐标轴触发有效
@@ -107,8 +107,8 @@
                 })
             },
             world() {
-                let world = this.$echarts.init(document.getElementById('world'), macarons);
-                world.setOption({
+                this.worldEchart = this.$echarts.init(document.getElementById('world'), macarons);
+                this.worldEchart.setOption({
                     title: {
                         text: '世界人口总量',
                         subtext: '数据来自网络'
@@ -151,8 +151,8 @@
                 })
             },
             polyline() {
-                let poly = this.$echarts.init(document.getElementById('polyline'), macarons);
-                poly.setOption({
+                this.polyEchart = this.$echarts.init(document.getElementById('polyline'), macarons);
+                this.polyEchart.setOption({
                     title: {
                         text: '未来一周气温变化',
                         subtext: '数据来源自大自然'
@@ -225,8 +225,8 @@
                 })
             },
             waterfall() {
-                let fall = this.$echarts.init(document.getElementById('waterfall'), macarons);
-                fall.setOption({
+                this.fallEchart = this.$echarts.init(document.getElementById('waterfall'), macarons);
+                this.fallEchart.setOption({
                     title: {
                         text: '阶梯瀑布图',
                         subtext: 'From ExcelHome',

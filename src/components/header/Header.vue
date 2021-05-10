@@ -1,6 +1,6 @@
 <template>
     <div class="sys-header">
-        <el-header class="el-header-nav radius" :style="collapse ? 'left:100px' : 'left:280px'">
+        <el-header class="el-header-nav radius" :style="collapse ? 'left: 80px' : 'left: 260px'">
             <ul class="el-ul el-ul-left ul-icon" style="float: left">
                 <li @click="isHeader()" :title='collapse ? "打开侧栏" : "关闭侧栏"'>
                     <a href="javascript:;">
@@ -19,7 +19,7 @@
                 </li>
                 <li @click="screen()" title="全屏"><a href="javascript:;"><i class="el-icon-c-scale-to-original"></i></a>
                 </li>
-                <li>
+                <!--<li>
                     <a href="javascript:;">
                         <el-dropdown trigger="hover" @command="commandLanguage">
                             <span class="el-dropdown-link drop">{{language}}</span>
@@ -29,23 +29,24 @@
                             </el-dropdown-menu>
                         </el-dropdown>
                     </a>
-                </li>
+                </li>-->
                 <li>
                     <a href="javascript:;">
                         <el-dropdown trigger="hover" @command="commandUser">
                             <div class="el-dropdown-link">
+                                <!--<span class="el-icon-user" style="margin-right: 0.1rem;"></span>-->
                                 <span class="hd-name" style="font-size: 16px">{{nickname}}</span>
                                 <el-avatar class="hd-img" :src="userAvatar"></el-avatar>
                             </div>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item command="personal">个人中心</el-dropdown-item>
-                                <el-dropdown-item command="password">修改密码</el-dropdown-item>
-                                <el-dropdown-item command="loginOut" divided>退出登录</el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-s-custom" command="personal">个人中心</el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-s-check" command="password">修改密码</el-dropdown-item>
+                                <el-dropdown-item icon="el-icon-s-promotion" command="loginOut" divided>退出登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </a>
                 </li>
-                <li @click="drawer = true"><a href="javascript:;"><i class="el-icon-s-operation"></i></a></li>
+                <li @click="isDrawer"><a href="javascript:;"><i class="el-icon-s-operation"></i></a></li>
             </ul>
             <el-drawer
                     title="我是标题"
@@ -62,15 +63,13 @@
 
 <script>
     import screenfull from 'screenfull'
-    import language from '../utils/language'
 
     export default {
         name: 'sys-header',
         data() {
             return {
                 dialogPassword: false,
-                drawer: false,
-                language: '简体'
+                drawer: false
             }
         },
         mounted() {
@@ -92,17 +91,6 @@
             },
             password(password) {
                 this.dialogPassword = password
-            },
-            commandLanguage(command) {
-                this.language = language[command]['0'];
-                this.lang(command)
-            },
-            lang(data) {
-                this.$api.request(this.$url.System.lang, this.$method.put, this.$qs.stringify({lang: data})).then(res => {
-                    if (res.code === 0) {
-                        this.$i18n.locale = data
-                    }
-                })
             },
             commandUser(command) {
                 switch (command) {
@@ -130,7 +118,7 @@
                 this.$router.push('/user/message')
             },
             screen() {
-                if (screenfull.enabled) {
+                if (screenfull.isEnabled) {
                     let that = this;
                     screenfull.toggle().then(() => {
                         that.$store.commit('INNER_HEIGHT', document.documentElement.clientHeight)
@@ -141,6 +129,9 @@
             },
             isTags() {
                 this.$store.dispatch('tagsTop', !this.$store.state.tagsTop);
+            },
+            isDrawer() {
+                this.$message.warning('功能模块开发中，敬请期待~')
             }
         },
         computed: {
@@ -161,16 +152,18 @@
     .el-header {
         padding: 0;
         position: absolute;
-        top: 15px;
-        left: 280px;
-        right: 20px;
+        z-index: 3;
+        left: 260px;
+        right: 0;
+        height: 60px!important;
+        line-height: 60px;
         background-color: #fff;
         box-sizing: border-box;
-        -webkit-transition: left .3s ease-in-out;
-        transition: left .3s ease-in-out;
+        -webkit-transition: left .28s;
+        transition: left .28s;
 
         .el-header-nav {
-            height: 3.8rem;
+            height: 60px;
             position: relative;
         }
 
@@ -179,18 +172,18 @@
         }
 
         .el-ul {
-            padding: 0 10px;
+            padding: 0 1px;
 
             li {
-                height: 3.8rem;
+                height: 60px;
                 float: left;
-                line-height: 3.8rem;
+                line-height: 60px;
 
                 a {
                     display: block;
                     color: rgb(86, 86, 86);
                     padding: 0 15px;
-                    font-size: 1.5rem;
+                    font-size: 25px;
 
                     .el-dropdown-link {
                         display: flex;
@@ -210,6 +203,7 @@
 
                 a:hover {
                     color: #409EFF;
+                    cursor: pointer;
 
                     .hd-name {
                         color: #409EFF;
@@ -237,7 +231,7 @@
 
         .el-dropdown {
             display: block;
-            font-size: 1.5rem;
+            font-size:25px;
         }
 
         .icon-gengduo {

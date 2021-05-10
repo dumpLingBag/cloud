@@ -1,7 +1,9 @@
 <template>
     <div class="operation">
-        <v-search-operation :operation="operation" :operType="operType" v-on:onSubmit="onSubmit"
-        v-on:resetSearch="resetSearch" :multipleSelection="multipleSelection"></v-search-operation>
+        <Search
+            :search="search"
+            :modelData="modelData"
+        />
         <div class="vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="operationList" style="width: 100%"
                       @selection-change="handleSelectionChange">
@@ -20,7 +22,7 @@
                 <el-table-column prop="createTime" label="操作日期"></el-table-column>
                 <el-table-column fixed="right" label="操作">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="getOperationInfo(scope.row)">详情</el-button>
+                        <el-button type="text" @click="getOperationInfo(scope.row)">详情</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -80,19 +82,19 @@
                 </el-row>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
+                <el-button size="medium" @click="dialogVisible = false">取 消</el-button>
             </span>
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import vSearchOperation from '@/components/authority/log/SearchOperation'
+    import Search from '@/components/search/Index'
 
     export default {
         name: "Operation",
         components: {
-            vSearchOperation
+            Search
         },
         data() {
             return {
@@ -113,7 +115,38 @@
                     status: ''
                 },
                 operType: [],
-                multipleSelection: []
+                multipleSelection: [],
+                search: {
+                    typeSearch: [
+                        {
+                            label: '操作人员',
+                            name: 'operName'
+                        },
+                        {
+                            label: '操作类型',
+                            name: 'businessType',
+                            dictType: 'sys_oper_type',
+                            type: 'select'
+                        },
+                        {
+                            label: '操作时间',
+                            type: 'date'
+                        }
+                    ],
+                    btnSearch: [
+                        {
+                            btnType: this.$btnType.SAVE,
+                            hasPerm: ['sys:dict:add'],
+                            name: '增加'
+                        },
+                        {
+                            btnType: this.$btnType.REMOVE,
+                            hasPerm: ['sys:dict:delete'],
+                            name: '删除'
+                        }
+                    ]
+                },
+                modelData: {}
             }
         },
         mounted() {
@@ -132,7 +165,7 @@
             currentChange(currentPage) {
                 this.loading = !this.loading;
                 this.page.currentPage = currentPage ? currentPage : 1;
-                this.$api.request(this.$url.OperationLog.page, this.$method.get, this.$cloud.objMerge(this.operation, this.page))
+                this.$api.request(this.$url.OperationLog.page, this.$method.get, this.$common.objMerge(this.operation, this.page))
                     .then(res => {
                         if (res.code === 0) {
                             if (res.data && res.data.records) {
@@ -156,7 +189,7 @@
             },
 
             dictFormat(row) {
-                return this.$cloud.getDictLabel(this.operType, row.businessType);
+                return this.$common.getDictLabel(this.operType, row.businessType);
             },
 
             handleClose() {

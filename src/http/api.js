@@ -1,4 +1,4 @@
-const axios = require('axios')
+import axios from 'axios'
 import config from '@/http/config'
 import router from '@/router/router'
 import NProgress from 'nprogress'
@@ -6,7 +6,7 @@ import {MessageBox} from 'element-ui'
 import Message from '@/utils/message'
 import 'nprogress/nprogress.css'
 
-const cookie = require('js-cookie')
+import cookie from 'js-cookie'
 
 NProgress.configure({showSpinner: false});
 axios.defaults.withCredentials = true;
@@ -31,7 +31,9 @@ export default function $axios(options) {
                     config.headers.Authorization = token
                 } else {
                     // 重定向到登录页
-                    router.push('/login');
+                    if (config.url.indexOf('/login') === -1) {
+                        router.push('/login');
+                    }
                     NProgress.done()
                 }
                 return config
@@ -179,7 +181,6 @@ export default function $axios(options) {
         // 请求处理
         instance(options).then(res => {
             resolve(res);
-            return false
         }).catch(error => {
             reject(error)
         })

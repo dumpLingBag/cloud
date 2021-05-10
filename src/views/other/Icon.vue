@@ -1,22 +1,19 @@
 <template xmlns:v-clipboard="http://www.w3.org/1999/xhtml">
     <div class="icon vue-padding radius">
-        <el-backtop target=".icon-list"></el-backtop>
         <div class="tips">阿里图标库</div>
         <vue-scroll>
-            <div class="icon-list">
+            <div class="icon-list" :style="{height: height + 'px'}">
                 <ul class="icon-ul">
                     <li v-for="item in icon" :key="item.id" v-clipboard:copy="item.icon" v-clipboard:success="onCopy"
                         v-clipboard:error="onError">
-                        <el-popover placement="top-start" width="200" trigger="hover"
-                                    :content="'点击复制<'+item.text+'>图标到剪切板'">
-                            <span class="icon" slot="reference">
-                              <i :class="item.icon"></i>
-                              <span class="icon-name">{{item.text}}</span>
-                            </span>
-                        </el-popover>
+                        <span class="icon">
+                            <i :class="item.icon"></i>
+                            <span class="icon-name">{{item.text}}</span>
+                        </span>
                     </li>
                 </ul>
             </div>
+            <el-backtop></el-backtop>
         </vue-scroll>
     </div>
 </template>
@@ -26,10 +23,12 @@
         name: 'Icon',
         data() {
             return {
-                icon: []
+                icon: [],
+                height: 0
             }
         },
         mounted() {
+            this.height = document.documentElement.clientHeight - 278;
             this.getIconList()
         },
         computed: {
@@ -43,16 +42,10 @@
                 this.$message.error('复制' + e.text + '到剪切板失败')
             },
             getIconList() {
-                this.$loading({
-                    'text': '图标加载中...'
-                });
                 this.$api.request(this.$url.IconList.loadIcon, this.$method.get).then(res => {
                     if (res.code === 0) {
                         this.icon = res.data
                     }
-                    this.$loading().close()
-                }, () => {
-                    this.$loading().close()
                 })
             }
         }

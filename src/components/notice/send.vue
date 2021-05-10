@@ -5,12 +5,12 @@
             <el-form ref="form" :model="message" label-width="auto">
                 <el-form-item prop="text"
                               :rules="[{ required: true, message: '消息内容不能为空', trigger: 'blur' }]">
-                    <el-input type="textarea" :rows="5" placeholder="请输入消息内容" v-model="message.content"></el-input>
+                    <el-input type="textarea" rows="3" :rows="5" placeholder="请输入消息内容" v-model="message.content"></el-input>
                 </el-form-item>
             </el-form>
             <span slot="footer" class="dialog-footer">
-        <el-button @click="notice">取 消</el-button>
-        <el-button type="primary" @click="subNotice">确 定</el-button>
+        <el-button size="medium" @click="notice">取 消</el-button>
+        <el-button size="medium" type="primary" @click="subNotice">确 定</el-button>
       </span>
         </el-dialog>
     </div>
@@ -36,7 +36,7 @@
                 this.$emit('noticeDialog', false)
             },
             subNotice() {
-                const time = this.$time.time(new Date());
+                const time = this.$common.time(new Date());
                 const userId = JSON.parse(localStorage.getItem('user')).id;
                 let fmTo = this.userId > userId ? userId + this.userId : this.userId + userId;
                 const obj = {

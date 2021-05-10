@@ -1,7 +1,7 @@
 <template>
     <div class="addUser">
-        <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible.sync="dialogUser" width="40%"
-                   @closed="closeDialog">
+        <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible="dialogUser" width="680px"
+                   @close="closeDialog">
             <el-form :label-position="labelPosition" :rules="rules" ref="userForm" label-width="80px" :model="userForm">
                 <el-row :gutter="20">
                     <el-col :span="12">
@@ -55,14 +55,14 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="备注信息">
-                            <el-input type="textarea" v-model="userForm.desc"></el-input>
+                            <el-input type="textarea" rows="3" v-model="userForm.desc"></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancel">取 消</el-button>
-                <el-button type="primary" @click="submitForm('userForm')" :disabled="disabled">确 定</el-button>
+                <el-button size="medium" @click="cancel">取 消</el-button>
+                <el-button size="medium" type="primary" @click="submitForm('userForm')" :disabled="disabled">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -182,7 +182,7 @@
                                     this.clear = true
                                     this.cancel('save')
                                 } else {
-                                    this.$toolUtil.msg(res, this.error)
+                                    this.$common.msg(res, this.error)
                                 }
                                 this.disabled = false
                             }).catch(() => {
@@ -199,7 +199,7 @@
                                     this.clear = true
                                     this.cancel('update')
                                 } else {
-                                    this.$toolUtil.msg(res, this.error)
+                                    this.$common.msg(res, this.error)
                                 }
                                 this.disabled = false
                             }).catch(() => {
@@ -216,10 +216,10 @@
             closeDialog() {
                 this.clearValidate('userForm');
                 if (!this.addOrEdit) {
-                    this.$toolUtil.clearForm(this.userForm)
+                    this.$common.clearForm(this.userForm)
                 } else {
                     if (this.clear) {
-                        this.$toolUtil.clearForm(this.userForm)
+                        this.$common.clearForm(this.userForm)
                     }
                 }
                 this.cancel()
@@ -229,9 +229,9 @@
                 this.$refs[formName].clearValidate()
             },
             // 关闭弹框
-            cancel(status, code) {
-                this.$emit('cancel', false, status, code)
-            },
+            cancel(status) {
+                this.$emit('cancel', false, status)
+            }
         }
     }
 </script>

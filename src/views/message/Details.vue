@@ -1,6 +1,10 @@
 <template>
     <div class="details">
-        <v-search-message :message="message"></v-search-message>
+        <Search
+            :search="search"
+            :modelData="modelData"
+            @saveChange="saveChange"
+        />
         <div class="vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="messageList" style="width: 100%"
                       @selection-change="handleSelectionChange">
@@ -15,7 +19,7 @@
                 <el-table-column fixed="right" label="操作" width="300">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="editMessage(scope.row)">编辑</el-button>
-                        <el-button type="danger"  size="mini" @click="delMessage(scope.row)">删除</el-button>
+                        <el-button type="text"  size="mini" @click="delMessage(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -24,11 +28,11 @@
 </template>
 
 <script>
-    import vSearchMessage from '@/components/message/SearchMessage'
+    import Search from '@/components/search/Index'
     export default {
         name: "Details",
         components: {
-            vSearchMessage
+            Search
         },
         data() {
             return {
@@ -39,7 +43,33 @@
                     status: '',
                     startTime: '',
                     endTime: ''
-                }
+                },
+                search: {
+                    typeSearch: [
+                        {
+                            label: '消息标题',
+                            name: 'title'
+                        },
+                        {
+                            label: '发布时间',
+                            type: 'date'
+                        },
+                        {
+                            label: '消息状态',
+                            name: 'businessType',
+                            dictType: 'sys_yes_no',
+                            type: 'select'
+                        }
+                    ],
+                    btnSearch: [
+                        {
+                            btnType: this.$btnType.SAVE,
+                            hasPerm: ['sys:dict:add'],
+                            name: '发布消息'
+                        }
+                    ]
+                },
+                modelData: {}
             }
         },
         methods: {
@@ -51,6 +81,9 @@
             },
             delMessage() {
 
+            },
+            saveChange() {
+                this.$router.push('/message/release')
             }
         }
     }

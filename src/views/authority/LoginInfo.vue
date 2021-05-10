@@ -1,7 +1,11 @@
 <template>
     <div class="authority-login-info">
-        <v-search-login-info :loginInfo="loginInfo" v-on:onSubmit="onSubmit" v-on:resetSearch="resetSearch"
-            :multipleSelection="multipleSelection" v-on:update="update"></v-search-login-info>
+        <!--<v-search-login-info :loginInfo="loginInfo" v-on:onSubmit="onSubmit" v-on:resetSearch="resetSearch"
+            :multipleSelection="multipleSelection" v-on:update="update"></v-search-login-info>-->
+        <Search
+                :search="search"
+                :modelData="modelData"
+        />
         <div class="vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="logList" style="width: 100%" @selection-change="handleSelectionChange">
                 <el-table-column type="selection"></el-table-column>
@@ -26,10 +30,12 @@
 
 <script>
     import vSearchLoginInfo from '@/components/authority/log/SearchLoginInfo'
+    import Search from '@/components/search/Index'
     export default {
         name: "LoginInfo",
         components: {
-            vSearchLoginInfo
+            vSearchLoginInfo,
+            Search
         },
         data() {
             return {
@@ -46,7 +52,42 @@
                     startTime: '',
                     endTime: ''
                 },
-                multipleSelection: []
+                multipleSelection: [],
+                search: {
+                    typeSearch: [
+                        {
+                            label: '登录地址',
+                            name: 'loginLocation'
+                        },
+                        {
+                            label: '用户名称',
+                            name: 'username'
+                        },
+                        {
+                            label: '操作时间',
+                            type: 'date'
+                        },
+                        {
+                            label: '登录状态',
+                            name: 'status',
+                            dictType: 'sys_status',
+                            type: 'select'
+                        },
+                    ],
+                    btnSearch: [
+                        {
+                            btnType: this.$btnType.SAVE,
+                            hasPerm: ['sys:dict:add'],
+                            name: '增加'
+                        },
+                        {
+                            btnType: this.$btnType.REMOVE,
+                            hasPerm: ['sys:dict:delete'],
+                            name: '删除'
+                        }
+                    ]
+                },
+                modelData: {}
             }
         },
         mounted() {
@@ -56,7 +97,7 @@
             currentChange(currentPage) {
                 this.loading = !this.loading;
                 this.page.currentPage = currentPage ? currentPage : 1;
-                this.$api.request(this.$url.LoginInfo.page, this.$method.get, this.$cloud.objMerge(this.loginInfo, this.page)).then(res => {
+                this.$api.request(this.$url.LoginInfo.page, this.$method.get, this.$common.objMerge(this.loginInfo, this.page)).then(res => {
                     if (res.code === 0) {
                         if (res.data && res.data.records) {
                             this.logList = res.data.records;

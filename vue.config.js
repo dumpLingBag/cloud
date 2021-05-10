@@ -20,7 +20,7 @@ module.exports = {
                 minRatio: 0.8
             }))
         }
-        config.externals = {
+        /*config.externals = {
             'vue': 'Vue',
             'vuex': 'Vuex',
             'vue-router': 'VueRouter',
@@ -31,6 +31,6 @@ module.exports = {
             'js-cookie': 'Cookies',
             'vue-i18n': 'VueI18n',
             'tinymce': 'tinymce'
-        }
+        }*/
     }
 }

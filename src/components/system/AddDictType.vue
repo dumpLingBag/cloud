@@ -1,7 +1,7 @@
 <template>
     <div class="add-dict-type">
-        <el-dialog :title="addOrEdit ? '添加字典' : '编辑字典'" :visible.sync="dialogDict" width="30%"
-                   @closed="closeDialog" @open="openDialog" :modal-append-to-body='true' :append-to-body="true">
+        <el-dialog :title="addOrEdit ? '添加字典' : '编辑字典'" :visible="dialogDict" width="500px"
+                   @close="closeDialog" @open="openDialog" :modal-append-to-body='true' :append-to-body="true">
             <el-form :label-position="labelPosition" :rules="rules" ref="dictForm" label-width="80px" :model="dictForm">
                 <el-form-item label="字典名称" prop="dictName" :error="error.dictName">
                     <el-input v-model="dictForm.dictName" placeholder="请输入字典名称" autocomplete="off"></el-input>
@@ -16,12 +16,12 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="备注信息">
-                    <el-input type="textarea" v-model="dictForm.remark"></el-input>
+                    <el-input type="textarea" rows="3" v-model="dictForm.remark"></el-input>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-                <el-button @click="cancel">取 消</el-button>
-                <el-button type="primary" @click="submitForm('dictForm')">确 定</el-button>
+                <el-button size="medium" @click="cancel">取 消</el-button>
+                <el-button size="medium" type="primary" @click="submitForm('dictForm')">确 定</el-button>
             </div>
         </el-dialog>
     </div>
@@ -81,10 +81,10 @@
             closeDialog() {
                 this.clearValidate('dictForm');
                 if (!this.addOrEdit) {
-                    this.$toolUtil.clearForm(this.dictForm)
+                    this.$common.clearForm(this.dictForm)
                 } else {
                     if (this.clear) {
-                        this.$toolUtil.clearForm(this.dictForm)
+                        this.$common.clearForm(this.dictForm)
                     }
                 }
                 this.cancel()

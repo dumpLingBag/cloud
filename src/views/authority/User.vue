@@ -1,57 +1,61 @@
 <template>
     <div class="sys-user">
-        <v-search-user v-on:addUser="addUser" :page="page"
-                       v-on:enableSelect="enableSelect"
-                       v-on:onSubmit="onSubmit"
-                       v-on:delBatchUser="delBatchUser"
-                       v-on:resetSearch="resetSearch"
-                       :multipleSelection="multipleSelection"
-                       v-on:exportUser="exportUser"
-                       v-on:importUser="importUser">
-        </v-search-user>
-        <v-add-user :dialogUser="dialogUser"
-                    :addOrEdit="addOrEdit"
-                    v-on:cancel="cancel"
-                    :userForm="userForm">
-        </v-add-user>
-        <v-import-user
-                :importDialog="importDialog"
-                v-on:closeImportUserDialog="closeImportUserDialog">
-        </v-import-user>
+        <Search
+            :search="search"
+            :modelData="modelData"
+            @saveChange="addUser"
+            @removeChange="delBatchUser"
+            @submitSearch="onSubmit"
+            @resetSearch="resetSearch"
+        />
+        <AddUser
+            :dialogUser="dialogUser"
+            :addOrEdit="addOrEdit"
+            v-on:cancel="cancel"
+            :userForm="userForm"
+        />
+        <ImportUser
+            :importDialog="importDialog"
+            @closeImportUserDialog="closeImportUserDialog"
+        />
         <div class="user-main vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="userList" style="width: 100%"
                       @selection-change="handleSelectionChange">
                 <el-table-column type="selection" :selectable="selectable" width="55"></el-table-column>
-                <el-table-column prop="username" label="账号名称"></el-table-column>
-                <el-table-column prop="nickname" label="用户昵称"></el-table-column>
-                <el-table-column prop="sex" label="性别">
+                <el-table-column prop="nickname" label="用户昵称" width="150">
                     <template slot-scope="scope">
-                        {{Number(scope.row.sex) === 1 ? '女' : '男'}}
+                        <el-avatar shape="square" :size="36" :fit="fit" :src="scope.row.avatar"></el-avatar>
+                        {{scope.row.nickname}}
                     </template>
                 </el-table-column>
+                <el-table-column prop="username" label="登录账号" width="150"></el-table-column>
                 <el-table-column prop="email" label="邮箱" width="200"></el-table-column>
-                <el-table-column prop="mobile" label="号码" width="150"></el-table-column>
-                <el-table-column label="状态">
+                <el-table-column prop="mobile" label="号码"></el-table-column>
+                <el-table-column prop="sex" label="性别" width="100">
                     <template slot-scope="scope">
-                        <el-tag size="medium" @click="tagEnable(scope.$index, scope.row)"
-                                :type="Number(scope.row.enabled) === 1 ? 'success' : 'warning'">
-                            {{ Number(scope.row.enabled) === 1 ? '启用' : '禁用' }}
-                        </el-tag>
+                        <el-tag size="small" :type="parseInt(scope.row.sex) === 1 ? 'danger' : 'primary'">{{parseInt(scope.row.sex) === 1 ? '女' : '男'}}</el-tag>
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="注册时间" width="200">
+                <el-table-column label="状态" width="100">
+                    <template slot-scope="scope">
+                        <el-badge is-dot :type="parseInt(scope.row.enabled) === 1 ? 'success' : 'danger'" class="item">{{ parseInt(scope.row.enabled) === 1 ? '启用' : '禁用' }}</el-badge>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="createTime" label="注册时间">
                     <template slot-scope="scope">
                         <i class="el-icon-time"></i>
                         <span class="times">{{scope.row.createTime}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="300">
+                <el-table-column fixed="right" label="操作" width="200">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="editUser(scope.row)">编辑</el-button>
-                        <el-button type="warning" size="mini" @click="resetPassword(scope.row)"
+                        <el-button type="text" @click="editUser(scope.row)">编辑</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" @click="resetPassword(scope.row)"
                                    :disabled="scope.row.parentId === '0'">重置
                         </el-button>
-                        <el-button type="danger" v-hasPerm="['sys:user:add']" size="mini" @click="delUser(scope.row)"
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" v-hasPerm="['sys:user:add']" @click="delUser(scope.row)"
                                    :disabled="scope.row.parentId === '0'">删除
                         </el-button>
                     </template>
@@ -65,13 +69,13 @@
 </template>
 
 <script>
-    import vAddUser from '@/components/authority/user/AddUser'
-    import vSearchUser from '@/components/authority/user/SearchUser'
-    import vImportUser from '@/components/authority/user/ImportUser'
+    import AddUser from '@/components/authority/user/AddUser'
+    import ImportUser from '@/components/authority/user/ImportUser'
+    import Search from '@/components/search/Index'
 
     export default {
         name: 'User',
-        components: {vAddUser, vSearchUser, vImportUser},
+        components: {AddUser, ImportUser, Search},
         data() {
             return {
                 userList: [], // 表格数据
@@ -98,17 +102,57 @@
                     mobile: '',
                     enabled: '',
                     parentId: '',
-                    sex: ''
+                    sex: '',
+                    desc: ''
                 },
                 page: {// 初始分页数据
                     pageSize: 10,
-                    currentPage: 1,
-                    search: {
-                        username: '',
-                        enabled: '',
-                        nickname: ''
-                    }
-                }
+                    currentPage: 1
+                },
+                search: {
+                    typeSearch: [
+                        {
+                            label: '登录账号',
+                            name: 'username'
+                        },
+                        {
+                            label: '用户昵称',
+                            name: 'nickname'
+                        },
+                        {
+                            label: '是否启用',
+                            name: 'enabled',
+                            dictType: 'sys_yes_no',
+                            type: 'select'
+                        }
+                    ],
+                    btnSearch: [
+                        {
+                            btnType: this.$btnType.SAVE,
+                            hasPerm: ['sys:user:add'],
+                            name: '增加'
+                        },
+                        {
+                            btnType: this.$btnType.REMOVE,
+                            hasPerm: ['sys:user:delete'],
+                            name: '删除'
+                        },
+                        {
+                            btnType: this.$btnType.IMPORT,
+                            hasPerm: ['sys:user:import'],
+                            name: '导入',
+                            url: '',
+                            tpl: ''
+                        },
+                        {
+                            btnType: this.$btnType.EXPORT,
+                            hasPerm: ['sys:user:export'],
+                            name: '导出'
+                        }
+                    ]
+                },
+                modelData: {},
+                fit: 'fill'
             }
         },
         mounted() {
@@ -120,13 +164,13 @@
                 this.multipleSelection = val
             },
             // 模糊搜索
-            onSubmit() {
-                //this.page = page;
+            onSubmit(data) {
+                this.modelData = data;
                 this.currentChange()
             },
             // 重置搜索表单数据
-            resetSearch(page) {
-                this.page = page;
+            resetSearch(data) {
+                this.modelData = data;
                 this.currentChange() // 重新加载分页数据
             },
             // 模糊搜索下拉框监听事件
@@ -221,7 +265,7 @@
                 this.loading = !this.loading;
                 this.page.currentPage = currentPage ? currentPage : 1;
                 this.$api.request(this.$url.AuthorityUser.pageList, this.$method.post,
-                    this.$cloud.httpData(this.page)).then(res => {
+                    this.$common.objMerge(this.page, this.modelData)).then(res => {
                     if (res.code === 0) {
                         if (res.data && res.data.records) {
                             this.userList = res.data.records;
@@ -290,6 +334,10 @@
     .sys-user {
         .user-main {
             overflow: hidden;
+        }
+
+        .el-avatar {
+            vertical-align: middle;
         }
 
         .el-select {

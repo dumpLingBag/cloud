@@ -1,33 +1,33 @@
 <template>
-    <div class="page-tags" :style="collapse ? 'left:100px' : 'left:280px'">
+    <div class="page-tags" :style="collapse ? 'left:90px' : 'left:270px'">
         <div class="tags-control icon-prev" @click="goHome">
             <div :class="['home', this.$route.path === '/main' ? 'active' : '']">
-                <span>首页</span>
+                <span class="tag-name">主控台</span>
             </div>
         </div>
         <div class="tags-control icon-downs">
             <el-dropdown trigger="hover" @command="commandTags">
                 <span class="el-dropdown-link" style="font-size: 18px"><i class="el-icon-arrow-down"></i></span>
                 <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item command="closeCurrent">关闭当前标签页</el-dropdown-item>
-                    <el-dropdown-item command="closeOther">关闭其他标签页</el-dropdown-item>
-                    <el-dropdown-item command="closeAll">关闭全部标签页</el-dropdown-item>
+                    <el-dropdown-item command="closeCurrent">关闭当前页</el-dropdown-item>
+                    <el-dropdown-item command="closeOther">关闭其他页</el-dropdown-item>
+                    <el-dropdown-item command="closeAll">关闭所有页</el-dropdown-item>
                 </el-dropdown-menu>
             </el-dropdown>
         </div>
-        <div class="tags">
-            <vue-scroll>
+        <vue-scroll>
+            <div class="tags">
                 <div class="tabs__nav" style="transform: translateX(0px)">
                     <template v-for="(item,index) in Array.from(visitedViews)">
                         <div :class="['tabs__item', isActive(item) ? 'active' : '']"
                              :key="index" v-if="item.path !== '/main'" @click="go(item.path)" @dblclick="reloadView">
-                            <span>{{item.name}}</span>
+                            <span class="tag-name">{{item.name}}</span>
                             <span class="el-icon-close" @click.prevent.stop="closeTags(item)"></span>
                         </div>
                     </template>
                 </div>
-            </vue-scroll>
-        </div>
+            </div>
+        </vue-scroll>
     </div>
 </template>
 
@@ -61,7 +61,9 @@
         },
         methods: {
             go(path) {
-                this.$router.push(path)
+                if (path !== this.$route.path) {
+                    this.$router.push(path)
+                }
             },
             goHome() {
                 this.$router.push('/main')
@@ -136,49 +138,43 @@
 <style lang="scss">
     .page-tags {
         position: absolute;
-        top: 75px;
-        right: 20px;
-        left: 245px;
-        color: rgb(86, 86, 86);;
-        border-radius: 0.3rem;
-        margin-top: 5px;
-        height: 40px;
-        line-height: 40px;
-        padding: 0 40px 0 66px;
-        background-color: #fff;
+        top: 60px;
+        right: 0;
+        left: 280px;
+        color: #808695;
+        border-radius: 3px;
+        z-index: 2;
+        height: 44px;
+        line-height: 44px;
+        padding: 0 52px 0 73px;
         box-sizing: border-box;
         overflow: hidden;
-        -webkit-transition: all .3s ease-in-out;
-        transition: all .3s ease-in-out;
-        box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
-        -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
+        -webkit-transition: left .28s;
+        transition: left .28s;
 
         .icon-prev {
             left: 0;
-            padding: 5px 0;
+            padding: 6px 0;
+            width: 73px;
 
             .home {
-                background: whitesmoke;
+                background: #ffffff;
+                height: 32px;
+                line-height: 32px;
                 border-radius: 3px;
-                margin: 0 5px;
-                height: 30px;
-                line-height: 30px;
+                margin: 0 5px 0 0;
                 transition: all .3s cubic-bezier(.645, .045, .355, 1), width .3s cubic-bezier(.645, .045, .355, 1);
             }
 
             .home:hover {
-                background-color: #409EFF;
-
                 span {
-                    color: #ffffff;
+                    color: #515a6e;
                 }
             }
 
             .active {
-                background-color: #409EFF;
-
-                span {
-                    color: #ffffff;
+                .tag-name {
+                    color: #409EFF;
                 }
             }
         }
@@ -189,14 +185,27 @@
 
         .icon-downs {
             right: 0;
+            padding: 6px 0;
+            width: 52px;
+            .el-dropdown {
+                width: 40px;
+                display: block;
+                background: #ffffff;
+                height: 32px;
+                line-height: 32px;
+                border-radius: 3px;
+                margin: 0 12px 0 0;
+            }
+            .el-dropdown:hover {
+                color: #515a6e;
+            }
         }
 
         .tags-control {
             position: absolute;
             top: 0;
-            width: 66px;
-            height: 100%;
-            line-height: 40px;
+            height:44px;
+            line-height: 44px;
             text-align: center;
             cursor: pointer;
             box-sizing: border-box;
@@ -213,11 +222,12 @@
                 -moz-user-select: none;
                 -khtml-user-select: none;
                 user-select: none;
+                background: #ffffff;
 
                 .el-icon-close {
                     position: relative;
-                    font-size: 12px;
-                    width: 0;
+                    font-size: 14px;
+                    width: 14px;
                     height: 14px;
                     vertical-align: middle;
                     line-height: 15px;
@@ -229,21 +239,28 @@
             }
 
             .active {
-                background-color: #409EFF;
-                color: #ffffff;
+                .tag-name {
+                    color: #409EFF;
+                    background: #ffffff;
+                }
+            }
+
+            .active:hover {
+                .tag-name {
+                    color: #409eff;
+                }
             }
         }
 
         .tabs__item {
-            padding: 0 10px 0 15px;
-            height: 30px;
+            padding: 0 10px 0 16px;
+            height: 32px;
             box-sizing: border-box;
-            line-height: 30px;
+            line-height: 32px;
             display: inline-block;
             list-style: none;
             font-size: 14px;
-            font-weight: 500;
-            color: #666;
+            color: #808695;
             position: relative;
             background: whitesmoke;
             border-radius: 3px;
@@ -254,26 +271,22 @@
                 text-align: center;
                 transition: all .3s cubic-bezier(.645, .045, .355, 1);
                 margin-left: 5px;
+                width: 14px;
             }
 
-            .el-icon-close:hover {
+            /*.el-icon-close:hover {
                 background-color: #F56C6C;
-            }
-        }
-
-        .tabs__item:last-child {
-            margin-right: 0;
+                color: #ffffff;
+            }*/
         }
 
         .tabs__item:hover {
             cursor: pointer;
-            background-color: #409EFF;
-            color: #ffffff;
+            color: #515a6e;
 
-            .el-icon-close {
+            /*.el-icon-close {
                 width: 14px;
-                color: #ffffff;
-            }
+            }*/
         }
     }
 </style>

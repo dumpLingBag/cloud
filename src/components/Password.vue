@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="修改密码" :visible.sync="dialogPassword" width="40%" @closed="closePwdDialog"
+    <el-dialog title="修改密码" :visible.sync="dialogPassword" width="40%" @close="closePwdDialog"
                :modal-append-to-body='false'>
         <el-form :model="passwordModel" :rules="rules" ref="passwordModel" label-width="100px"
                  :label-position="labelPosition" class="demo-ruleForm">
@@ -14,8 +14,8 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="passwordDialog">取 消</el-button>
-            <el-button type="primary" @click="submitForm('passwordModel')">确 定</el-button>
+            <el-button size="medium" @click="passwordDialog">取 消</el-button>
+            <el-button size="medium" type="primary" @click="submitForm('passwordModel')">确 定</el-button>
         </div>
     </el-dialog>
 </template>

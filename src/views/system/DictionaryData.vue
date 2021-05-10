@@ -1,8 +1,17 @@
 <template>
     <div class="dictionary-data">
-        <v-add-dict-data :dialogDict="dialogDict" :addOrEdit="addOrEdit" :dictForm="dictForm" v-on:cancel="cancel"></v-add-dict-data>
-        <v-search-dict-data v-on:addDict="addDict" :dict="dict" v-on:onSubmit="onSubmit"
-        v-on:enableSelect="enableSelect" v-on:resetSearch="resetSearch"></v-search-dict-data>
+        <AddDictData
+            :dialogDict="dialogDict"
+            :addOrEdit="addOrEdit"
+            :dictForm="dictForm"
+            v-on:cancel="cancel"
+        />
+        <Search
+            :search="search"
+            :modelData="modelData"
+            @saveChange="addDict"
+            @dictTypeChange="dictTypeChange"
+        />
         <div class="dict vue-padding radius">
             <el-table v-loading="loading" element-loading-text="拼命加载中" :data="dictList" style="width: 100%"
                       @selection-change="handleSelectionChange">
@@ -12,7 +21,7 @@
                 <el-table-column prop="dictSort" label="字典排序"></el-table-column>
                 <el-table-column label="状态">
                     <template slot-scope="scope">
-                        <el-tag size="medium" @click="tagEnable(scope.$index, scope.row)"
+                        <el-tag size="small" @click="tagEnable(scope.$index, scope.row)"
                                 :type="Number(scope.row.enabled) === 1 ? 'success' : 'warning'">
                             {{ Number(scope.row.enabled) === 1 ? '启用' : '禁用' }}
                         </el-tag>
@@ -27,8 +36,9 @@
                 </el-table-column>
                 <el-table-column fixed="right" label="操作" width="300">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="editDict(scope.row)">编辑</el-button>
-                        <el-button type="danger" size="mini" @click="delDict(scope.row)">删除</el-button>
+                        <el-button type="text" @click="editDict(scope.row)">编辑</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" @click="delDict(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
@@ -40,14 +50,14 @@
 </template>
 
 <script>
-    import vAddDictData from '@/components/system/dictData/AddDictData'
-    import vSearchDictData from '@/components/system/dictData/SearchDictData'
+    import AddDictData from '@/components/system/dictData/AddDictData'
+    import Search from '@/components/search/Index'
 
     export default {
         name: "DictionaryData",
         components: {
-            vAddDictData,
-            vSearchDictData
+            AddDictData,
+            Search
         },
         data() {
             return {
@@ -70,11 +80,49 @@
                 },
                 dialogDict: false,
                 addOrEdit: false,
-                loading: false
+                loading: false,
+                search: {
+                    typeSearch: [
+                        {
+                            label: '字典类型',
+                            name: 'dictType',
+                            urlType: this.$url.DictType.list,
+                            type: 'select',
+                            key: 'dictName',
+                            value: 'dictType'
+                        },
+                        {
+                            label: '字典名称',
+                            name: 'dictName'
+                        },
+                        {
+                            label: '字典状态',
+                            name: 'dictStatus',
+                            dictType: 'sys_yes_no',
+                            type: 'select'
+                        }
+                    ],
+                    btnSearch: [
+                        {
+                            btnType: this.$btnType.SAVE,
+                            hasPerm: ['sys:dict:add'],
+                            name: '增加'
+                        },
+                        {
+                            btnType: this.$btnType.REMOVE,
+                            hasPerm: ['sys:dict:delete'],
+                            name: '删除'
+                        }
+                    ]
+                },
+                modelData: {
+                    dictType: ''
+                }
             }
         },
         mounted() {
             this.dict.dictType = this.$route.params.dictType;
+            this.modelData.dictType = this.$route.params.dictType;
             this.loadDict()
         },
         methods: {
@@ -147,6 +195,18 @@
                 if (status) {
                     this.loadDict()
                 }
+            },
+
+            dictTypeChange(data) {
+
+            },
+
+            handleSelectionChange() {
+
+            },
+
+            tagEnable(index, data) {
+
             }
         }
     }

@@ -40,7 +40,7 @@ let fmRoutes = [
             {
                 path: '/user/message',
                 name: '消息中心',
-                component: resolve => require(['@/views/other/Message.vue'], resolve),
+                component: resolve => require(['@/views/message/Message.vue'], resolve),
                 meta: {title: '消息中心', auth: true, keepAlive: true}
             },
             {

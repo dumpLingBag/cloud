@@ -2,7 +2,7 @@
     <div class="sys-tree">
         <div class="el-search vue-top-padding radius" style="margin-bottom: 10px;">
             <div class="el-left">
-                <el-button type="primary" size="small" icon="el-icon-plus" @click="appendRole">增加</el-button>
+                <el-button type="primary" plain size="small" icon="el-icon-plus" @click="appendRole">增加</el-button>
             </div>
         </div>
         <div class="vue-padding radius">
@@ -13,7 +13,7 @@
                 <el-table-column prop="sort" label="角色排序" sortable></el-table-column>
                 <el-table-column prop="enabled" label="状态" sortable>
                     <template slot-scope="scope">
-                        <el-tag size="medium" @click="tagEnabled(scope.$index, scope.row)"
+                        <el-tag size="small" @click="tagEnabled(scope.$index, scope.row)"
                                 :type="String(scope.row.enabled) === '1' ? 'success' : 'warning'">
                             {{String(scope.row.enabled) === '1' ? '启用' : '禁用'}}
                         </el-tag>
@@ -22,16 +22,18 @@
                 <el-table-column prop="createTime" label="创建时间" sortable></el-table-column>
                 <el-table-column label="操作" fixed="right" width="260">
                     <template slot-scope="scope">
-                        <el-button size="mini" @click="modify(scope.row)">编辑</el-button>
-                        <el-button size="mini" type="primary" @click="append(scope.row)">增加</el-button>
-                        <el-button size="mini" type="danger" @click="remove(scope.row)">删除</el-button>
+                        <el-button type="text" @click="power(scope.row)">菜单权限</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" @click="modify(scope.row)">编辑</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" :disabled="scope.row.pid !== '0' && scope.row.pid !== '1'" @click="append(scope.row)">增加</el-button>
+                        <div class="el-divider el-divider-vertical el-divider-default"></div>
+                        <el-button type="text" @click="remove(scope.row)">删除</el-button>
                     </template>
                 </el-table-column>
             </el-table>
         </div>
-        <el-dialog :title="roleStatus ? '添加角色' : '修改角色'" :visible.sync="dialogRole" width="50%"
-                   :modal-append-to-body='true'
-                   :append-to-body="true">
+        <el-dialog :title="roleStatus ? '添加角色' : '修改角色'" :visible="dialogRole" width="600px">
             <el-form ref="roleData" :model="roleData" :rules="rules" label-width="80px">
                 <el-row>
                     <el-col :span="24">
@@ -52,35 +54,41 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="角色状态" prop="enabled">
-                            <el-radio-group v-model="roleData.enabled" size="medium">
-                                <el-radio border label="1">启用</el-radio>
-                                <el-radio border label="0">禁用</el-radio>
+                            <el-radio-group v-model="roleData.enabled" size="small">
+                                <el-radio label="1">启用</el-radio>
+                                <el-radio label="0">禁用</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="角色排序" prop="sort">
-                            <el-input-number v-model="roleData.sort" controls-position="right" @change="sortChange"
+                            <el-input-number v-model="roleData.sort" controls-position="right"
                                              :min="1" :max="10"></el-input-number>
                         </el-form-item>
                     </el-col>
                 </el-row>
             </el-form>
             <span slot="footer" class="dialog-footer">
-          <el-button @click="dialogRole = false">取 消</el-button>
-          <el-button type="primary" @click="addRole('roleData')">确 定</el-button>
-        </span>
+                <el-button size="medium" @click="dialogRole = false">取 消</el-button>
+                <el-button size="medium" type="primary" @click="addRole('roleData')">确 定</el-button>
+            </span>
         </el-dialog>
+        <menu-auth
+            v-on:cancel="closeMenuAuth"
+            :roleId="roleId"
+            :dialogVisible="dialogVisible"
+        />
     </div>
 </template>
 
 <script>
     import TreeSelect from '@riophae/vue-treeselect'
     import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+    import menuAuth from '@/components/authority/auth/MenuAuth'
 
     export default {
         name: 'Role',
-        components: {TreeSelect},
+        components: {TreeSelect, menuAuth},
         data() {
             return {
                 loading: false,
@@ -115,7 +123,9 @@
                             pattern: '(^[A-Z][A-Z_]*[A-Z])|(^[A-Z]{1})$'
                         }
                     ]
-                }
+                },
+                dialogVisible: false,
+                roleId: ''
             }
         },
         mounted() {
@@ -142,6 +152,10 @@
                 this.dialogRole = true;
                 this.roleStatus = true
             },
+            power(data) {
+                this.dialogVisible = true;
+                this.roleId = data.id;
+            },
             modify(data) {
                 this.roleStatus = false;
                 Object.keys(this.roleData).forEach(key => {
@@ -155,6 +169,7 @@
                         }
                     }
                 });
+                this.selectId = data.pid === '0' ? '1' : data.pid
                 this.dialogRole = true
             },
             append(data) {
@@ -259,6 +274,9 @@
                         }
                     }
                 }
+            },
+            closeMenuAuth(dialog) {
+                this.dialogVisible = dialog
             }
         }
     }

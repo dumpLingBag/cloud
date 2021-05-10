@@ -13,20 +13,21 @@
     user-select: none;
     box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
     -webkit-box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.05);
+    transition: width 0.28s;
     .iconfont {
-      margin-right: 0.8rem;
+      margin-right: 12px;
       width: 24px;
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 20px;
       vertical-align: middle;
     }
     .icon-xingzhuang-tuoyuanxing {
-      font-size: 1rem;
-      margin-left: 0.1rem;
-      margin-right: 1rem;
+      font-size: 18px;
+      margin-left: 1px;
+      margin-right: 12px;
     }
     .el-logo {
-      font-size: 1.5rem;
+      font-size: 35px;
       padding: 10px 0;
       margin: 10px 0;
       color: #ffffff;
@@ -36,11 +37,11 @@
       border-right: none!important;
     }
     .el-menu--collapse {
-      width: 78px;
+      width: 80px;
       text-align: center;
       .el-submenu__title,.single {
-        height: 3.25rem;
-        line-height: 3.25rem;
+        height: 50px;
+        line-height: 50px;
         i {
           margin-right: 0!important;
         }
@@ -58,35 +59,38 @@
       border-right: none;
       .el-submenu {
         .el-submenu__title {
+          font-size: 15px;
           padding: 0 20px!important;
-          transition: padding 0.35s ease 0s !important;
+          //transition: padding 0.3s ease !important;
           .el-submenu__icon-arrow {
             font-size: 15px;
           }
         }
         .el-submenu__title:hover {
           color: #ffffff!important;
-          padding-left: 30px!important;
+          //padding-left: 30px!important;
           background-color: rgba(0, 18, 36, 1)!important;
           i {
             color: #ffffff!important;
           }
         }
         .el-submenu__title {
-          height: 3.25rem;
-          line-height: 3.25rem;
-          transition: padding 0.35s ease 0s !important;
+          height: 50px;
+          line-height: 50px;
+          //transition: padding 0.3s ease !important;
         }
         .el-menu-item {
-          height: 2.5rem;
-          line-height: 2.5rem;
+          //height: 45px;
+          //line-height: 45px;
+          font-size: 14px;
           padding: 0 20px!important;
           background-color: rgba(0, 12, 23, 1)!important;
-          transition: padding 0.35s ease 0s !important;
+          //transition: padding 0.3s ease !important;
         }
         .el-menu-item:hover {
           color: #ffffff!important;
-          padding-left: 30px!important;
+          //padding-left: 30px!important;
+          background-color: rgba(0, 12, 23, 1)!important;
           i {
             color: #ffffff!important;
           }
@@ -100,13 +104,13 @@
             padding-left: 40px!important;
           }
           .el-submenu__title {
-            height: 40px;
-            line-height: 40px;
+            //height: 40px;
+            //line-height: 40px;
             background-color: rgba(0, 12, 23, 1)!important;
           }
-          .el-menu-item:hover {
+          /*.el-menu-item:hover {
             padding-left: 50px!important;
-          }
+          }*/
         }
       }
       .is-active>.el-submenu__title {
@@ -117,13 +121,13 @@
         }
       }
       .single {
-        height: 3.25rem!important;
-        line-height: 3.25rem!important;
-        transition: padding 0.35s ease 0s !important;
+        height: 50px!important;
+        line-height: 50px!important;
+        //transition: padding 0.3s ease !important;
       }
       .single:hover {
         color: #ffffff!important;
-        padding-left: 30px!important;
+        //padding-left: 30px!important;
         background-color: rgba(0, 18, 36, 1)!important;
         i {
           color: #ffffff!important;
@@ -134,16 +138,16 @@
   //内容区域
   .el-main {
     position: absolute;
-    top: 135px;
-    bottom: 15px;
-    left: 280px;
-    right: 20px;
+    top: 104px;
+    bottom: 0;
+    left: 260px;
+    right: 0;
     width: auto;
     padding: 0;
     overflow: hidden;
     overflow-y: auto;
     box-sizing: border-box;
-    -webkit-transition: left .3s ease-in-out;
-    transition: left .3s ease-in-out;
+    -webkit-transition: left .28s;
+    transition: left .28s;
   }
 }
