@@ -62,7 +62,7 @@ export default {
     },
     mounted() {
         let height = document.documentElement.clientHeight;
-        this.height = height - 280;
+        this.height = height - 285;
     },
     methods: {
         openMenuAuth() {

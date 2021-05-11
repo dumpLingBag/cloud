@@ -1,7 +1,7 @@
 <template>
     <div class="addUser">
         <el-dialog :title="addOrEdit ? '添加用户' : '编辑用户'" v-dialogDrag :visible="dialogUser" width="680px"
-                   @close="closeDialog">
+                   @close="closeDialog" @open="openDialog">
             <el-form :label-position="labelPosition" :rules="rules" ref="userForm" label-width="80px" :model="userForm">
                 <el-row :gutter="20">
                     <el-col :span="12">
@@ -51,6 +51,15 @@
                                 <el-radio label="0">男</el-radio>
                                 <el-radio label="1">女</el-radio>
                             </el-radio-group>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12">
+                        <el-form-item label="用户角色" prop="roles">
+                            <el-cascader
+                                    :options="roleList"
+                                    collapse-tags
+                                    :props="{ multiple: true, checkStrictly: true, label: 'name' }"
+                                    clearable></el-cascader>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
@@ -147,6 +156,7 @@
                         {required: true, message: '请选择用户性别', trigger: 'blur'}
                     ]
                 },
+                roleList: []
             }
         },
         props: {
@@ -223,6 +233,14 @@
                     }
                 }
                 this.cancel()
+            },
+            // 弹窗打开回调
+            openDialog() {
+                this.$api.request(this.$url.AuthorityRole.loadRole).then(res => {
+                    if (res.code === 0) {
+                        this.roleList = res.data
+                    }
+                })
             },
             // 清除表单校验信息
             clearValidate(formName) {

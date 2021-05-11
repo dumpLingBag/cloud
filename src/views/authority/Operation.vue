@@ -19,7 +19,7 @@
                         {{scope.row.status === 0 ? '成功' : '失败'}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="createTime" label="操作日期"></el-table-column>
+                <el-table-column prop="createTime" label="操作日期" width="160"></el-table-column>
                 <el-table-column fixed="right" label="操作">
                     <template slot-scope="scope">
                         <el-button type="text" @click="getOperationInfo(scope.row)">详情</el-button>
@@ -30,8 +30,8 @@
                            :total="page.totalSize"
                            :page-size="page.pageSize" @current-change="currentChange"></el-pagination>
         </div>
-        <el-dialog title="操作日志详情" :visible.sync="dialogVisible" width="50%" :modal-append-to-body='true'
-                   :append-to-body="true" :before-close="handleClose">
+        <el-dialog title="操作日志详情" :visible="dialogVisible" width="800px" :before-close="handleClose">
+            <vue-scroll style="height: 500px">
             <el-form label-position="right" ref="userForm" label-width="90px" size="mini">
                 <el-row :gutter="20">
                     <el-col :span="12">
@@ -41,7 +41,7 @@
                     </el-col>
                     <el-col :span="12">
                         <el-form-item label="请求地址：">
-                            {{operationLog.operationUrl}}
+                            {{operationLog.url}}
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -61,12 +61,12 @@
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="请求参数：">
-                            {{operationLog.params}}
+                            <json-view :data="json.params"/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="24">
                         <el-form-item label="返回参数：">
-                            {{operationLog.jsonResult}}
+                            <json-view :data="json.jsonResult"/>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12">
@@ -81,6 +81,7 @@
                     </el-col>
                 </el-row>
             </el-form>
+            </vue-scroll>
             <span slot="footer" class="dialog-footer">
                 <el-button size="medium" @click="dialogVisible = false">取 消</el-button>
             </span>
@@ -90,11 +91,13 @@
 
 <script>
     import Search from '@/components/search/Index'
+    import jsonView from '@/components/json-view/index.vue'
 
     export default {
         name: "Operation",
         components: {
-            Search
+            Search,
+            jsonView
         },
         data() {
             return {
@@ -146,7 +149,11 @@
                         }
                     ]
                 },
-                modelData: {}
+                modelData: {},
+                json: {
+                    jsonResult: Object,
+                    params: Object
+                }
             }
         },
         mounted() {
@@ -181,6 +188,12 @@
 
             getOperationInfo(row) {
                 this.operationLog = row;
+                try {
+                    this.json.jsonResult = JSON.parse(row.jsonResult);
+                    this.json.params = JSON.parse(row.params)
+                } catch (e) {
+                    console.log('非json格式数据')
+                }
                 this.dialogVisible = true
             },
 
@@ -208,5 +221,14 @@
 </script>
 
 <style lang="scss">
-
+.operation {
+  .el-form .el-row {
+    margin-left: 0!important;
+    margin-right: 0!important;
+    .el-col {
+      padding-left: 0!important;
+      padding-right: 0!important;
+    }
+  }
+}
 </style>

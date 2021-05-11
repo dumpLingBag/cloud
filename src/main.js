@@ -19,20 +19,6 @@ import Element from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import VueI18n from "vue-i18n"
 import * as common from './utils/common'
-import * as echarts from 'echarts/lib/echarts';
-import "echarts/lib/chart/bar"//柱状图
-import 'echarts/lib/chart/line'//线型图
-import 'echarts/lib/chart/pie'//饼图
-//import 'echarts/lib/chart/radar'//雷达图
-import "echarts/lib/component/title"//图表标题
-import 'echarts/lib/component/dataZoom'//dataZoom组件
-import "echarts/lib/component/tooltip"//tooltip
-import "echarts/lib/component/legend"//图例
-import "echarts/lib/component/toolbox"//图例
-import "echarts/lib/component/grid"//图例
-import "echarts/lib/component/polar"//图例
-import "echarts/lib/component/timeline"//图例
-import "echarts/lib/component/visualMap"//图例
 
 import VueClipboard from 'vue-clipboard2'
 
@@ -61,7 +47,6 @@ Vue.prototype.$md5 = md5
 Vue.prototype.$cookies = Cookie
 Vue.prototype.$message = Message
 Vue.prototype.$btnType = BtnType
-Vue.prototype.$echarts = echarts
 
 const i18n = new VueI18n({
     locale: 'zh_CN',    // 语言标识

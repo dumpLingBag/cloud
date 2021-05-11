@@ -8,7 +8,7 @@
                          ref="elMenu"
                          :default-active="$route.path" text-color="rgba(255,255,255,.65)" active-text-color="#fff">
                     <div class="el-logo">
-                        <span>饺子包</span>
+                        <span>{{collapse ? 'Dp' : 'Dumpling'}}</span>
                     </div>
                     <sidebar-item v-for="item in this.routes" :key="item.id" :item="item"></sidebar-item>
                 </el-menu>

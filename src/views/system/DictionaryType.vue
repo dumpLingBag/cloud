@@ -37,7 +37,7 @@
                         <span class="times">{{scope.row.createTime}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column fixed="right" label="操作" width="300">
+                <el-table-column fixed="right" label="操作" width="150">
                     <template slot-scope="scope">
                         <el-button type="text" @click="editDict(scope.row)">编辑</el-button>
                         <div class="el-divider el-divider-vertical el-divider-default"></div>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-    import AddDict from '@/components/system/AddDictType'
+    import AddDict from '_c/system/dict/AddDictType'
     import Search from '@/components/search/Index'
     export default {
         name: "DictionaryType",

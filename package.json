@@ -55,10 +55,7 @@
     ],
     "rules": {
       "semi": 0,
-      "indent": [
-        "error",
-        "tab"
-      ]
+      "indent": [2, 4]
     },
     "parserOptions": {
       "parser": "babel-eslint"

@@ -211,3 +211,13 @@ table thead tr th:first-child > .cell {
     top: 11px;
   }
 }
+
+.el-form {
+  .el-cascader, .el-select {
+    width: 100%;
+  }
+}
+
+.el-pl-8 {
+  padding-left: 8px;
+}

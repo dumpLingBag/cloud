@@ -1,7 +1,5 @@
 <template>
     <div class="authority-login-info">
-        <!--<v-search-login-info :loginInfo="loginInfo" v-on:onSubmit="onSubmit" v-on:resetSearch="resetSearch"
-            :multipleSelection="multipleSelection" v-on:update="update"></v-search-login-info>-->
         <Search
                 :search="search"
                 :modelData="modelData"
@@ -29,12 +27,10 @@
 </template>
 
 <script>
-    import vSearchLoginInfo from '@/components/authority/log/SearchLoginInfo'
     import Search from '@/components/search/Index'
     export default {
         name: "LoginInfo",
         components: {
-            vSearchLoginInfo,
             Search
         },
         data() {

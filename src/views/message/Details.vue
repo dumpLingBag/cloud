@@ -16,7 +16,7 @@
                 <el-table-column prop="username" label="创建者"></el-table-column>
                 <el-table-column prop="createTime" label="创建时间"></el-table-column>
                 <el-table-column prop="remarks" label="备注"></el-table-column>
-                <el-table-column fixed="right" label="操作" width="300">
+                <el-table-column fixed="right" label="操作" width="150">
                     <template slot-scope="scope">
                         <el-button size="mini" @click="editMessage(scope.row)">编辑</el-button>
                         <el-button type="text"  size="mini" @click="delMessage(scope.row)">删除</el-button>

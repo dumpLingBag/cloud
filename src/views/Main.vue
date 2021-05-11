@@ -24,7 +24,8 @@
                             allCount: 10222,
                             text: '当前分类总记录数',
                             color: 'rgb(49, 180, 141)',
-                            key: '类'
+                            key: '类',
+                            type: 'success'
                         },
                         {
                             title: '附件统计',
@@ -33,7 +34,8 @@
                             allCount: 10222,
                             text: '当前上传的附件数',
                             color: 'rgb(56, 161, 242)',
-                            key: '附'
+                            key: '附',
+                            type: 'primary'
                         },
                         {
                             title: '文章统计',
@@ -42,7 +44,8 @@
                             allCount: 10222,
                             text: '评论次数',
                             color: 'rgb(117, 56, 199)',
-                            key: '评'
+                            key: '评',
+                            type: 'warning'
                         },
                         {
                             title: '新闻统计',
@@ -51,7 +54,8 @@
                             allCount: 10222,
                             text: '评论次数',
                             color: 'rgb(59, 103, 164)',
-                            key: '新'
+                            key: '新',
+                            type: 'danger'
                         }
                     ]
                 }

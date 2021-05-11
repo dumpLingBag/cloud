@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import vPassword from '@/components/Password'
+    import vPassword from '_c/user/Password'
     import vTags from '@/components/tags/Tags'
     import vAside from '@/components/sidebar/Aside'
     import vHeader from '@/components/header/Header'
