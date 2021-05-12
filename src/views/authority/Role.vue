@@ -82,204 +82,204 @@
 </template>
 
 <script>
-    import TreeSelect from '@riophae/vue-treeselect'
-    import '@riophae/vue-treeselect/dist/vue-treeselect.css'
-    import menuAuth from '@/components/authority/auth/MenuAuth'
+import TreeSelect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import menuAuth from '@/components/authority/auth/MenuAuth'
 
-    export default {
-        name: 'Role',
-        components: {TreeSelect, menuAuth},
-        data() {
-            return {
-                loading: false,
-                dialogRole: false,
-                roleStatus: false,
-                selectId: '',
-                roleData: {
-                    id: '',
-                    name: '',
-                    enabled: '',
-                    sort: '',
-                    createTime: '',
-                    pid: '',
-                    authName: ''
-                },
-                roleList: [],
-                roleListDialog: [{id: '1', label: '主目录', children: []}],
-                rules: {
-                    name: [
-                        {
-                            required: true,
-                            message: '只能是中文，英文，数字和下划线',
-                            target: 'blur',
-                            pattern: '^[\u4e00-\u9fa5a-zA-Z_0-9]+$'
-                        }
-                    ],
-                    authName: [
-                        {
-                            required: true,
-                            message: '只能为大写英文和下划线并以大写字母结尾',
-                            target: 'blur',
-                            pattern: '(^[A-Z][A-Z_]*[A-Z])|(^[A-Z]{1})$'
-                        }
-                    ]
-                },
-                dialogVisible: false,
-                roleId: ''
-            }
-        },
-        mounted() {
-            this.loadRole()
-        },
-        methods: {
-            loadRole() {
-                // 加载角色信息
-                this.loading = true;
-                this.$api.request(this.$url.AuthorityRole.load, this.$method.get).then(res => {
-                    if (res.code === 0) {
-                        this.roleList = res.data;
-                        this.roleListDialog[0].children = res.data
+export default {
+    name: 'Role',
+    components: {TreeSelect, menuAuth},
+    data() {
+        return {
+            loading: false,
+            dialogRole: false,
+            roleStatus: false,
+            selectId: '',
+            roleData: {
+                id: '',
+                name: '',
+                enabled: '',
+                sort: '',
+                createTime: '',
+                pid: '',
+                authName: ''
+            },
+            roleList: [],
+            roleListDialog: [{id: '1', label: '主目录', children: []}],
+            rules: {
+                name: [
+                    {
+                        required: true,
+                        message: '只能是中文，英文，数字和下划线',
+                        target: 'blur',
+                        pattern: '^[\u4e00-\u9fa5a-zA-Z_0-9]+$'
                     }
-                    this.loading = false
-                }).catch(() => {
-                    this.loading = false
-                })
+                ],
+                authName: [
+                    {
+                        required: true,
+                        message: '只能为大写英文和下划线并以大写字母结尾',
+                        target: 'blur',
+                        pattern: '(^[A-Z][A-Z_]*[A-Z])|(^[A-Z]{1})$'
+                    }
+                ]
             },
-            appendRole() {
-                this.selectId = '1';
-                this.roleData.enabled = '1';
-                this.roleData.sort = this.roleList.length + 1;
-                this.dialogRole = true;
-                this.roleStatus = true
-            },
-            power(data) {
-                this.dialogVisible = true;
-                this.roleId = data.id;
-            },
-            modify(data) {
-                this.roleStatus = false;
+            dialogVisible: false,
+            roleId: ''
+        }
+    },
+    mounted() {
+        this.loadRole()
+    },
+    methods: {
+        loadRole() {
+            // 加载角色信息
+            this.loading = true;
+            this.$api.request(this.$url.AuthorityRole.load, this.$method.get).then(res => {
+                if (res.code === 0) {
+                    this.roleList = res.data;
+                    this.roleListDialog[0].children = res.data
+                }
+                this.loading = false
+            }).catch(() => {
+                this.loading = false
+            })
+        },
+        appendRole() {
+            this.selectId = '1';
+            this.roleData.enabled = '1';
+            this.roleData.sort = this.roleList.length + 1;
+            this.dialogRole = true;
+            this.roleStatus = true
+        },
+        power(data) {
+            this.dialogVisible = true;
+            this.roleId = data.id;
+        },
+        modify(data) {
+            this.roleStatus = false;
+            Object.keys(this.roleData).forEach(key => {
+                if (key === 'enabled') {
+                    this.roleData[key] = String(data.enabled)
+                } else {
+                    if (key === 'pid') {
+                        this.selectId = data.pid
+                    } else {
+                        this.roleData[key] = data[key]
+                    }
+                }
+            });
+            this.selectId = data.pid === '0' ? '1' : data.pid
+            this.dialogRole = true
+        },
+        append(data) {
+            if (data.pid === '0' || data.pid === '1') {
+                this.roleStatus = true;
                 Object.keys(this.roleData).forEach(key => {
                     if (key === 'enabled') {
-                        this.roleData[key] = String(data.enabled)
+                        this.roleData[key] = '1'
                     } else {
                         if (key === 'pid') {
-                            this.selectId = data.pid
+                            this.selectId = data.id
                         } else {
-                            this.roleData[key] = data[key]
+                            this.roleData[key] = ''
                         }
                     }
                 });
-                this.selectId = data.pid === '0' ? '1' : data.pid
+                let children = data.children;
+                this.roleData.sort = children && children.length > 0 ? children.length + 1 : 0;
                 this.dialogRole = true
-            },
-            append(data) {
-                if (data.pid === '0' || data.pid === '1') {
-                    this.roleStatus = true;
-                    Object.keys(this.roleData).forEach(key => {
-                        if (key === 'enabled') {
-                            this.roleData[key] = '1'
-                        } else {
-                            if (key === 'pid') {
-                                this.selectId = data.id
-                            } else {
-                                this.roleData[key] = ''
-                            }
-                        }
-                    });
-                    let children = data.children;
-                    this.roleData.sort = children && children.length > 0 ? children.length + 1 : 0;
-                    this.dialogRole = true
-                } else {
-                    this.$message.warning('角色最多添加两级')
-                }
+            } else {
+                this.$message.warning('角色最多添加两级')
+            }
 
-            },
-            remove(data) {
-                let text = data.pid === '0' ? '你确定删除该角色及其子角色吗？角色删除会导致分配的权限失效' : '你确定删除该角色吗？角色删除会导致分配的权限失效';
-                this.$confirm(text, '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(()  => {
-                    let array = [data.id];
-                    if (data.pid === '0') {
-                        this.delRole(array, data)
-                    }
-                    this.$api.request(this.$url.AuthorityRole.delete, this.$method.delete, {roleIdList: array}).then(res => {
-                        if (res.code === 0) {
-                            this.$message.success('角色删除成功');
-                            this.loadRole()
-                        }
-                    })
-                }).catch(() => {
-                    this.$message.info('取消删除角色');
-                })
-            },
-            addRole(role) {
-                this.$refs[role].validate((valid) => {
-                    if (valid) {
-                        this.roleData.pid = this.selectId;
-                        let url = this.$url.AuthorityRole.save;
-                        let method = this.$method.post;
-                        if (this.roleData.id) {
-                            url = this.$url.AuthorityRole.update;
-                            method = this.$method.put
-                        }
-                        this.$api.request(url, method, this.roleData).then(res => {
-                            if (res.code === 0) {
-                                this.$message.success('添加角色成功');
-                                this.dialogRole = false;
-                                this.loadRole()
-                            }
-                        }).catch(() => {
-                            this.$message.error('添加菜单失败')
-                        })
-                    } else {
-                        return false
+        },
+        remove(data) {
+            let text = data.pid === '0' ? '你确定删除该角色及其子角色吗？角色删除会导致分配的权限失效' : '你确定删除该角色吗？角色删除会导致分配的权限失效';
+            this.$confirm(text, '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(()  => {
+                let array = [data.id];
+                if (data.pid === '0') {
+                    this.delRole(array, data)
+                }
+                this.$api.request(this.$url.AuthorityRole.delete, this.$method.delete, {roleIdList: array}).then(res => {
+                    if (res.code === 0) {
+                        this.$message.success('角色删除成功');
+                        this.loadRole()
                     }
                 })
-            },
-            tagEnabled(index, row) {
-                let enabled = String(row.enabled) === '1' ? '0' : '1';
-                let text = enabled === '1' ? '启用' : '禁用';
-                this.$confirm(String(row.pid) === '0' ? '确定' + text + '所有子角色吗？' : '确定' + text + '该角色吗？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'warning'
-                }).then(() => {
-                    let array = [row.id];
-                    if (String(row.pid) === '0') {
-                        this.delRole(array, row)
+            }).catch(() => {
+                this.$message.info('取消删除角色');
+            })
+        },
+        addRole(role) {
+            this.$refs[role].validate((valid) => {
+                if (valid) {
+                    this.roleData.pid = this.selectId;
+                    let url = this.$url.AuthorityRole.save;
+                    let method = this.$method.post;
+                    if (this.roleData.id) {
+                        url = this.$url.AuthorityRole.update;
+                        method = this.$method.put
                     }
-                    let obj = {enabled: enabled, roleIdList: array};
-                    this.$api.request(this.$url.AuthorityRole.updateInList, this.$method.put, obj).then(res => {
+                    this.$api.request(url, method, this.roleData).then(res => {
                         if (res.code === 0) {
-                            this.$message.success('菜单状态更新成功');
+                            this.$message.success('添加角色成功');
+                            this.dialogRole = false;
                             this.loadRole()
                         }
                     }).catch(() => {
-                        this.$message.success('菜单状态更新失败')
+                        this.$message.error('添加菜单失败')
                     })
+                } else {
+                    return false
+                }
+            })
+        },
+        tagEnabled(index, row) {
+            let enabled = String(row.enabled) === '1' ? '0' : '1';
+            let text = enabled === '1' ? '启用' : '禁用';
+            this.$confirm(String(row.pid) === '0' ? '确定' + text + '所有子角色吗？' : '确定' + text + '该角色吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                let array = [row.id];
+                if (String(row.pid) === '0') {
+                    this.delRole(array, row)
+                }
+                let obj = {enabled: enabled, roleIdList: array};
+                this.$api.request(this.$url.AuthorityRole.updateInList, this.$method.put, obj).then(res => {
+                    if (res.code === 0) {
+                        this.$message.success('菜单状态更新成功');
+                        this.loadRole()
+                    }
                 }).catch(() => {
-                    this.$message.info('取消更新')
+                    this.$message.success('菜单状态更新失败')
                 })
-            },
-            delRole(array, data) {
-                if (data && data.children) {
-                    for (let i = 0; i < data.children.length; i++) {
-                        array.push(data.children[i].id);
-                        let children = data.children[i];
-                        if (children.children && children.children.length > 0) {
-                            this.delRole(children.children)
-                        }
+            }).catch(() => {
+                this.$message.info('取消更新')
+            })
+        },
+        delRole(array, data) {
+            if (data && data.children) {
+                for (let i = 0; i < data.children.length; i++) {
+                    array.push(data.children[i].id);
+                    let children = data.children[i];
+                    if (children.children && children.children.length > 0) {
+                        this.delRole(children.children)
                     }
                 }
-            },
-            closeMenuAuth(dialog) {
-                this.dialogVisible = dialog
             }
+        },
+        closeMenuAuth(dialog) {
+            this.dialogVisible = dialog
         }
     }
+}
 </script>
 
 <style lang="scss">

@@ -18,41 +18,41 @@
 </template>
 
 <script>
-    import sidebarItem from './SidebarItem'
-    export default {
-        name: "Aside",
-        components: {
-            sidebarItem
-        },
-        data() {
-            return {
-                index: ''
-            }
-        },
-        watch: {
-            $route(to) {
-                if (to.path === '/main') {
-                    this.close(this.index)
-                }
-            }
-        },
-        methods: {
-            close(index) {
-                this.$refs.elMenu.close(index)
-            },
-            url(str) {
-                return this.$common.toLine(str)
-            }
-        },
-        computed: {
-            routes() {
-                return this.$store.state.menuList
-            },
-            collapse() {
-                return this.$store.state.collapse
+import sidebarItem from './SidebarItem'
+export default {
+    name: "Aside",
+    components: {
+        sidebarItem
+    },
+    data() {
+        return {
+            index: ''
+        }
+    },
+    watch: {
+        $route(to) {
+            if (to.path === '/main') {
+                this.close(this.index)
             }
         }
+    },
+    methods: {
+        close(index) {
+            this.$refs.elMenu.close(index)
+        },
+        url(str) {
+            return this.$common.toLine(str)
+        }
+    },
+    computed: {
+        routes() {
+            return this.$store.state.menuList
+        },
+        collapse() {
+            return this.$store.state.collapse
+        }
     }
+}
 </script>
 
 <style lang="scss">

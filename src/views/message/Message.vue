@@ -22,131 +22,131 @@
 </template>
 
 <script>
-    import Search from '@/components/search/Index'
-    export default {
-        name: 'Message',
-        components: {
-            Search
-        },
-        data() {
-            return {
-                tabPosition: 'top',
-                isHeight: false,
-                maxHeight: window.innerHeight - 369,
-                haveReadList: [],
-                unreadList: [],
-                recycleBinList: [],
-                system: true,
-                tabIndex: '',
-                messageVisible: false,
-                message: {
+import Search from '@/components/search/Index'
+export default {
+    name: 'Message',
+    components: {
+        Search
+    },
+    data() {
+        return {
+            tabPosition: 'top',
+            isHeight: false,
+            maxHeight: window.innerHeight - 369,
+            haveReadList: [],
+            unreadList: [],
+            recycleBinList: [],
+            system: true,
+            tabIndex: '',
+            messageVisible: false,
+            message: {
 
-                },
-                search: {
-                    typeSearch: [
-                        {
-                            label: '消息标题',
-                            name: 'title'
-                        },
-                        {
-                            label: '发布时间',
-                            type: 'date'
-                        },
-                        {
-                            label: '消息状态',
-                            name: 'businessType',
-                            dictType: 'sys_yes_no',
-                            type: 'select'
-                        }
-                    ],
-                    btnSearch: []
-                },
-                modelData: {},
-                btnType: {
-                    '0': {
-                        btnType: {
-                            type: 'warning',
-                            icon: 'el-icon-folder-checked',
-                            event: ''
-                        },
-                        hasPerm: ['sys:message:'],
-                        name: '标为已读'
+            },
+            search: {
+                typeSearch: [
+                    {
+                        label: '消息标题',
+                        name: 'title'
                     },
-                    '1': {
-                        btnType: {
-                            type: 'danger',
-                            icon: 'el-icon-delete',
-                            event: ''
-                        },
-                        hasPerm: ['sys:message:'],
-                        name: '删除全部'
+                    {
+                        label: '发布时间',
+                        type: 'date'
                     },
-                    '2': {
-                        btnType: {
-                            type: 'danger',
-                            icon: 'el-icon-delete',
-                            event: ''
-                        },
-                        hasPerm: ['sys:message:'],
-                        name: '清空回收站'
+                    {
+                        label: '消息状态',
+                        name: 'businessType',
+                        dictType: 'sys_yes_no',
+                        type: 'select'
                     }
+                ],
+                btnSearch: []
+            },
+            modelData: {},
+            btnType: {
+                '0': {
+                    btnType: {
+                        type: 'warning',
+                        icon: 'el-icon-folder-checked',
+                        event: ''
+                    },
+                    hasPerm: ['sys:message:'],
+                    name: '标为已读'
+                },
+                '1': {
+                    btnType: {
+                        type: 'danger',
+                        icon: 'el-icon-delete',
+                        event: ''
+                    },
+                    hasPerm: ['sys:message:'],
+                    name: '删除全部'
+                },
+                '2': {
+                    btnType: {
+                        type: 'danger',
+                        icon: 'el-icon-delete',
+                        event: ''
+                    },
+                    hasPerm: ['sys:message:'],
+                    name: '清空回收站'
                 }
-            }
-        },
-        watch: {
-            tabIndex: function (newVal) {
-                this.search.btnSearch.splice(0, 1)
-                this.search.btnSearch.push(this.btnType[newVal])
-            }
-        },
-        mounted() {
-            let clientHeight = document.getElementsByClassName('el-tabs__content')[0].clientHeight
-            if (clientHeight > window.innerHeight - 369) {
-                this.isHeight = !this.isHeight
-            }
-            this.tabClick(0);
-            this.search.btnSearch.push(this.btnType['0'])
-        },
-        methods: {
-            tabClick(data) {
-                this.tabIndex = String(data);
-                this.$api.request(this.$url.Message.load + '/' + data).then(res => {
-                    if (res.code === 0) {
-                        this.messageList(data, res.data)
-                    }
-                })
-            },
-
-            messageList(index, data) {
-                if (data && data.length > 0) {
-                    switch (index) {
-                        case 0:
-                            this.haveReadList = data
-                            break
-                        case 1:
-                            this.unreadList = data
-                            break
-                        case 2:
-                            this.recycleBinList = data
-                            break
-                        default:
-                    }
-                }
-            },
-
-            dialogMessage(data) {
-                this.messageVisible = data
-            },
-
-            closeDialog(data) {
-                this.messageVisible = data
-            },
-
-            saveChange() {
-
             }
         }
+    },
+    watch: {
+        tabIndex: function (newVal) {
+            this.search.btnSearch.splice(0, 1)
+            this.search.btnSearch.push(this.btnType[newVal])
+        }
+    },
+    mounted() {
+        let clientHeight = document.getElementsByClassName('el-tabs__content')[0].clientHeight
+        if (clientHeight > window.innerHeight - 369) {
+            this.isHeight = !this.isHeight
+        }
+        this.tabClick(0);
+        this.search.btnSearch.push(this.btnType['0'])
+    },
+    methods: {
+        tabClick(data) {
+            this.tabIndex = String(data);
+            this.$api.request(this.$url.Message.load + '/' + data).then(res => {
+                if (res.code === 0) {
+                    this.messageList(data, res.data)
+                }
+            })
+        },
+
+        messageList(index, data) {
+            if (data && data.length > 0) {
+                switch (index) {
+                case 0:
+                    this.haveReadList = data
+                    break
+                case 1:
+                    this.unreadList = data
+                    break
+                case 2:
+                    this.recycleBinList = data
+                    break
+                default:
+                }
+            }
+        },
+
+        dialogMessage(data) {
+            this.messageVisible = data
+        },
+
+        closeDialog(data) {
+            this.messageVisible = data
+        },
+
+        saveChange() {
+
+        }
     }
+}
 </script>
 
 <style lang="scss">

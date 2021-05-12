@@ -13,17 +13,17 @@
 </template>
 
 <script>
-    export default {
-        name: "SidebarItem",
-        props: {
-            item: Object
-        },
-        methods: {
-            url(str) {
-                return this.$common.toLine(str)
-            }
+export default {
+    name: "SidebarItem",
+    props: {
+        item: Object
+    },
+    methods: {
+        url(str) {
+            return this.$common.toLine(str)
         }
     }
+}
 </script>
 
 <style scoped>

@@ -55,105 +55,105 @@
 </template>
 
 <script>
-    import {VueCropper} from 'vue-cropper'
+import {VueCropper} from 'vue-cropper'
 
-    export default {
-        name: "avatarUser",
-        components: {
-            VueCropper
+export default {
+    name: "avatarUser",
+    components: {
+        VueCropper
+    },
+    props: {
+        userInfo: Object
+    },
+    data() {
+        return {
+            title: '修改头像',
+            open: false,
+            options: {
+                img: '', //裁剪图片的地址
+                autoCrop: true, // 是否默认生成截图框
+                autoCropWidth: 200, // 默认生成截图框宽度
+                autoCropHeight: 200, // 默认生成截图框高度
+                fixedBox: true, // 固定截图框大小 不允许改变
+                full: true,
+            },
+            previews: {},
+            fileName: ''
+        }
+    },
+    mounted()  {
+        console.log(this.$cookies.get('avatar'))
+        this.options.img = this.$cookies.get('avatar')
+    },
+    methods: {
+        editAvatar() {
+            this.open = true
         },
-        props: {
-            userInfo: Object
+        // 覆盖默认的上传行为
+        requestUpload() {
         },
-        data() {
-            return {
-                title: '修改头像',
-                open: false,
-                options: {
-                    img: '', //裁剪图片的地址
-                    autoCrop: true, // 是否默认生成截图框
-                    autoCropWidth: 200, // 默认生成截图框宽度
-                    autoCropHeight: 200, // 默认生成截图框高度
-                    fixedBox: true, // 固定截图框大小 不允许改变
-                    full: true,
-                },
-                previews: {},
-                fileName: ''
+        // 向左旋转
+        rotateLeft() {
+            this.$refs.cropper.rotateLeft();
+        },
+        // 向右旋转
+        rotateRight() {
+            this.$refs.cropper.rotateRight();
+        },
+        // 图片缩放
+        changeScale(num) {
+            num = num || 1;
+            this.$refs.cropper.changeScale(num);
+        },
+        // 上传预处理
+        beforeUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+            const isLt2M = file.size / 1024 / 1024 < 5;
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG或PNG 格式!')
             }
-        },
-        mounted()  {
-            console.log(this.$cookies.get('avatar'))
-            this.options.img = this.$cookies.get('avatar')
-        },
-        methods: {
-            editAvatar() {
-                this.open = true
-            },
-            // 覆盖默认的上传行为
-            requestUpload() {
-            },
-            // 向左旋转
-            rotateLeft() {
-                this.$refs.cropper.rotateLeft();
-            },
-            // 向右旋转
-            rotateRight() {
-                this.$refs.cropper.rotateRight();
-            },
-            // 图片缩放
-            changeScale(num) {
-                num = num || 1;
-                this.$refs.cropper.changeScale(num);
-            },
-            // 上传预处理
-            beforeUpload(file) {
-                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-                const isLt2M = file.size / 1024 / 1024 < 5;
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG或PNG 格式!')
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 5MB!')
-                }
-                if (isJPG && isLt2M) {
-                    const reader = new FileReader();
-                    reader.readAsDataURL(file);
-                    reader.onload = () => {
-                        this.fileName = file.name;
-                        this.options.img = reader.result;
-                    };
-                }
-                return isJPG && isLt2M;
-            },
-            // 上传图片
-            uploadImg() {
-                this.$refs.cropper.getCropBlob(data => {
-                    let formData = new FormData();
-                    formData.append('file', data);
-                    formData.append('fileName', this.fileName);
-                    this.$api.upload(this.$url.User.uploadAvatar, formData).then(res => {
-                        if (res.code === 0) {
-                            this.open = false;
-                            this.options.img = res.data;
-                            this.$store.dispatch('updateAvatar', res.data).then(() => {
-                                this.$message.success('上传成功')
-                            })
-                        } else {
-                            this.$message.error(res.msg)
-                        }
-                        this.$refs.cropper.clearCrop();
-                    })
-                });
-            },
-            // 实时预览
-            realTime(data) {
-                this.previews = data;
-            },
-            errorAvatar(e) {
-                e.target.src = 'https://oss.rngay.cn/images/2020/03/08/AEFC37D6F2DB7FB7ECB5C10ABAC6949D.jpeg'
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 5MB!')
             }
+            if (isJPG && isLt2M) {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => {
+                    this.fileName = file.name;
+                    this.options.img = reader.result;
+                };
+            }
+            return isJPG && isLt2M;
+        },
+        // 上传图片
+        uploadImg() {
+            this.$refs.cropper.getCropBlob(data => {
+                let formData = new FormData();
+                formData.append('file', data);
+                formData.append('fileName', this.fileName);
+                this.$api.upload(this.$url.User.uploadAvatar, formData).then(res => {
+                    if (res.code === 0) {
+                        this.open = false;
+                        this.options.img = res.data;
+                        this.$store.dispatch('updateAvatar', res.data).then(() => {
+                            this.$message.success('上传成功')
+                        })
+                    } else {
+                        this.$message.error(res.msg)
+                    }
+                    this.$refs.cropper.clearCrop();
+                })
+            });
+        },
+        // 实时预览
+        realTime(data) {
+            this.previews = data;
+        },
+        errorAvatar(e) {
+            e.target.src = 'https://oss.rngay.cn/images/2020/03/08/AEFC37D6F2DB7FB7ECB5C10ABAC6949D.jpeg'
         }
     }
+}
 </script>
 
 <style lang="scss">

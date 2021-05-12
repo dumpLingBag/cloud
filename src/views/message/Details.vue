@@ -28,65 +28,65 @@
 </template>
 
 <script>
-    import Search from '@/components/search/Index'
-    export default {
-        name: "Details",
-        components: {
-            Search
+import Search from '@/components/search/Index'
+export default {
+    name: "Details",
+    components: {
+        Search
+    },
+    data() {
+        return {
+            loading: false,
+            messageList: [],
+            message: {
+                title: '',
+                status: '',
+                startTime: '',
+                endTime: ''
+            },
+            search: {
+                typeSearch: [
+                    {
+                        label: '消息标题',
+                        name: 'title'
+                    },
+                    {
+                        label: '发布时间',
+                        type: 'date'
+                    },
+                    {
+                        label: '消息状态',
+                        name: 'businessType',
+                        dictType: 'sys_yes_no',
+                        type: 'select'
+                    }
+                ],
+                btnSearch: [
+                    {
+                        btnType: this.$btnType.SAVE,
+                        hasPerm: ['sys:dict:add'],
+                        name: '发布消息'
+                    }
+                ]
+            },
+            modelData: {}
+        }
+    },
+    methods: {
+        handleSelectionChange() {
+
         },
-        data() {
-            return {
-                loading: false,
-                messageList: [],
-                message: {
-                    title: '',
-                    status: '',
-                    startTime: '',
-                    endTime: ''
-                },
-                search: {
-                    typeSearch: [
-                        {
-                            label: '消息标题',
-                            name: 'title'
-                        },
-                        {
-                            label: '发布时间',
-                            type: 'date'
-                        },
-                        {
-                            label: '消息状态',
-                            name: 'businessType',
-                            dictType: 'sys_yes_no',
-                            type: 'select'
-                        }
-                    ],
-                    btnSearch: [
-                        {
-                            btnType: this.$btnType.SAVE,
-                            hasPerm: ['sys:dict:add'],
-                            name: '发布消息'
-                        }
-                    ]
-                },
-                modelData: {}
-            }
+        editMessage() {
+
         },
-        methods: {
-            handleSelectionChange() {
+        delMessage() {
 
-            },
-            editMessage() {
-
-            },
-            delMessage() {
-
-            },
-            saveChange() {
-                this.$router.push('/message/release')
-            }
+        },
+        saveChange() {
+            this.$router.push('/message/release')
         }
     }
+}
 </script>
 
 <style scoped>

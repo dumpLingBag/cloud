@@ -32,107 +32,107 @@
 </template>
 
 <script>
-    export default {
-        name: 'Tags',
-        inject: ['reload'],
-        data() {
-            return {
-                tagsWidth: 0,
-                tagsTitleWidth: 0,
-                tags: ''
-            }
-        },
-        watch: {
-            $route(newVal) {
-                this.addViewTags();
-                const isTags = this.visitedViews.some(item => {
-                    return item.path === newVal.path
-                });
-                if (!isTags) {
-                    const li = window.document.getElementsByClassName('tags-li');
-                    for (let i = 0; i < li.length; i++) {
-                        this.tagsWidth = Number(this.tagsWidth) + Number(li[i].offsetWidth)
-                    }
-                }
-            }
-        },
-        mounted() {
+export default {
+    name: 'Tags',
+    inject: ['reload'],
+    data() {
+        return {
+            tagsWidth: 0,
+            tagsTitleWidth: 0,
+            tags: ''
+        }
+    },
+    watch: {
+        $route(newVal) {
             this.addViewTags();
-        },
-        methods: {
-            go(path) {
-                if (path !== this.$route.path) {
-                    this.$router.push(path)
+            const isTags = this.visitedViews.some(item => {
+                return item.path === newVal.path
+            });
+            if (!isTags) {
+                const li = window.document.getElementsByClassName('tags-li');
+                for (let i = 0; i < li.length; i++) {
+                    this.tagsWidth = Number(this.tagsWidth) + Number(li[i].offsetWidth)
                 }
-            },
-            goHome() {
-                this.$router.push('/main')
-            },
-            generateRoute() {
-                if (this.$route.name) {
-                    return this.$route
-                }
-                return false
-            },
-            isActive(route) {
-                return route.path === this.$route.path
-            },
-            addViewTags() {
-                const route = this.generateRoute();
-                if (!route) {
-                    return false
-                }
-                this.$store.dispatch('addVisitedViews', route)
-            },
-            // 关闭单个标签
-            closeTags(view) {
-                this.$store.dispatch('delVisitedViews', view).then((views) => {
-                    if (this.isActive(view)) {
-                        const item = views.slice(-1)[0];
-                        if (item) {
-                            this.$router.push(item.path)
-                        } else {
-                            this.$router.push('/main')
-                        }
-                    }
-                })
-            },
-            closeCurrent() {
-                this.closeTags(this.$route)
-            },
-            closeOther() {
-                this.$store.dispatch('delOthersViews', this.$route)
-            },
-            closeAll() {
-                this.$store.dispatch('delAllViews');
-                this.$router.push('/main')
-            },
-            commandTags(command) {
-                switch (command) {
-                    case 'closeCurrent':
-                        this.closeCurrent();
-                        break;
-                    case 'closeOther':
-                        this.closeOther();
-                        break;
-                    case 'closeAll':
-                        this.closeAll();
-                        break
-                }
-            },
-            reloadView() {
-                this.reload()
-            }
-        },
-        computed: {
-            collapse() {
-                return this.$store.state.collapse
-            },
-            visitedViews() {
-                return this.$store.state.visitedViews
             }
         }
+    },
+    mounted() {
+        this.addViewTags();
+    },
+    methods: {
+        go(path) {
+            if (path !== this.$route.path) {
+                this.$router.push(path)
+            }
+        },
+        goHome() {
+            this.$router.push('/main')
+        },
+        generateRoute() {
+            if (this.$route.name) {
+                return this.$route
+            }
+            return false
+        },
+        isActive(route) {
+            return route.path === this.$route.path
+        },
+        addViewTags() {
+            const route = this.generateRoute();
+            if (!route) {
+                return false
+            }
+            this.$store.dispatch('addVisitedViews', route)
+        },
+        // 关闭单个标签
+        closeTags(view) {
+            this.$store.dispatch('delVisitedViews', view).then((views) => {
+                if (this.isActive(view)) {
+                    const item = views.slice(-1)[0];
+                    if (item) {
+                        this.$router.push(item.path)
+                    } else {
+                        this.$router.push('/main')
+                    }
+                }
+            })
+        },
+        closeCurrent() {
+            this.closeTags(this.$route)
+        },
+        closeOther() {
+            this.$store.dispatch('delOthersViews', this.$route)
+        },
+        closeAll() {
+            this.$store.dispatch('delAllViews');
+            this.$router.push('/main')
+        },
+        commandTags(command) {
+            switch (command) {
+            case 'closeCurrent':
+                this.closeCurrent();
+                break;
+            case 'closeOther':
+                this.closeOther();
+                break;
+            case 'closeAll':
+                this.closeAll();
+                break
+            }
+        },
+        reloadView() {
+            this.reload()
+        }
+    },
+    computed: {
+        collapse() {
+            return this.$store.state.collapse
+        },
+        visitedViews() {
+            return this.$store.state.visitedViews
+        }
     }
+}
 </script>
 
 <style lang="scss">

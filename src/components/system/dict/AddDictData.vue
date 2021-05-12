@@ -34,85 +34,85 @@
 </template>
 
 <script>
-    export default {
-        name: "AddDictData",
-        data() {
-            return {
-                labelPosition: 'right',
-                rules: {
-                    dictLabel: [
-                        {required: true, message: '请输入请输入数据标签', trigger: 'blur'},
-                        {min: 1, max: 32, message: '长度在 1 到 32 个字符', trigger: 'blur'}
-                    ],
-                    dictValue: [
-                        {required: true, message: '请输入数据键值', trigger: 'blur'},
-                        {min: 1, max: 32, message: '长度在 1 到 32 个字符', trigger: 'blur'}
-                    ]
-                },
-                error: {
-                    dictName: '',
-                    dictType: '',
-                },
-                clear: false,
-            }
-        },
-        props: {
-            addOrEdit: Boolean,
-            dialogDict: Boolean,
-            dictForm: Object
-        },
-        mounted() {
-            this.clear = false;
-        },
-        methods: {
-            closeDialog() {
-                this.clearValidate('dictForm');
-                if (!this.addOrEdit) {
+export default {
+    name: "AddDictData",
+    data() {
+        return {
+            labelPosition: 'right',
+            rules: {
+                dictLabel: [
+                    {required: true, message: '请输入请输入数据标签', trigger: 'blur'},
+                    {min: 1, max: 32, message: '长度在 1 到 32 个字符', trigger: 'blur'}
+                ],
+                dictValue: [
+                    {required: true, message: '请输入数据键值', trigger: 'blur'},
+                    {min: 1, max: 32, message: '长度在 1 到 32 个字符', trigger: 'blur'}
+                ]
+            },
+            error: {
+                dictName: '',
+                dictType: '',
+            },
+            clear: false,
+        }
+    },
+    props: {
+        addOrEdit: Boolean,
+        dialogDict: Boolean,
+        dictForm: Object
+    },
+    mounted() {
+        this.clear = false;
+    },
+    methods: {
+        closeDialog() {
+            this.clearValidate('dictForm');
+            if (!this.addOrEdit) {
+                this.$common.clearForm(this.dictForm)
+            } else {
+                if (this.clear) {
                     this.$common.clearForm(this.dictForm)
-                } else {
-                    if (this.clear) {
-                        this.$common.clearForm(this.dictForm)
-                    }
                 }
-                this.cancel()
-            },
-
-            submitForm(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        let url = this.$url.DictData.save;
-                        let method = this.$method.post;
-                        if (this.dictForm.id) {
-                            url = this.$url.DictData.update;
-                            method = this.$method.put
-                        }
-                        this.$api.request(url, method, this.dictForm).then(res => {
-                            if (res.code === 0) {
-                                this.$notify({
-                                    title: '提示',
-                                    message: (this.dictForm.id ? '更新': '添加') + '字典数据成功',
-                                    type: 'success'
-                                });
-                                this.clear = true;
-                                this.cancel(this.dictForm.id ? 'update' : 'save')
-                            }
-                        })
-                    } else {
-                        return false
-                    }
-                })
-            },
-
-            cancel(status, code) {
-                this.$emit('cancel', false, status, code)
-            },
-
-            // 清除表单校验信息
-            clearValidate(formName) {
-                this.$refs[formName].clearValidate()
             }
+            this.cancel()
+        },
+
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let url = this.$url.DictData.save;
+                    let method = this.$method.post;
+                    if (this.dictForm.id) {
+                        url = this.$url.DictData.update;
+                        method = this.$method.put
+                    }
+                    this.$api.request(url, method, this.dictForm).then(res => {
+                        if (res.code === 0) {
+                            this.$notify({
+                                title: '提示',
+                                message: (this.dictForm.id ? '更新': '添加') + '字典数据成功',
+                                type: 'success'
+                            });
+                            this.clear = true;
+                            this.cancel(this.dictForm.id ? 'update' : 'save')
+                        }
+                    })
+                } else {
+                    return false
+                }
+            })
+        },
+
+        cancel(status, code) {
+            this.$emit('cancel', false, status, code)
+        },
+
+        // 清除表单校验信息
+        clearValidate(formName) {
+            this.$refs[formName].clearValidate()
         }
     }
+}
 </script>
 
 <style scoped>

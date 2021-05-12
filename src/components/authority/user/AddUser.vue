@@ -78,180 +78,180 @@
 </template>
 
 <script>
-    export default {
-        name: "AddUser",
-        data() {
-            const password = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入密码'))
-                } else {
-                    const reg = new RegExp('(?![0-9A-Z]+$)(?![0-9a-z]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$');
-                    if (!reg.test(value)) {
-                        callback(new Error('密码必须包含大小写字母数字，长度为6~16位'))
-                    }
-                    if (this.userForm.checkPassword !== '') {
-                        this.$refs.userForm.validateField('checkPassword')
-                    }
-                    callback()
+export default {
+    name: "AddUser",
+    data() {
+        const password = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入密码'))
+            } else {
+                const reg = new RegExp('(?![0-9A-Z]+$)(?![0-9a-z]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$');
+                if (!reg.test(value)) {
+                    callback(new Error('密码必须包含大小写字母数字，长度为6~16位'))
                 }
-            };
-            const checkPassword = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请再次输入密码'))
-                } else if (value !== this.userForm.password) {
-                    callback(new Error('两次输入密码不一致'))
-                } else {
-                    callback()
+                if (this.userForm.checkPassword !== '') {
+                    this.$refs.userForm.validateField('checkPassword')
                 }
-            };
-            const mobile = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入手机号码'))
-                } else {
-                    const reg = new RegExp('^((13\\d)|(14[5-9])|(15[0-35-9])|(166)|(17[0-8])|(18\\d)|(19[8-9]))\\d{8}$');
-                    if (!reg.test(value)) {
-                        callback(new Error('请输入正确的手机号码'))
-                    }
-                    callback()
-                }
-            };
-            return {
-                error: {
-                    nickname: '',
-                    username: '',
-                    mobile: '',
-                    email: ''
-                },
-                disabled: false,
-                labelPosition: 'left',
-                clear: false,
-                rules: {
-                    nickname: [
-                        {required: true, message: '请输入用户名称', trigger: 'blur'},
-                        {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
-                    ],
-                    username: [
-                        {required: true, message: '请输入账号名称', trigger: 'blur'},
-                        {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
-                    ],
-                    password: [
-                        {validator: password, trigger: 'blur'},
-                        {required: true, trigger: 'blur'}
-                    ],
-                    checkPassword: [
-                        {validator: checkPassword, trigger: 'blur'},
-                        {required: true, trigger: 'blur'}
-                    ],
-                    email: [
-                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-                        {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
-                    ],
-                    mobile: [
-                        {validator: mobile, required: true, trigger: 'blur'}
-                    ],
-                    enabled: [
-                        {required: true, message: '请选择账号状态', trigger: 'blur'}
-                    ],
-                    sex: [
-                        {required: true, message: '请选择用户性别', trigger: 'blur'}
-                    ]
-                },
-                roleList: []
+                callback()
             }
-        },
-        props: {
-            dialogUser: Boolean,
-            addOrEdit: Boolean, // 添加或者编辑用户
-            userForm: Object
-        },
-        mounted() {
-            this.clear = false
-        },
-        methods: {
-            // 添加或编辑用户
-            submitForm(formName) {
-                this.disabled = true
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        const obj = {};
-                        Object.keys(this.userForm).forEach(key => {
-                            obj[key] = this.userForm[key]
-                        });
-                        if (this.addOrEdit) {
-                            obj.password = this.$md5(obj.password);
-                            obj.checkPassword = this.$md5(obj.checkPassword)
-                        }
-                        if (!this.userForm.id) {
-                            this.$api.request(this.$url.AuthorityUser.addUser, this.$method.post, obj).then(res => {
-                                if (res.code === 0) {
-                                    this.$notify({
-                                        title: '提示',
-                                        message: '添加用户成功',
-                                        type: 'success'
-                                    });
-                                    this.clear = true
-                                    this.cancel('save')
-                                } else {
-                                    this.$common.msg(res, this.error)
-                                }
-                                this.disabled = false
-                            }).catch(() => {
-                                this.disabled = false
-                            })
-                        } else {
-                            this.$api.request(this.$url.AuthorityUser.editUser, this.$method.put, obj).then(res => {
-                                if (res.code === 0) {
-                                    this.$notify({
-                                        title: '提示',
-                                        message: '编辑用户成功',
-                                        type: 'success'
-                                    });
-                                    this.clear = true
-                                    this.cancel('update')
-                                } else {
-                                    this.$common.msg(res, this.error)
-                                }
-                                this.disabled = false
-                            }).catch(() => {
-                                this.disabled = false
-                            })
-                        }
+        };
+        const checkPassword = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请再次输入密码'))
+            } else if (value !== this.userForm.password) {
+                callback(new Error('两次输入密码不一致'))
+            } else {
+                callback()
+            }
+        };
+        const mobile = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入手机号码'))
+            } else {
+                const reg = new RegExp('^((13\\d)|(14[5-9])|(15[0-35-9])|(166)|(17[0-8])|(18\\d)|(19[8-9]))\\d{8}$');
+                if (!reg.test(value)) {
+                    callback(new Error('请输入正确的手机号码'))
+                }
+                callback()
+            }
+        };
+        return {
+            error: {
+                nickname: '',
+                username: '',
+                mobile: '',
+                email: ''
+            },
+            disabled: false,
+            labelPosition: 'left',
+            clear: false,
+            rules: {
+                nickname: [
+                    {required: true, message: '请输入用户名称', trigger: 'blur'},
+                    {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
+                ],
+                username: [
+                    {required: true, message: '请输入账号名称', trigger: 'blur'},
+                    {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
+                ],
+                password: [
+                    {validator: password, trigger: 'blur'},
+                    {required: true, trigger: 'blur'}
+                ],
+                checkPassword: [
+                    {validator: checkPassword, trigger: 'blur'},
+                    {required: true, trigger: 'blur'}
+                ],
+                email: [
+                    {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+                    {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
+                ],
+                mobile: [
+                    {validator: mobile, required: true, trigger: 'blur'}
+                ],
+                enabled: [
+                    {required: true, message: '请选择账号状态', trigger: 'blur'}
+                ],
+                sex: [
+                    {required: true, message: '请选择用户性别', trigger: 'blur'}
+                ]
+            },
+            roleList: []
+        }
+    },
+    props: {
+        dialogUser: Boolean,
+        addOrEdit: Boolean, // 添加或者编辑用户
+        userForm: Object
+    },
+    mounted() {
+        this.clear = false
+    },
+    methods: {
+        // 添加或编辑用户
+        submitForm(formName) {
+            this.disabled = true
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    const obj = {};
+                    Object.keys(this.userForm).forEach(key => {
+                        obj[key] = this.userForm[key]
+                    });
+                    if (this.addOrEdit) {
+                        obj.password = this.$md5(obj.password);
+                        obj.checkPassword = this.$md5(obj.checkPassword)
+                    }
+                    if (!this.userForm.id) {
+                        this.$api.request(this.$url.AuthorityUser.addUser, this.$method.post, obj).then(res => {
+                            if (res.code === 0) {
+                                this.$notify({
+                                    title: '提示',
+                                    message: '添加用户成功',
+                                    type: 'success'
+                                });
+                                this.clear = true
+                                this.cancel('save')
+                            } else {
+                                this.$common.msg(res, this.error)
+                            }
+                            this.disabled = false
+                        }).catch(() => {
+                            this.disabled = false
+                        })
                     } else {
-                        this.disabled = false
-                        return false
+                        this.$api.request(this.$url.AuthorityUser.editUser, this.$method.put, obj).then(res => {
+                            if (res.code === 0) {
+                                this.$notify({
+                                    title: '提示',
+                                    message: '编辑用户成功',
+                                    type: 'success'
+                                });
+                                this.clear = true
+                                this.cancel('update')
+                            } else {
+                                this.$common.msg(res, this.error)
+                            }
+                            this.disabled = false
+                        }).catch(() => {
+                            this.disabled = false
+                        })
                     }
-                })
-            },
-            // 清除表单校验信息
-            closeDialog() {
-                this.clearValidate('userForm');
-                if (!this.addOrEdit) {
-                    this.$common.clearForm(this.userForm)
                 } else {
-                    if (this.clear) {
-                        this.$common.clearForm(this.userForm)
-                    }
+                    this.disabled = false
+                    return false
                 }
-                this.cancel()
-            },
-            // 弹窗打开回调
-            openDialog() {
-                this.$api.request(this.$url.AuthorityRole.loadRole).then(res => {
-                    if (res.code === 0) {
-                        this.roleList = res.data
-                    }
-                })
-            },
-            // 清除表单校验信息
-            clearValidate(formName) {
-                this.$refs[formName].clearValidate()
-            },
-            // 关闭弹框
-            cancel(status) {
-                this.$emit('cancel', false, status)
+            })
+        },
+        // 清除表单校验信息
+        closeDialog() {
+            this.clearValidate('userForm');
+            if (!this.addOrEdit) {
+                this.$common.clearForm(this.userForm)
+            } else {
+                if (this.clear) {
+                    this.$common.clearForm(this.userForm)
+                }
             }
+            this.cancel()
+        },
+        // 弹窗打开回调
+        openDialog() {
+            this.$api.request(this.$url.AuthorityRole.loadRole).then(res => {
+                if (res.code === 0) {
+                    this.roleList = res.data
+                }
+            })
+        },
+        // 清除表单校验信息
+        clearValidate(formName) {
+            this.$refs[formName].clearValidate()
+        },
+        // 关闭弹框
+        cancel(status) {
+            this.$emit('cancel', false, status)
         }
     }
+}
 </script>
 
 <style lang="scss">

@@ -85,108 +85,108 @@
 </template>
 
 <script>
-    import Treeselect from '@riophae/vue-treeselect'
-    import '@riophae/vue-treeselect/dist/vue-treeselect.css'
+import Treeselect from '@riophae/vue-treeselect'
+import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
-    export default {
-        name: 'AddMenu',
-        components: {Treeselect},
-        data() {
-            return {
-                menu: {},
-                topMenu: null,
-                visible: false,
-                iconList: [],
-                rules: {
-                    name: [
-                        {required: true, message: '菜单只能是中文或英文名称', target: 'blur', pattern: '^[\u4e00-\u9fa5a-zA-Z]+$'}
-                    ],
-                    path: [
-                        {required: true, message: '菜单路径以/开头后面匹配英文', target: 'blur', pattern: '^[/][a-zA-Z/]+$'}
-                    ],
-                    component: [
-                        {required: true, message: '请输入菜单路由', target: 'blur', pattern: '^[A-Z][a-zA-Z]'}
-                    ],
-                    icon: [
-                        {required: true, message: '请选择菜单图标', target: 'blur'}
-                    ],
-                    authority: [
-                        {required: true, message: '请输入权限标识', target: 'blur', pattern: '^[a-z][a-z:]+$'}
-                    ],
-                    menuUrl: [
-                        {required: true, message: '请求路径以/开头并且只能是大小写字母', target: 'blur', pattern: '^[/][a-zA-Z/]+[a-zA-Z\\*]$'}
-                    ]
-                }
+export default {
+    name: 'AddMenu',
+    components: {Treeselect},
+    data() {
+        return {
+            menu: {},
+            topMenu: null,
+            visible: false,
+            iconList: [],
+            rules: {
+                name: [
+                    {required: true, message: '菜单只能是中文或英文名称', target: 'blur', pattern: '^[\u4e00-\u9fa5a-zA-Z]+$'}
+                ],
+                path: [
+                    {required: true, message: '菜单路径以/开头后面匹配英文', target: 'blur', pattern: '^[/][a-zA-Z/]+$'}
+                ],
+                component: [
+                    {required: true, message: '请输入菜单路由', target: 'blur', pattern: '^[A-Z][a-zA-Z]'}
+                ],
+                icon: [
+                    {required: true, message: '请选择菜单图标', target: 'blur'}
+                ],
+                authority: [
+                    {required: true, message: '请输入权限标识', target: 'blur', pattern: '^[a-z][a-z:]+$'}
+                ],
+                menuUrl: [
+                    {required: true, message: '请求路径以/开头并且只能是大小写字母', target: 'blur', pattern: '^[/][a-zA-Z/]+[a-zA-Z\\*]$'}
+                ]
             }
+        }
+    },
+    props: {
+        dialogAddMenu: Boolean,
+        isMenuProp: Boolean,
+        nodeData: Object,
+        addOrEdit: Boolean,
+        menuList: Array,
+        selectId: String
+    },
+    methods: {
+        handleClose() {
+            this.closeDialogAddMenu()
         },
-        props: {
-            dialogAddMenu: Boolean,
-            isMenuProp: Boolean,
-            nodeData: Object,
-            addOrEdit: Boolean,
-            menuList: Array,
-            selectId: String
+
+        closeDialogAddMenu() {
+            this.$emit('closeDialogAddMenu', false)
         },
-        methods: {
-            handleClose() {
-                this.closeDialogAddMenu()
-            },
 
-            closeDialogAddMenu() {
-                this.$emit('closeDialogAddMenu', false)
-            },
-
-            addMenu(menu) {
-                this.$refs[menu].validate((valid) => {
-                    if (valid) {
-                        let url = this.$url.AuthorityMenu.update
-                        if (this.addOrEdit) { // 添加菜单
-                            this.nodeData.pid = this.nodeData.id
-                            this.nodeData.id = ''
-                            url = this.$url.AuthorityMenu.insert
-                        }
-                        this.nodeData.pid = this.selectId
-                        this.$api.request(url, this.addOrEdit ? this.$method.post : this.$method.put, this.nodeData).then(res => {
-                            if (res.code === 0) {
-                                this.$emit('updateMenu', this.addOrEdit ? '添加菜单成功' : '更新菜单成功')
-                                this.closeDialogAddMenu()
-                            }
-                        }).catch(() => {
-                            this.$message.warning(this.nodeData.id ? '菜单更新失败' : '菜单添加失败')
-                        })
-                    } else {
-                        return false
+        addMenu(menu) {
+            this.$refs[menu].validate((valid) => {
+                if (valid) {
+                    let url = this.$url.AuthorityMenu.update
+                    if (this.addOrEdit) { // 添加菜单
+                        this.nodeData.pid = this.nodeData.id
+                        this.nodeData.id = ''
+                        url = this.$url.AuthorityMenu.insert
                     }
-                })
-            },
-
-            open() {
-                this.clearVal('menuData')
-            },
-
-            closed() {
-                Object.keys(this.menu).forEach(key => {
-                    this.menu[key] = ''
-                })
-            },
-
-            addIcon(icon) {
-                this.visible = !this.visible;
-                this.nodeData.icon = icon
-            },
-
-            clearVal(formName) {
-                this.$nextTick(() => {
-                    this.$refs[formName].clearValidate()
-                })
-            }
+                    this.nodeData.pid = this.selectId
+                    this.$api.request(url, this.addOrEdit ? this.$method.post : this.$method.put, this.nodeData).then(res => {
+                        if (res.code === 0) {
+                            this.$emit('updateMenu', this.addOrEdit ? '添加菜单成功' : '更新菜单成功')
+                            this.closeDialogAddMenu()
+                        }
+                    }).catch(() => {
+                        this.$message.warning(this.nodeData.id ? '菜单更新失败' : '菜单添加失败')
+                    })
+                } else {
+                    return false
+                }
+            })
         },
-        mounted() {
-            this.$api.request(this.$url.IconList.loadIcon).then(res => {
-                this.iconList = res.data
+
+        open() {
+            this.clearVal('menuData')
+        },
+
+        closed() {
+            Object.keys(this.menu).forEach(key => {
+                this.menu[key] = ''
+            })
+        },
+
+        addIcon(icon) {
+            this.visible = !this.visible;
+            this.nodeData.icon = icon
+        },
+
+        clearVal(formName) {
+            this.$nextTick(() => {
+                this.$refs[formName].clearValidate()
             })
         }
+    },
+    mounted() {
+        this.$api.request(this.$url.IconList.loadIcon).then(res => {
+            this.iconList = res.data
+        })
     }
+}
 </script>
 
 <style lang="scss">

@@ -19,37 +19,37 @@
 </template>
 
 <script>
-    export default {
-        name: 'Icon',
-        data() {
-            return {
-                icon: [],
-                height: 0
-            }
-        },
-        mounted() {
-            this.height = document.documentElement.clientHeight - 278;
-            this.getIconList()
-        },
-        computed: {
+export default {
+    name: 'Icon',
+    data() {
+        return {
+            icon: [],
+            height: 0
+        }
+    },
+    mounted() {
+        this.height = document.documentElement.clientHeight - 278;
+        this.getIconList()
+    },
+    computed: {
 
+    },
+    methods: {
+        onCopy(e) {
+            this.$message.success(e.text + '成功复制到剪切板')
         },
-        methods: {
-            onCopy(e) {
-                this.$message.success(e.text + '成功复制到剪切板')
-            },
-            onError(e) {
-                this.$message.error('复制' + e.text + '到剪切板失败')
-            },
-            getIconList() {
-                this.$api.request(this.$url.IconList.loadIcon, this.$method.get).then(res => {
-                    if (res.code === 0) {
-                        this.icon = res.data
-                    }
-                })
-            }
+        onError(e) {
+            this.$message.error('复制' + e.text + '到剪切板失败')
+        },
+        getIconList() {
+            this.$api.request(this.$url.IconList.loadIcon, this.$method.get).then(res => {
+                if (res.code === 0) {
+                    this.icon = res.data
+                }
+            })
         }
     }
+}
 </script>
 
 <style lang="scss">

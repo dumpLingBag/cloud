@@ -31,36 +31,36 @@
 </template>
 
 <script>
-    export default {
-        name: "SearchDictType",
-        props: {
-            dict: Object,
-            multipleSelection: Array
+export default {
+    name: "SearchDictType",
+    props: {
+        dict: Object,
+        multipleSelection: Array
+    },
+    methods: {
+        addDict() {
+            this.$emit('addDict')
         },
-        methods: {
-            addDict() {
-                this.$emit('addDict')
-            },
 
-            enableSelect(event) {
-                this.$emit('enableSelect', event)
-            },
+        enableSelect(event) {
+            this.$emit('enableSelect', event)
+        },
 
-            onSubmit() {
-                this.$emit('onSubmit', this.dict)
-            },
+        onSubmit() {
+            this.$emit('onSubmit', this.dict)
+        },
 
-            resetSearch(formName) {
-                this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
-                this.$common.clearForm(this.dict);
-                this.$emit('resetSearch', this.dict)
-            },
+        resetSearch(formName) {
+            this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
+            this.$common.clearForm(this.dict);
+            this.$emit('resetSearch', this.dict)
+        },
 
-            delBatchDict() {
-                this.$emit('delBatchDict')
-            }
+        delBatchDict() {
+            this.$emit('delBatchDict')
         }
     }
+}
 </script>
 
 <style scoped>

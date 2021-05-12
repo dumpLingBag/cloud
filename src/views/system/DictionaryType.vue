@@ -53,183 +53,183 @@
 </template>
 
 <script>
-    import AddDict from '_c/system/dict/AddDictType'
-    import Search from '@/components/search/Index'
-    export default {
-        name: "DictionaryType",
-        components: {
-            AddDict,
-            Search
+import AddDict from '_c/system/dict/AddDictType'
+import Search from '@/components/search/Index'
+export default {
+    name: "DictionaryType",
+    components: {
+        AddDict,
+        Search
+    },
+    data() {
+        return {
+            dictList: [],
+            dict: {
+                dictName: '',
+                dictType: '',
+                enabled: '',
+                currentPage: 1,
+                pageSize: 10,
+                totalSize: 0
+            },
+            loading: false,
+            dialogDict: false,
+            addOrEdit: false,
+            dictForm: {
+                dictName: '',
+                dictType: '',
+                enabled: '1',
+                remark: ''
+            },
+            multipleSelection: [],
+            search: {
+                typeSearch: [
+                    {
+                        label: '字典类型',
+                        name: 'dictType'
+                    },
+                    {
+                        label: '字典名称',
+                        name: 'dictName'
+                    },
+                    {
+                        label: '字典状态',
+                        name: 'dictStatus',
+                        dictType: 'sys_yes_no',
+                        type: 'select'
+                    }
+                ],
+                btnSearch: [
+                    {
+                        btnType: this.$btnType.SAVE,
+                        hasPerm: ['sys:dict:add'],
+                        name: '增加'
+                    },
+                    {
+                        btnType: this.$btnType.REMOVE,
+                        hasPerm: ['sys:dict:delete'],
+                        name: '删除'
+                    }
+                ]
+            },
+            modelData: {}
+        }
+    },
+    mounted() {
+        this.loadDict()
+    },
+    methods: {
+        loadDict() {
+            this.loading = true;
+            this.$api.request(this.$url.DictType.loadDictType, this.$method.get, this.dict).then(res => {
+                if (res.code === 0) {
+                    this.dictList = res.data.records
+                }
+                this.loading = false
+            }).catch(() => {
+                this.loading = false;
+            })
         },
-        data() {
-            return {
-                dictList: [],
-                dict: {
-                    dictName: '',
-                    dictType: '',
-                    enabled: '',
-                    currentPage: 1,
-                    pageSize: 10,
-                    totalSize: 0
-                },
-                loading: false,
-                dialogDict: false,
-                addOrEdit: false,
-                dictForm: {
-                    dictName: '',
-                    dictType: '',
-                    enabled: '1',
-                    remark: ''
-                },
-                multipleSelection: [],
-                search: {
-                    typeSearch: [
-                        {
-                            label: '字典类型',
-                            name: 'dictType'
-                        },
-                        {
-                            label: '字典名称',
-                            name: 'dictName'
-                        },
-                        {
-                            label: '字典状态',
-                            name: 'dictStatus',
-                            dictType: 'sys_yes_no',
-                            type: 'select'
-                        }
-                    ],
-                    btnSearch: [
-                        {
-                            btnType: this.$btnType.SAVE,
-                            hasPerm: ['sys:dict:add'],
-                            name: '增加'
-                        },
-                        {
-                            btnType: this.$btnType.REMOVE,
-                            hasPerm: ['sys:dict:delete'],
-                            name: '删除'
-                        }
-                    ]
-                },
-                modelData: {}
-            }
+
+        addDict() {
+            this.dialogDict = true;
+            this.addOrEdit = true
         },
-        mounted() {
+
+        enableSelect(enable) {
+            this.dict.enabled = enable;
             this.loadDict()
         },
-        methods: {
-            loadDict() {
-                this.loading = true;
-                this.$api.request(this.$url.DictType.loadDictType, this.$method.get, this.dict).then(res => {
+
+        resetSearch(dict) {
+            this.dict = dict;
+            this.loadDict()
+        },
+
+        onSubmit(dict) {
+            this.dict = dict;
+            this.loadDict()
+        },
+
+        handleSelectionChange(row) {
+            this.multipleSelection = row
+        },
+
+        editDict(row) {
+            this.dialogDict = true;
+            this.addOrEdit = false;
+            Object.keys(this.dictForm).forEach(key => {
+                if (key === 'enabled') {
+                    this.dictForm[key] = String(row[key])
+                } else {
+                    this.dictForm[key] = row[key]
+                }
+            });
+            this.dictForm.id = row.id
+        },
+
+        delDict(row) {
+            this.$confirm('确定要删除该字典吗？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+            }).then(() => {
+                this.$api.request(this.$url.DictType.delete, this.$method.delete, {dictTypeId: [row.id]}).then(res => {
                     if (res.code === 0) {
-                        this.dictList = res.data.records
+                        this.$message.success('删除字典成功');
+                        this.loadDict()
                     }
-                    this.loading = false
-                }).catch(() => {
-                    this.loading = false;
                 })
-            },
+            }).catch(() => {
+                this.$message.info('取消操作')
+            })
+        },
 
-            addDict() {
-                this.dialogDict = true;
-                this.addOrEdit = true
-            },
-
-            enableSelect(enable) {
-                this.dict.enabled = enable;
+        cancel(dialogDict, status) {
+            this.dialogDict = dialogDict;
+            if (status) {
                 this.loadDict()
-            },
-
-            resetSearch(dict) {
-                this.dict = dict;
-                this.loadDict()
-            },
-
-            onSubmit(dict) {
-                this.dict = dict;
-                this.loadDict()
-            },
-
-            handleSelectionChange(row) {
-                this.multipleSelection = row
-            },
-
-            editDict(row) {
-                this.dialogDict = true;
-                this.addOrEdit = false;
-                Object.keys(this.dictForm).forEach(key => {
-                    if (key === 'enabled') {
-                        this.dictForm[key] = String(row[key])
-                    } else {
-                        this.dictForm[key] = row[key]
-                    }
-                });
-                this.dictForm.id = row.id
-            },
-
-            delDict(row) {
-                this.$confirm('确定要删除该字典吗？', '提示', {
+            }
+        },
+        // 批量删除
+        delBatchDict() {
+            if (this.multipleSelection.length > 0) {
+                this.$confirm('确定要删除选中的字典吗？', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    this.$api.request(this.$url.DictType.delete, this.$method.delete, {dictTypeId: [row.id]}).then(res => {
+                    let dictTypeIds = this.getDictTypeId(this.multipleSelection);
+                    this.$api.request(this.$url.DictType.delete, this.$method.delete,
+                        {dictTypes: dictTypeIds}).then(res => {
                         if (res.code === 0) {
-                            this.$message.success('删除字典成功');
+                            this.$notify({
+                                title: '成功',
+                                message: '删除字典成功',
+                                type: 'success'
+                            });
                             this.loadDict()
                         }
                     })
                 }).catch(() => {
                     this.$message.info('取消操作')
                 })
-            },
-
-            cancel(dialogDict, status) {
-                this.dialogDict = dialogDict;
-                if (status) {
-                    this.loadDict()
-                }
-            },
-            // 批量删除
-            delBatchDict() {
-                if (this.multipleSelection.length > 0) {
-                    this.$confirm('确定要删除选中的字典吗？', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
-                        type: 'warning'
-                    }).then(() => {
-                        let dictTypeIds = this.getDictTypeId(this.multipleSelection);
-                        this.$api.request(this.$url.DictType.delete, this.$method.delete,
-                            {dictTypes: dictTypeIds}).then(res => {
-                            if (res.code === 0) {
-                                this.$notify({
-                                    title: '成功',
-                                    message: '删除字典成功',
-                                    type: 'success'
-                                });
-                                this.loadDict()
-                            }
-                        })
-                    }).catch(() => {
-                        this.$message.info('取消操作')
-                    })
-                }
-            },
-
-            getDictTypeId(selectIds) {
-                let obj = [];
-                selectIds.forEach(key => {
-                    obj.push(key.dictType)
-                });
-                return obj;
-            },
-
-            tagEnable(index, data) {
-
             }
+        },
+
+        getDictTypeId(selectIds) {
+            let obj = [];
+            selectIds.forEach(key => {
+                obj.push(key.dictType)
+            });
+            return obj;
+        },
+
+        tagEnable(index, data) {
+
         }
     }
+}
 </script>
 
 <style lang="scss">

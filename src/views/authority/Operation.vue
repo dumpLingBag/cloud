@@ -90,134 +90,134 @@
 </template>
 
 <script>
-    import Search from '@/components/search/Index'
-    import jsonView from '@/components/json-view/index.vue'
+import Search from '@/components/search/Index'
+import jsonView from '@/components/json-view/index.vue'
 
-    export default {
-        name: "Operation",
-        components: {
-            Search,
-            jsonView
-        },
-        data() {
-            return {
-                operationList: [],
-                dialogVisible: false,
-                loading: false,
-                operationLog: Object,
-                page: {
-                    pageSize: 10,
-                    currentPage: 1
-                },
-                operation: {
-                    title: '',
-                    operName: '',
-                    businessType: '',
-                    startTime: '',
-                    endTime: '',
-                    status: ''
-                },
-                operType: [],
-                multipleSelection: [],
-                search: {
-                    typeSearch: [
-                        {
-                            label: '操作人员',
-                            name: 'operName'
-                        },
-                        {
-                            label: '操作类型',
-                            name: 'businessType',
-                            dictType: 'sys_oper_type',
-                            type: 'select'
-                        },
-                        {
-                            label: '操作时间',
-                            type: 'date'
-                        }
-                    ],
-                    btnSearch: [
-                        {
-                            btnType: this.$btnType.SAVE,
-                            hasPerm: ['sys:dict:add'],
-                            name: '增加'
-                        },
-                        {
-                            btnType: this.$btnType.REMOVE,
-                            hasPerm: ['sys:dict:delete'],
-                            name: '删除'
-                        }
-                    ]
-                },
-                modelData: {},
-                json: {
-                    jsonResult: Object,
-                    params: Object
-                }
-            }
-        },
-        mounted() {
-            this.currentChange();
-            this.listDict()
-        },
-        methods: {
-            listDict() {
-                this.$api.dict('sys_oper_type').then(res => {
-                    if (res.code === 0) {
-                        this.operType = res.data
+export default {
+    name: "Operation",
+    components: {
+        Search,
+        jsonView
+    },
+    data() {
+        return {
+            operationList: [],
+            dialogVisible: false,
+            loading: false,
+            operationLog: Object,
+            page: {
+                pageSize: 10,
+                currentPage: 1
+            },
+            operation: {
+                title: '',
+                operName: '',
+                businessType: '',
+                startTime: '',
+                endTime: '',
+                status: ''
+            },
+            operType: [],
+            multipleSelection: [],
+            search: {
+                typeSearch: [
+                    {
+                        label: '操作人员',
+                        name: 'operName'
+                    },
+                    {
+                        label: '操作类型',
+                        name: 'businessType',
+                        dictType: 'sys_oper_type',
+                        type: 'select'
+                    },
+                    {
+                        label: '操作时间',
+                        type: 'date'
                     }
-                })
+                ],
+                btnSearch: [
+                    {
+                        btnType: this.$btnType.SAVE,
+                        hasPerm: ['sys:dict:add'],
+                        name: '增加'
+                    },
+                    {
+                        btnType: this.$btnType.REMOVE,
+                        hasPerm: ['sys:dict:delete'],
+                        name: '删除'
+                    }
+                ]
             },
-
-            currentChange(currentPage) {
-                this.loading = !this.loading;
-                this.page.currentPage = currentPage ? currentPage : 1;
-                this.$api.request(this.$url.OperationLog.page, this.$method.get, this.$common.objMerge(this.operation, this.page))
-                    .then(res => {
-                        if (res.code === 0) {
-                            if (res.data && res.data.records) {
-                                this.operationList = res.data.records;
-                                this.page.totalSize = parseInt(res.data.total)
-                            }
-                        }
-                        this.loading = !this.loading;
-                    }, () => {
-                        this.loading = !this.loading;
-                    })
-            },
-
-            getOperationInfo(row) {
-                this.operationLog = row;
-                try {
-                    this.json.jsonResult = JSON.parse(row.jsonResult);
-                    this.json.params = JSON.parse(row.params)
-                } catch (e) {
-                    console.log('非json格式数据')
-                }
-                this.dialogVisible = true
-            },
-
-            handleSelectionChange(row) {
-                this.multipleSelection = row
-            },
-
-            dictFormat(row) {
-                return this.$common.getDictLabel(this.operType, row.businessType);
-            },
-
-            handleClose() {
-                this.dialogVisible = false
-            },
-
-            onSubmit() {
-                this.currentChange()
-            },
-
-            resetSearch() {
-                this.currentChange()
+            modelData: {},
+            json: {
+                jsonResult: Object,
+                params: Object
             }
         }
+    },
+    mounted() {
+        this.currentChange();
+        this.listDict()
+    },
+    methods: {
+        listDict() {
+            this.$api.dict('sys_oper_type').then(res => {
+                if (res.code === 0) {
+                    this.operType = res.data
+                }
+            })
+        },
+
+        currentChange(currentPage) {
+            this.loading = !this.loading;
+            this.page.currentPage = currentPage ? currentPage : 1;
+            this.$api.request(this.$url.OperationLog.page, this.$method.get, this.$common.objMerge(this.operation, this.page))
+                .then(res => {
+                    if (res.code === 0) {
+                        if (res.data && res.data.records) {
+                            this.operationList = res.data.records;
+                            this.page.totalSize = parseInt(res.data.total)
+                        }
+                    }
+                    this.loading = !this.loading;
+                }, () => {
+                    this.loading = !this.loading;
+                })
+        },
+
+        getOperationInfo(row) {
+            this.operationLog = row;
+            try {
+                this.json.jsonResult = JSON.parse(row.jsonResult);
+                this.json.params = JSON.parse(row.params)
+            } catch (e) {
+                console.log('非json格式数据')
+            }
+            this.dialogVisible = true
+        },
+
+        handleSelectionChange(row) {
+            this.multipleSelection = row
+        },
+
+        dictFormat(row) {
+            return this.$common.getDictLabel(this.operType, row.businessType);
+        },
+
+        handleClose() {
+            this.dialogVisible = false
+        },
+
+        onSubmit() {
+            this.currentChange()
+        },
+
+        resetSearch() {
+            this.currentChange()
+        }
     }
+}
 </script>
 
 <style lang="scss">

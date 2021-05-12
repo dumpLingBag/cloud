@@ -62,90 +62,90 @@
 </template>
 
 <script>
-    import screenfull from 'screenfull'
+import screenfull from 'screenfull'
 
-    export default {
-        name: 'sys-header',
-        data() {
-            return {
-                dialogPassword: false,
-                drawer: false
+export default {
+    name: 'sys-header',
+    data() {
+        return {
+            dialogPassword: false,
+            drawer: false
+        }
+    },
+    mounted() {
+        let avatar = this.$cookies.get('avatar');
+        let nickname = this.$cookies.get('nickname');
+        this.$store.dispatch('updateAvatar', avatar);
+        this.$store.dispatch('updateUser', {nickname: nickname})
+    },
+    methods: {
+        isHeader() {
+            if (document.body.clientWidth > 1200) {
+                this.$store.dispatch('collapse', !this.$store.state.collapse)
+            } else {
+                this.$message.warning('分辨率过低禁止展开侧边栏')
             }
         },
-        mounted() {
-            let avatar = this.$cookies.get('avatar');
-            let nickname = this.$cookies.get('nickname');
-            this.$store.dispatch('updateAvatar', avatar);
-            this.$store.dispatch('updateUser', {nickname: nickname})
+        passwordDialog(password) {
+            this.dialogPassword = password
         },
-        methods: {
-            isHeader() {
-                if (document.body.clientWidth > 1200) {
-                    this.$store.dispatch('collapse', !this.$store.state.collapse)
-                } else {
-                    this.$message.warning('分辨率过低禁止展开侧边栏')
-                }
-            },
-            passwordDialog(password) {
-                this.dialogPassword = password
-            },
-            password(password) {
-                this.dialogPassword = password
-            },
-            commandUser(command) {
-                switch (command) {
-                    case 'personal':
-                        this.$router.push('/user/info');
-                        break;
-                    case 'password':
-                        this.$emit('password', true);
-                        break;
-                    case 'loginOut':
-                        this.$confirm('是否退出登录？', '提示', {
-                            confirmButtonText: '确定',
-                            cancelButtonText: '取消',
-                            type: 'warning'
-                        }).then(() => {
-                            this.$store.dispatch('loginOut');
-                            this.$router.push('/login')
-                        }).catch(() => {
-                            this.$message.info('取消退出登录')
-                        });
-                        break
-                }
-            },
-            notice() {
-                this.$router.push('/user/message')
-            },
-            screen() {
-                if (screenfull.isEnabled) {
-                    let that = this;
-                    screenfull.toggle().then(() => {
-                        that.$store.commit('INNER_HEIGHT', document.documentElement.clientHeight)
-                    })
-                } else {
-                    this.$message.warning('不支持全屏')
-                }
-            },
-            isTags() {
-                this.$store.dispatch('tagsTop', !this.$store.state.tagsTop);
-            },
-            isDrawer() {
-                this.$message.warning('功能模块开发中，敬请期待~')
+        password(password) {
+            this.dialogPassword = password
+        },
+        commandUser(command) {
+            switch (command) {
+            case 'personal':
+                this.$router.push('/user/info');
+                break;
+            case 'password':
+                this.$emit('password', true);
+                break;
+            case 'loginOut':
+                this.$confirm('是否退出登录？', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    this.$store.dispatch('loginOut');
+                    this.$router.push('/login')
+                }).catch(() => {
+                    this.$message.info('取消退出登录')
+                });
+                break
             }
         },
-        computed: {
-            collapse() {
-                return this.$store.state.collapse
-            },
-            userAvatar() {
-                return this.$store.state.avatar
-            },
-            nickname() {
-                return this.$store.state.nickname
+        notice() {
+            this.$router.push('/user/message')
+        },
+        screen() {
+            if (screenfull.isEnabled) {
+                let that = this;
+                screenfull.toggle().then(() => {
+                    that.$store.commit('INNER_HEIGHT', document.documentElement.clientHeight)
+                })
+            } else {
+                this.$message.warning('不支持全屏')
             }
+        },
+        isTags() {
+            this.$store.dispatch('tagsTop', !this.$store.state.tagsTop);
+        },
+        isDrawer() {
+            this.$message.warning('功能模块开发中，敬请期待~')
+        }
+    },
+    computed: {
+        collapse() {
+            return this.$store.state.collapse
+        },
+        userAvatar() {
+            return this.$store.state.avatar
+        },
+        nickname() {
+            return this.$store.state.nickname
         }
     }
+}
 </script>
 
 <style lang="scss">

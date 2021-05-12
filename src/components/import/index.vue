@@ -30,39 +30,39 @@
 </template>
 
 <script>
-    export default {
-        name: "importIndex",
-        props: {
-            importDialog: Boolean
+export default {
+    name: "importIndex",
+    props: {
+        importDialog: Boolean
+    },
+    data() {
+        return {
+            header: '',
+            uploadUrl: ''
+        }
+    },
+    methods: {
+        handleClose() {
+
         },
-        data() {
-            return {
-                header: '',
-                uploadUrl: ''
-            }
+
+        beforeUpload() {
+
         },
-        methods: {
-            handleClose() {
 
-            },
+        exceed() {
 
-            beforeUpload() {
+        },
 
-            },
+        closeImportDialog() {
 
-            exceed() {
+        },
 
-            },
+        submitUpload() {
 
-            closeImportDialog() {
-
-            },
-
-            submitUpload() {
-
-            }
         }
     }
+}
 </script>
 
 <style scoped>

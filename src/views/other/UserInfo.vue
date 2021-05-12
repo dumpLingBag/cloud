@@ -43,94 +43,94 @@
 </template>
 
 <script>
-    import config from '@/http/config'
-    import AvatarUser from "@/components/user/AvatarUser";
+import config from '@/http/config'
+import AvatarUser from "@/components/user/AvatarUser";
 
-    export default {
-        name: 'UserInfo',
-        components: {
-            AvatarUser
-        },
-        data() {
-            const mobile = (rule, value, callback) => {
-                if (value === '') {
-                    callback(new Error('请输入手机号码'))
-                } else {
-                    const reg = new RegExp('^((13\\d)|(14[5-9])|(15[0-35-9])|(166)|(17[0-8])|(18\\d)|(19[8-9]))\\d{8}$');
-                    if (!reg.test(value)) {
-                        callback(new Error('请输入正确的手机号码'))
-                    }
-                    callback()
+export default {
+    name: 'UserInfo',
+    components: {
+        AvatarUser
+    },
+    data() {
+        const mobile = (rule, value, callback) => {
+            if (value === '') {
+                callback(new Error('请输入手机号码'))
+            } else {
+                const reg = new RegExp('^((13\\d)|(14[5-9])|(15[0-35-9])|(166)|(17[0-8])|(18\\d)|(19[8-9]))\\d{8}$');
+                if (!reg.test(value)) {
+                    callback(new Error('请输入正确的手机号码'))
                 }
-            };
-            return {
-                userInfo: {
-                    nickname: '',
-                    email: '',
-                    mobile: '',
-                    sex: ''
-                },
-                uploadUrl: config.baseUrl + 'authority/file/upload',
-                headers: {'Authorization': this.$cookies.get('access_token')},
-                error: {
-                    nickname: '',
-                    username: '',
-                    email: '',
-                    mobile: ''
-                },
-                rules: {
-                    nickname: [
-                        {required: true, message: '请输入用户名称', trigger: 'blur'},
-                        {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
-                    ],
-                    username: [
-                        {required: true, message: '请输入账号名称', trigger: 'blur'},
-                        {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
-                    ],
-                    email: [
-                        {required: true, message: '请输入邮箱地址', trigger: 'blur'},
-                        {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
-                    ],
-                    mobile: [
-                        {validator: mobile, required: true, trigger: 'blur'}
-                    ]
-                }
+                callback()
             }
-        },
-        mounted() {
-            this.imageUrl = this.userInfo.avatar
-        },
-        methods: {
-            onSubmit(formName) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
-                        this.userInfo.avatar = this.imageUrl;
-                        this.$api.request(this.$url.AuthorityUser.editUser, this.$method.put, this.userInfo).then(res => {
-                            if (res.code === 0) {
-
-                            } else {
-                                this.$common.msg(res, this.error)
-                            }
-                        })
-                    } else {
-                        return false
-                    }
-                })
+        };
+        return {
+            userInfo: {
+                nickname: '',
+                email: '',
+                mobile: '',
+                sex: ''
             },
-            beforeAvatarUpload(file) {
-                const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
-                const isLt2M = file.size / 1024 / 1024 < 5;
-
-                if (!isJPG) {
-                    this.$message.error('上传头像图片只能是 JPG 格式!')
-                }
-                if (!isLt2M) {
-                    this.$message.error('上传头像图片大小不能超过 5MB!')
-                }
-                return isJPG && isLt2M
+            uploadUrl: config.baseUrl + 'authority/file/upload',
+            headers: {'Authorization': this.$cookies.get('access_token')},
+            error: {
+                nickname: '',
+                username: '',
+                email: '',
+                mobile: ''
+            },
+            rules: {
+                nickname: [
+                    {required: true, message: '请输入用户名称', trigger: 'blur'},
+                    {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
+                ],
+                username: [
+                    {required: true, message: '请输入账号名称', trigger: 'blur'},
+                    {min: 3, max: 16, message: '长度在 3 到 16 个字符', trigger: 'blur'}
+                ],
+                email: [
+                    {required: true, message: '请输入邮箱地址', trigger: 'blur'},
+                    {type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur'}
+                ],
+                mobile: [
+                    {validator: mobile, required: true, trigger: 'blur'}
+                ]
             }
         }
+    },
+    mounted() {
+        this.imageUrl = this.userInfo.avatar
+    },
+    methods: {
+        onSubmit(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.userInfo.avatar = this.imageUrl;
+                    this.$api.request(this.$url.AuthorityUser.editUser, this.$method.put, this.userInfo).then(res => {
+                        if (res.code === 0) {
+
+                        } else {
+                            this.$common.msg(res, this.error)
+                        }
+                    })
+                } else {
+                    return false
+                }
+            })
+        },
+        beforeAvatarUpload(file) {
+            const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+            const isLt2M = file.size / 1024 / 1024 < 5;
+
+            if (!isJPG) {
+                this.$message.error('上传头像图片只能是 JPG 格式!')
+            }
+            if (!isLt2M) {
+                this.$message.error('上传头像图片大小不能超过 5MB!')
+            }
+            return isJPG && isLt2M
+        }
     }
+}
 </script>
 
 <style lang="scss">

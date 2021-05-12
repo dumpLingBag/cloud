@@ -5,18 +5,18 @@
 </template>
 
 <script>
-    export default {
-        name: 'MainChart',
-        data() {
-            return {}
-        },
-        mounted() {
+export default {
+    name: 'MainChart',
+    data() {
+        return {}
+    },
+    mounted() {
 
-        },
-        methods: {
+    },
+    methods: {
 
-        }
     }
+}
 </script>
 
 <style lang="scss">

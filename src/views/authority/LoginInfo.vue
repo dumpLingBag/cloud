@@ -27,102 +27,102 @@
 </template>
 
 <script>
-    import Search from '@/components/search/Index'
-    export default {
-        name: "LoginInfo",
-        components: {
-            Search
-        },
-        data() {
-            return {
-                logList: [],
-                loading: false,
-                page: {
-                    pageSize: 10,
-                    currentPage: 1,
-                },
-                loginInfo: {
-                    loginLocation: '',
-                    username: '',
-                    status: '',
-                    startTime: '',
-                    endTime: ''
-                },
-                multipleSelection: [],
-                search: {
-                    typeSearch: [
-                        {
-                            label: '登录地址',
-                            name: 'loginLocation'
-                        },
-                        {
-                            label: '用户名称',
-                            name: 'username'
-                        },
-                        {
-                            label: '操作时间',
-                            type: 'date'
-                        },
-                        {
-                            label: '登录状态',
-                            name: 'status',
-                            dictType: 'sys_status',
-                            type: 'select'
-                        },
-                    ],
-                    btnSearch: [
-                        {
-                            btnType: this.$btnType.SAVE,
-                            hasPerm: ['sys:dict:add'],
-                            name: '增加'
-                        },
-                        {
-                            btnType: this.$btnType.REMOVE,
-                            hasPerm: ['sys:dict:delete'],
-                            name: '删除'
-                        }
-                    ]
-                },
-                modelData: {}
-            }
-        },
-        mounted() {
-            this.currentChange();
-        },
-        methods: {
-            currentChange(currentPage) {
-                this.loading = !this.loading;
-                this.page.currentPage = currentPage ? currentPage : 1;
-                this.$api.request(this.$url.LoginInfo.page, this.$method.get, this.$common.objMerge(this.loginInfo, this.page)).then(res => {
-                    if (res.code === 0) {
-                        if (res.data && res.data.records) {
-                            this.logList = res.data.records;
-                            this.page.totalSize = parseInt(res.data.total)
-                        }
+import Search from '@/components/search/Index'
+export default {
+    name: "LoginInfo",
+    components: {
+        Search
+    },
+    data() {
+        return {
+            logList: [],
+            loading: false,
+            page: {
+                pageSize: 10,
+                currentPage: 1,
+            },
+            loginInfo: {
+                loginLocation: '',
+                username: '',
+                status: '',
+                startTime: '',
+                endTime: ''
+            },
+            multipleSelection: [],
+            search: {
+                typeSearch: [
+                    {
+                        label: '登录地址',
+                        name: 'loginLocation'
+                    },
+                    {
+                        label: '用户名称',
+                        name: 'username'
+                    },
+                    {
+                        label: '操作时间',
+                        type: 'date'
+                    },
+                    {
+                        label: '登录状态',
+                        name: 'status',
+                        dictType: 'sys_status',
+                        type: 'select'
+                    },
+                ],
+                btnSearch: [
+                    {
+                        btnType: this.$btnType.SAVE,
+                        hasPerm: ['sys:dict:add'],
+                        name: '增加'
+                    },
+                    {
+                        btnType: this.$btnType.REMOVE,
+                        hasPerm: ['sys:dict:delete'],
+                        name: '删除'
                     }
-                    this.loading = !this.loading;
-                }, () => {
-                    this.loading = !this.loading;
-                })
+                ]
             },
+            modelData: {}
+        }
+    },
+    mounted() {
+        this.currentChange();
+    },
+    methods: {
+        currentChange(currentPage) {
+            this.loading = !this.loading;
+            this.page.currentPage = currentPage ? currentPage : 1;
+            this.$api.request(this.$url.LoginInfo.page, this.$method.get, this.$common.objMerge(this.loginInfo, this.page)).then(res => {
+                if (res.code === 0) {
+                    if (res.data && res.data.records) {
+                        this.logList = res.data.records;
+                        this.page.totalSize = parseInt(res.data.total)
+                    }
+                }
+                this.loading = !this.loading;
+            }, () => {
+                this.loading = !this.loading;
+            })
+        },
 
-            handleSelectionChange(row) {
-                this.multipleSelection = row
-            },
+        handleSelectionChange(row) {
+            this.multipleSelection = row
+        },
 
-            onSubmit() {
-                this.currentChange()
-            },
+        onSubmit() {
+            this.currentChange()
+        },
 
-            resetSearch() {
-                this.currentChange()
-            },
+        resetSearch() {
+            this.currentChange()
+        },
 
-            update() {
-                this.currentChange()
-            }
+        update() {
+            this.currentChange()
         }
     }
+}
 </script>
 
 <style scoped>

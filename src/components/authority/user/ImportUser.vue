@@ -30,47 +30,47 @@
 </template>
 
 <script>
-    import config from "@/http/config";
-    export default {
-        name: "importUser",
-        props: {
-            importDialog: Boolean
-        },
-        data() {
-            return {
-                uploadUrl: config.baseUrl + this.$url.AuthorityUser.importUser,
-                header: {
-                    'Authorization': this.$cookies.get('access_token')
-                }
-            }
-        },
-        methods: {
-            handleClose() {
-                this.$refs.uploadUser.clearFiles();
-                this.closeImportUserDialog()
-            },
-            beforeUploadUser(file) {
-                const type = file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-                const size = file.size / 1024 / 1024 < 2;
-                if (!type) {
-                    this.$message.warning('上传文件类型只能是 xls 或者 xlsx')
-                }
-                if (!size) {
-                    this.$message.warning('上传文件大小不能超过2M')
-                }
-                return type && size;
-            },
-            exceedUser() {
-                this.$message.warning('上传文件超出限制')
-            },
-            submitUploadUser() {
-                this.$refs.uploadUser.submit();
-            },
-            closeImportUserDialog() {
-                this.$emit('closeImportUserDialog', false)
+import config from "@/http/config";
+export default {
+    name: "importUser",
+    props: {
+        importDialog: Boolean
+    },
+    data() {
+        return {
+            uploadUrl: config.baseUrl + this.$url.AuthorityUser.importUser,
+            header: {
+                'Authorization': this.$cookies.get('access_token')
             }
         }
+    },
+    methods: {
+        handleClose() {
+            this.$refs.uploadUser.clearFiles();
+            this.closeImportUserDialog()
+        },
+        beforeUploadUser(file) {
+            const type = file.type === 'application/vnd.ms-excel' || file.type === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+            const size = file.size / 1024 / 1024 < 2;
+            if (!type) {
+                this.$message.warning('上传文件类型只能是 xls 或者 xlsx')
+            }
+            if (!size) {
+                this.$message.warning('上传文件大小不能超过2M')
+            }
+            return type && size;
+        },
+        exceedUser() {
+            this.$message.warning('上传文件超出限制')
+        },
+        submitUploadUser() {
+            this.$refs.uploadUser.submit();
+        },
+        closeImportUserDialog() {
+            this.$emit('closeImportUserDialog', false)
+        }
     }
+}
 </script>
 
 <style lang="scss">

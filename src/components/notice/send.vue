@@ -17,45 +17,45 @@
 </template>
 
 <script>
-    export default {
-        name: 'send',
-        type: 'TEXT',
-        data() {
-            return {
-                message: {
-                    content: ''
-                }
-            }
-        },
-        props: {
-            noticeDialogFlag: Boolean,
-            userId: String
-        },
-        methods: {
-            notice() {
-                this.$emit('noticeDialog', false)
-            },
-            subNotice() {
-                const time = this.$common.time(new Date());
-                const userId = JSON.parse(localStorage.getItem('user')).id;
-                let fmTo = this.userId > userId ? userId + this.userId : this.userId + userId;
-                const obj = {
-                    fromUserId: userId,
-                    toUserId: this.userId,
-                    userInfoId: fmTo,
-                    content: this.message.content,
-                    createTime: time,
-                    smsType: 0,
-                    smsStatus: 0
-                };
-                this.$emit('noticeContent', JSON.stringify(obj));
-                this.notice()
-            },
-            sendClose() {
-                this.notice()
+export default {
+    name: 'send',
+    type: 'TEXT',
+    data() {
+        return {
+            message: {
+                content: ''
             }
         }
+    },
+    props: {
+        noticeDialogFlag: Boolean,
+        userId: String
+    },
+    methods: {
+        notice() {
+            this.$emit('noticeDialog', false)
+        },
+        subNotice() {
+            const time = this.$common.time(new Date());
+            const userId = JSON.parse(localStorage.getItem('user')).id;
+            let fmTo = this.userId > userId ? userId + this.userId : this.userId + userId;
+            const obj = {
+                fromUserId: userId,
+                toUserId: this.userId,
+                userInfoId: fmTo,
+                content: this.message.content,
+                createTime: time,
+                smsType: 0,
+                smsStatus: 0
+            };
+            this.$emit('noticeContent', JSON.stringify(obj));
+            this.notice()
+        },
+        sendClose() {
+            this.notice()
+        }
     }
+}
 </script>
 
 <style lang="scss">

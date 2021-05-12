@@ -34,47 +34,47 @@
 </template>
 
 <script>
-    export default {
-        name: "SearchDictData",
-        props: {
-            dict: Object
+export default {
+    name: "SearchDictData",
+    props: {
+        dict: Object
+    },
+    data() {
+        return {
+            dictTypeList: []
+        }
+    },
+    mounted() {
+        this.loadDictType()
+    },
+    methods: {
+        loadDictType() {
+            this.$api.request(this.$url.DictType.list, this.$method.get).then(res => {
+                if (res.code === 0) {
+                    this.dictTypeList = res.data
+                }
+            })
         },
-        data() {
-            return {
-                dictTypeList: []
-            }
+
+        addDict() {
+            this.$emit('addDict')
         },
-        mounted() {
-            this.loadDictType()
+
+        enableSelect(event) {
+            this.$emit('enableSelect', event)
         },
-        methods: {
-            loadDictType() {
-                this.$api.request(this.$url.DictType.list, this.$method.get).then(res => {
-                    if (res.code === 0) {
-                        this.dictTypeList = res.data
-                    }
-                })
-            },
 
-            addDict() {
-                this.$emit('addDict')
-            },
+        onSubmit() {
+            this.$emit('onSubmit', this.dict)
+        },
 
-            enableSelect(event) {
-                this.$emit('enableSelect', event)
-            },
-
-            onSubmit() {
-                this.$emit('onSubmit', this.dict)
-            },
-
-            resetSearch(formName) {
-                this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
-                this.$common.clearForm(this.dict);
-                this.$emit('resetSearch', this.dict)
-            }
+        resetSearch(formName) {
+            this.$refs[formName].resetFields(); // 这个只是清除了表单数据，对象并没有重新赋值，所以调用下面的方法赋空值
+            this.$common.clearForm(this.dict);
+            this.$emit('resetSearch', this.dict)
         }
     }
+}
 </script>
 
 <style scoped>

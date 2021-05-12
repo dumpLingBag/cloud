@@ -23,63 +23,63 @@
 </template>
 
 <script>
-    import vPassword from '_c/user/Password'
-    import vTags from '@/components/tags/Tags'
-    import vAside from '@/components/sidebar/Aside'
-    import vHeader from '@/components/header/Header'
+import vPassword from '_c/user/Password'
+import vTags from '@/components/tags/Tags'
+import vAside from '@/components/sidebar/Aside'
+import vHeader from '@/components/header/Header'
 
-    export default {
-        name: 'Index',
-        data() {
-            return {
-                dialogPassword: false,
-                tag: true
-            }
-        },
-        components: {
-            vPassword, vTags, vAside, vHeader
-        },
-        mounted() {
-            const that = this;
-            window.onresize = () => {
-                if (document.body.clientWidth <= 1200) {
-                    that.$store.dispatch('collapse', true)
-                } else {
-                    that.$store.dispatch('collapse', false)
-                }
-            }
-        },
-        methods: {
-            passwordDialog(password) {
-                this.dialogPassword = password
-            },
-            password(password) {
-                this.dialogPassword = password
-            }
-        },
-        computed: {
-            collapse() {
-                return this.$store.state.collapse
-            },
-            tagList() {
-                return this.$store.state.tagList
-            },
-            tagsTop() {
-                return this.$store.state.tagsTop
-            }
-        },
-        created() {
-            if (!this.$store.state.menuList || this.$store.state.menuList.length <= 0) {
-                this.$router.push('/login')
-            }
-            if (this.$route.path === '' || this.$route.path === '/') {
-                this.$router.push('/main')
-            }
+export default {
+    name: 'Index',
+    data() {
+        return {
+            dialogPassword: false,
+            tag: true
+        }
+    },
+    components: {
+        vPassword, vTags, vAside, vHeader
+    },
+    mounted() {
+        const that = this;
+        window.onresize = () => {
             if (document.body.clientWidth <= 1200) {
-                this.$store.dispatch('collapse', true)
+                that.$store.dispatch('collapse', true)
+            } else {
+                that.$store.dispatch('collapse', false)
             }
         }
+    },
+    methods: {
+        passwordDialog(password) {
+            this.dialogPassword = password
+        },
+        password(password) {
+            this.dialogPassword = password
+        }
+    },
+    computed: {
+        collapse() {
+            return this.$store.state.collapse
+        },
+        tagList() {
+            return this.$store.state.tagList
+        },
+        tagsTop() {
+            return this.$store.state.tagsTop
+        }
+    },
+    created() {
+        if (!this.$store.state.menuList || this.$store.state.menuList.length <= 0) {
+            this.$router.push('/login')
+        }
+        if (this.$route.path === '' || this.$route.path === '/') {
+            this.$router.push('/main')
+        }
+        if (document.body.clientWidth <= 1200) {
+            this.$store.dispatch('collapse', true)
+        }
     }
+}
 </script>
 
 <style lang="scss">
